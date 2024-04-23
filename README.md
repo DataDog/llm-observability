@@ -16,10 +16,10 @@ source env/bin/activate
 #### 3. Create a .env file and add the following:
 
 ```
-DD_LLMOBS_ENABLED=true
+DD_LLMOBS_ENABLED=1
 DD_LLMOBS_NO_APM=1
-DD_LLMOBS_APP_NAME="test-onboarding-app"
-DD_API_KEY=[your API key goes here]
+DD_LLMOBS_APP_NAME=test-onboarding-app
+DD_API_KEY=<your API key goes here>
 ```
 
 #### 4. Launch Jupyter notebooks
