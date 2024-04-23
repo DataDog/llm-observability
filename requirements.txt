@@ -1,4 +1,4 @@
-ddtrace==2.8.2
+ddtrace @ git+https://github.com/DataDog/dd-trace-py.git@c03cc8764c508cf53ea38b7b0f0eb6cb39627d91
 openai==1.23.2
 requests==2.31.0
 notebook==7.1.3
