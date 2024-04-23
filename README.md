@@ -26,15 +26,15 @@ DD_API_KEY=[your API key goes here]
 
 ### 1. Tracing a simple LLM call
 
-<img src="./images/llm-span.png" height="350" > 
-
 **[This notebook](./1-llm-span.ipynb)** shows you how to create and trace a simple LLM call.
+
+<img src="./images/llm-span.png" height="350" > 
 
 ### 2. Tracing an LLM Workflow
 
-<img src="./images/workflow-span.png" height="350" > 
-
 **[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call as well as a call to an LLM.
+
+<img src="./images/workflow-span.png" height="350" > 
 
 ### 3. Tracing an an LLM Agent
 
