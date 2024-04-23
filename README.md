@@ -4,7 +4,7 @@
 
 #### 1. Activate your virtualenv:
 
-```
+```bash
 python -m venv env
 source env/bin/activate
 ```
@@ -15,7 +15,7 @@ source env/bin/activate
 
 #### 3. Create a .env file and add the following:
 
-```
+```bash
 DD_LLMOBS_ENABLED=1
 DD_LLMOBS_NO_APM=1
 DD_LLMOBS_APP_NAME=test-onboarding-app
