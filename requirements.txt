@@ -1,0 +1,3 @@
+ddtrace==2.8.2
+openai==1.23.2
+requests==2.31.0
