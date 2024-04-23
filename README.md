@@ -22,8 +22,8 @@ DD_LLMOBS_APP_NAME="test-onboarding-app"
 DD_API_KEY=[your API key goes here]
 ```
 
-#### 4. Start your Jupyter notebook
-You can either start your notebook on the command line (`jupyter notebook`) or open your notebook from your prefered code editor and run it there (VSCode has a great notebook interface).
+#### 4. Launch Jupyter notebooks
+You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your prefered code editor and run it there (VSCode has a great notebook interface).
 
 ## Notebooks
 
