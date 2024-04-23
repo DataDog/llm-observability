@@ -1,4 +1,4 @@
-# llm-observability
+# llm-observability onboarding
 
 ## Setup
 
