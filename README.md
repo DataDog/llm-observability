@@ -1,4 +1,4 @@
-# llm-observability interacative onboarding
+# llm-observability interactive onboarding
 
 ## Setup
 
