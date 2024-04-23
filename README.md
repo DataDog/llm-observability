@@ -23,7 +23,7 @@ DD_API_KEY=[your API key goes here]
 ```
 
 #### 4. Launch Jupyter notebooks
-You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your prefered code editor and run it there (VSCode has a great notebook interface).
+You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your prefered code editor (e.g. VSCode) and run it there.
 
 ## Notebooks
 
