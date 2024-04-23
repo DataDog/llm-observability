@@ -21,15 +21,19 @@ DD_API_KEY=[your API key goes here]
 
 ## Notebooks
 
-### 1. Tracing a simple LLM call
-<img src="./images/llm-span.png" height="400">
 
-**[Try it out in this notebook](./1-llm-span.ipynb)**
+
+### 1. Tracing a simple LLM call
+|         |          |
+| ------- | -------- |
+|<img src="./images/llm-span.png" height="400">   | **[Try it out in this notebook](./1-llm-span.ipynb)** |
+
 
 ### 2. Tracing an LLM Workflow
-<img src="./images/workflow-span.png" height="400">
+|         |          |
+| ------- | -------- |
+|<img src="./images/workflow-span.png" height="400">  | **[Try it out in this notebook](./2-workflow-span.ipynb)** |
 
-**[Try it out in this notebook](./2-workflow-span.ipynb)**
 
 ### 3. Tracing an an LLM Agent 
 _coming soon_
