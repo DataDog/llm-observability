@@ -1,0 +1,47 @@
+[
+ {
+   "Parameter": "q",
+   "Format": "Search term e.g. sunflowers",
+   "Notes": "Returns a listing of all Object IDs for objects that contain the search query within the object's data"
+ },
+ {
+   "Parameter": "isHighlight",
+   "Format": "Boolean, `true` or `false`.",
+   "Notes": "Returns objects that match the query and are designated as highlights. Highlights are selected works of art from The Met Museum's permanent collection representing different cultures and time periods."
+ },
+ {
+   "Parameter": "title",
+   "Format": "Boolean, `true` or `false`.",
+   "Notes": "Returns objects that match the query, specifically searching against the title field for objects."
+ },
+ {
+   "Parameter": "tags",
+   "Format": "Boolean, `true` or `false`.",
+   "Notes": "Returns objects that match the query, specifically searching against the subject keyword tags field for objects."
+ },
+ {
+   "Parameter": "isOnView",
+   "Format": "Boolean, `true` or `false`.",
+   "Notes": "Returns objects that match the query and are on view in the museum."
+ },
+ {
+   "Parameter": "artistOrCulture",
+   "Format": "Boolean, `true` or `false`.",
+   "Notes": "Returns objects that match the query, specifically searching against the artist name or culture field for objects."
+ },
+ {
+   "Parameter": "medium",
+   "Format": "String, with multiple values separated by the | operator. Case Sensitive.",
+   "Notes": "Returns objects that match the query and are of the specified medium or object type. Examples include: \"Ceramics\", \"Furniture\", \"Paintings\", \"Sculpture\", \"Textiles\", etc."
+ },
+ {
+   "Parameter": "geoLocation",
+   "Format": "String, with multiple values separated by the | operator. Case Sensitive.",
+   "Notes": "Returns objects that match the query and the specified geographic location. Examples include: \"Europe\", \"France\", \"Paris\", \"China\", \"New York\", etc."
+ },
+ {
+   "Parameter": "dateBegin and dateEnd",
+   "Format": "Integer. You must use both dateBegin and dateEnd",
+   "Notes": "Returns objects that match the query and fall between the dateBegin and dateEnd parameters. Examples include: dateBegin=1700&dateEnd=1800 for objects from 1700 A.D. to 1800 A.D., dateBegin=-100&dateEnd=100 for objects between 100 B.C. to 100 A.D."
+ }
+]

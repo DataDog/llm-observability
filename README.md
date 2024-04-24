@@ -11,7 +11,9 @@ source env/bin/activate
 
 #### 2. Install dependencies in the requirements.txt file:
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 #### 3. Create a .env file and add the following:
 
