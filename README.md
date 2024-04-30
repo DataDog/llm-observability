@@ -6,10 +6,10 @@
 
 ```bash
 python -m venv env
-source env/bin/activate
+source myenv/bin/activate
 ```
 
-#### 2. Install dependencies in the requirements.txt file:
+#### 2. Install shared dependencies from the requirements.txt file:
 
 ```
 pip install -r requirements.txt
