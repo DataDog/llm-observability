@@ -43,7 +43,9 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 ### 3. Tracing an an LLM Agent
 
-_coming soon_
+**[This notebook](./3-workflow-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
+
+<img src="./images/agent-span.png" height="350" > 
 
 ## Teardown
 
