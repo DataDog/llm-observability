@@ -5,7 +5,7 @@
 #### 1. Activate your virtualenv:
 
 ```bash
-python -m venv env
+python -m venv myenv
 source myenv/bin/activate
 ```
 
