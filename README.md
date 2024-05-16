@@ -12,11 +12,8 @@ source myenv/bin/activate
 #### 2. Create a .env file and add the following:
 
 ```bash
-DD_LLMOBS_ENABLED=1
-DD_LLMOBS_NO_APM=1
-DD_LLMOBS_APP_NAME=test-onboarding-app
 DD_API_KEY=<your API key goes here>
-DD_SITE=<your site goes here, e.g. "datadoghq.com" (default)>
+DD_SITE=<your site goes here if necessary -- default is "datadoghq.com">
 ```
 
 #### 3. Install shared dependencies from the requirements.txt file:
