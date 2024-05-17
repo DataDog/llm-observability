@@ -1,4 +1,4 @@
-ddtrace @ git+https://github.com/DataDog/dd-trace-py.git@evan.li/in-app-config
+ddtrace @ git+https://github.com/DataDog/dd-trace-py.git@main
 langchain==0.1.20
 langchain-core==0.1.52
 langchain-openai==0.1.7
