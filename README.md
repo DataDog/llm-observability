@@ -1,6 +1,6 @@
 # LLM Observability Jupyter Notebooks
 
-This collection of notebooks exists for engineers who would like to learn by example how to instrument Datadog's LLM Observability product.
+This repo is practical guide to using Datadog's LLM Observability Python SDK. It contains notebooks with different LLM app use cases, from simple LLM calls to more complex apps.
 
 ## Setup
 
@@ -43,7 +43,7 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 ### 2. Tracing an LLM Workflow
 
-**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call as well as a call to an LLM.
+**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in additoin to a call to an LLM.
 
 <img src="./images/workflow-span.png" height="350" > 
 
