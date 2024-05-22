@@ -15,7 +15,7 @@ source myenv/bin/activate
 
 ```bash
 DD_API_KEY=<your API key goes here>
-DD_SITE=<your site goes here if necessary -- default is "datadoghq.com">
+DD_SITE=<your site goes here if necessary -- the default is "datadoghq.com">
 ```
 
 #### 3. If you don't already have a system-wide OPENAI_API_KEY variable, add one to the .env file:
