@@ -1,6 +1,6 @@
 # LLM Observability Jupyter Notebooks
 
-This repo is practical guide to using Datadog's LLM Observability Python SDK. It contains notebooks with different LLM app use cases, from simple LLM calls to more complex apps.
+These notebooks introduce you to Datadog's LLM Observability Python SDK using hands-on examples. 
 
 ## Setup
 
