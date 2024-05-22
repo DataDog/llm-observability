@@ -1,4 +1,6 @@
-# llm-observability interactive onboarding
+# LLM Observability Jupyter Notebooks
+
+This collection of notebooks exists for engineers who would like to learn by example how to instrument Datadog's LLM Observability product.
 
 ## Setup
 
@@ -24,7 +26,7 @@ OPENAI_API_KEY=<your API key goes here>
 
 #### 3. Install shared dependencies from the requirements.txt file:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
@@ -55,7 +57,7 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 When you're done with the tutorials, deactivate your virtualenv and return to your system's default Python env:
 
-```
+```bash
 deactivate
 ```
 
