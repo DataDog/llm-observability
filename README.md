@@ -43,7 +43,7 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 ### 2. Tracing an LLM Workflow
 
-**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in additoin to a call to an LLM.
+**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in addition to a call to an LLM.
 
 <img src="./images/workflow-span.png" height="350" > 
 
