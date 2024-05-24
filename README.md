@@ -1,6 +1,13 @@
 # LLM Observability Jupyter Notebooks
 
-These notebooks introduce you to Datadog's [LLM Observability Python SDK](https://docs.datadoghq.com/tracing/llm_observability/sdk/) using hands-on examples. 
+These notebooks introduce you to Datadog's [LLM Observability Python SDK](https://docs.datadoghq.com/tracing/llm_observability/sdk/) using hands-on examples.
+
+For a detailed instrumentation guide, see [Trace an LLM Application](https://docs.datadoghq.com/tracing/llm_observability/trace_an_llm_application/).
+
+## Prerequisites
+
+- [A Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys)
+- [An OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup)
 
 ## Setup
 
@@ -14,14 +21,16 @@ source myenv/bin/activate
 #### 2. Create a .env file and add the following:
 
 ```bash
-DD_API_KEY=<your API key goes here>
-DD_SITE=<your site goes here if necessary -- the default is "datadoghq.com">
+DD_API_KEY=<YOUR_DATADOG_API_KEY>
+DD_SITE=<YOUR_DATADOG_SITE>
 ```
+
+If [your Datadog site](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (`DD_SITE`) is not provided, the value defaults to `"datadoghq.com"`.
 
 #### 3. If you don't already have a system-wide OPENAI_API_KEY variable, add one to the .env file:
 
 ```bash
-OPENAI_API_KEY=<your API key goes here>
+OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 ```
 
 #### 3. Install shared dependencies from the requirements.txt file:
@@ -31,7 +40,8 @@ pip install -r requirements.txt
 ```
 
 #### 4. Launch Jupyter notebooks
-You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your prefered code editor (e.g. VSCode) and run it there.
+
+You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your preferred code editor (for example, VS Code) and run it there.
 
 ## Notebooks
 
@@ -39,19 +49,19 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 **[This notebook](./1-llm-span.ipynb)** shows you how to create and trace a simple LLM call.
 
-<img src="./images/llm-span.png" height="350" > 
+<img src="./images/llm-span.png" height="350" >
 
 ### 2. Tracing an LLM Workflow
 
 **[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in addition to a call to an LLM.
 
-<img src="./images/workflow-span.png" height="350" > 
+<img src="./images/workflow-span.png" height="350" >
 
 ### 3. Tracing an an LLM Agent
 
 **[This notebook](./3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
 
-<img src="./images/agent-span.png" height="350" > 
+<img src="./images/agent-span.png" height="350" >
 
 ## Teardown
 
@@ -60,4 +70,3 @@ When you're done with the tutorials, deactivate your virtualenv and return to yo
 ```bash
 deactivate
 ```
-
