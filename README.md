@@ -1,6 +1,6 @@
 # LLM Observability Jupyter Notebooks
 
-These notebooks introduce you to Datadog's LLM Observability Python SDK using hands-on examples. 
+These notebooks introduce you to Datadog's [LLM Observability Python SDK](https://docs.datadoghq.com/tracing/llm_observability/sdk/) using hands-on examples. 
 
 ## Setup
 
