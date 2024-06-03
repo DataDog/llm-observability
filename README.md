@@ -63,7 +63,7 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 <img src="./images/agent-span.png" height="350" >
 
-### 4. Tracing & Evaluating a RAG workflow
+### 4. Tracing and evaluating a RAG workflow
 
 **[This notebook](./4-custom-evaluations.ipynb)** shows you how to create, trace, and evaluate a RAG workflow.
 
