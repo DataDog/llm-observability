@@ -57,11 +57,17 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 <img src="./images/workflow-span.png" height="350" >
 
-### 3. Tracing an an LLM Agent
+### 3. Tracing an LLM Agent
 
 **[This notebook](./3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
 
 <img src="./images/agent-span.png" height="350" >
+
+### 4. Tracing and evaluating a RAG workflow
+
+**[This notebook](./4-custom-evaluations.ipynb)** shows you how to create, trace, and evaluate a RAG workflow.
+
+<img src="./images/rag-span.png" height="350" >
 
 ## Teardown
 
