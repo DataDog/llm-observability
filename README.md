@@ -57,7 +57,7 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 <img src="./images/workflow-span.png" height="350" >
 
-### 3. Tracing an an LLM Agent
+### 3. Tracing an LLM Agent
 
 **[This notebook](./3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
 
