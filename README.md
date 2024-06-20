@@ -23,9 +23,12 @@ source myenv/bin/activate
 ```bash
 DD_API_KEY=<YOUR_DATADOG_API_KEY>
 DD_SITE=<YOUR_DATADOG_SITE>
+DD_LLMOBS_AGENTLESS_ENABLED=1
+DD_LLMOBS_ML_APP="onboarding-quickstart"
 ```
 
-If [your Datadog site](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (`DD_SITE`) is not provided, the value defaults to `"datadoghq.com"`.
+- Note: if [your Datadog site](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (`DD_SITE`) is not provided, the value defaults to `"datadoghq.com"`
+- Feel free to update the `DD_LLMOBS_ML_APP` variable to any custom app name.
 
 #### 3. If you don't already have a system-wide OPENAI_API_KEY variable, add one to the .env file:
 
