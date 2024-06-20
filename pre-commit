@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# make sure black is available
+which black > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Unable to run precommit hook, black is not available"
+    exit 1
+fi
+
+# find any staged py files
+files="$(git diff --name-only --cached | grep '.*\.ipynb$' | paste -sd ' ' -)"
+if [ "$files" == "" ]; then
+    echo "No files to reformat, skipping"
+    exit 0
+fi
+
+# run the autoformatting, your settings from pyproject.toml will be picked up.
+black $files
+
+# re-stage
+git add $files
