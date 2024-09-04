@@ -29,7 +29,7 @@ DD_LLMOBS_ML_APP="onboarding-quickstart"
 
 - Note: if [your Datadog site](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (`DD_SITE`) is not provided, the value defaults to `"datadoghq.com"`
 - Feel free to update the `DD_LLMOBS_ML_APP` variable to any custom app name.
-- `DD_LLMOBS_AGENTLESS_ENABLED=1` is required if you are not using the Datadog Agent. If the agent is running in your production environment, make sure this environment variable is unset.
+- `DD_LLMOBS_AGENTLESS_ENABLED=1` is only required if the Datadog Agent is not running. If the agent is running in your production environment, make sure this environment variable is unset.
 
 
 #### 3. If you don't already have a system-wide OPENAI_API_KEY variable, add one to the .env file:
