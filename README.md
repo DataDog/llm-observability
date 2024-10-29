@@ -5,8 +5,8 @@
 #### 1. Activate your virtualenv:
 
 ```bash
-python -m venv myenv
-source myenv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 ```
 
 #### 2. Create a .env file and add the following:
