@@ -14,8 +14,8 @@ For a detailed instrumentation guide, see [Trace an LLM Application](https://doc
 #### 1. Activate your virtualenv:
 
 ```bash
-python -m venv myenv
-source myenv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
 ```
 
 #### 2. Create a .env file and add the following:
@@ -80,4 +80,26 @@ When you're done with the tutorials, deactivate your virtualenv and return to yo
 
 ```bash
 deactivate
+```
+
+
+## tests
+
+### installation
+
+```bash
+pip install -r requirements.txt
+```
+
+### running
+
+```bash
+# run all the tests
+pytest
+
+# run all the tests in a file
+pytest tests/test_sdk.py
+
+# run a specific test
+pytest -k test_sdk_
 ```
