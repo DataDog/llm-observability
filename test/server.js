@@ -39,6 +39,6 @@ app.post('/openai/chat_completion', async (req, res) => {
 //   res.json({});
 // })
 
-app.listen(8080, '0.0.0.0', () => {
-  console.log('Server listening on port 8080');
+app.listen(process.env.PORT, '0.0.0.0', () => {
+  console.log('Server listening on port ' + process.env.PORT);
 })

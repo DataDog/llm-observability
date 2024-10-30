@@ -1,5 +1,6 @@
 import socket
 import os
+
 import pytest
 import shutil
 import subprocess
@@ -124,13 +125,15 @@ def test_client(docker_network, test_lang, testagent_docker_name, testagent_port
         context=curdir,
     )
 
-    port = _find_port()
+    local_port = str(_find_port())
+    internal_port = "8080"
     container = docker.docker_run(
         image=f"llmobs-test-server-{test_lang}",
         detach=True,
-        ports={port: "8080"},
+        ports={local_port: internal_port},
         network=docker_network,
         environment={
+            "PORT": internal_port,
             "DD_TRACE_AGENT_URL": f"http://{testagent_docker_name}:{testagent_port}",
             "DD_TRACE_DEBUG": "true",
             "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"),
@@ -138,7 +141,7 @@ def test_client(docker_network, test_lang, testagent_docker_name, testagent_port
         volumes=[],
     )
 
-    c = client.InstrumentationClient(f"http://0.0.0.0:{port}")
+    c = client.InstrumentationClient(f"http://0.0.0.0:{local_port}")
     c.wait_to_start()
     yield c
     print(container.logs(stderr=True, stdout=False))

@@ -1,3 +1,5 @@
+import os
+
 from ddtrace.llmobs import LLMObs
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -64,3 +66,9 @@ def openai_chat_completion(req: ChatCompletionRequest):
         max_tokens=35,
     )
     return {}
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=os.environ["PORT"])
