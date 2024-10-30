@@ -35,12 +35,15 @@ def sdk_task(req: TaskRequest):
         "parent_id": span.parent_id,
         "name": span.name,
         "meta": {k: v for k, v in span.get_tags().items() if isinstance(v, str)},
-        "metrics": {k: v for k, v in span.get_tags().items() if isinstance(v, (int, float))},
+        "metrics": {
+            k: v for k, v in span.get_tags().items() if isinstance(v, (int, float))
+        },
     }
 
 
 class FinishSpanRequest(BaseModel):
     span_id: int
+
 
 @app.post("/sdk/finish_span")
 def finish_span(req: FinishSpanRequest):

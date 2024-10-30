@@ -91,6 +91,14 @@ deactivate
 pip install -r requirements.txt
 ```
 
+### format/lint
+
+```bash
+ruff format
+ruff check
+```
+
+
 ### running
 
 ```bash

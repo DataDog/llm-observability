@@ -20,7 +20,6 @@ class Span(TypedDict):
         return self.meta.get(key)
 
 
-
 class InstrumentationClient:
     """Client to query the shared interface to the instrumentation libraries."""
 
@@ -42,13 +41,23 @@ class InstrumentationClient:
                 pass
             time.sleep(0.1)
 
-    def sdk_task(self, name: Optional[str] = None, session_id: Optional[str] = None, ml_app: Optional[str] = None) -> Span:
-        resp = self._session.post(self._url("/sdk/task"), json={"name": name, "session_id": session_id, "ml_app": ml_app})
+    def sdk_task(
+        self,
+        name: Optional[str] = None,
+        session_id: Optional[str] = None,
+        ml_app: Optional[str] = None,
+    ) -> Span:
+        resp = self._session.post(
+            self._url("/sdk/task"),
+            json={"name": name, "session_id": session_id, "ml_app": ml_app},
+        )
         resp.raise_for_status()
         return resp.json()
 
     def finish_span(self, span_id: int):
-        resp = self._session.post(self._url("/sdk/finish_span"), json={"span_id": span_id})
+        resp = self._session.post(
+            self._url("/sdk/finish_span"), json={"span_id": span_id}
+        )
         resp.raise_for_status()
 
     def openai_chat_completion(self, prompt: str):
