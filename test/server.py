@@ -1,5 +1,6 @@
 import os
 
+import ddtrace
 from ddtrace.llmobs import LLMObs
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -25,6 +26,11 @@ class TaskRequest(BaseModel):
     name: str
     session_id: str
     ml_app: str
+
+
+@app.get("/sdk/info")
+def sdk_version():
+    return {"version": ddtrace.__version__}
 
 
 @app.post("/sdk/task")

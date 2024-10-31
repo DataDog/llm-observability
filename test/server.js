@@ -18,6 +18,11 @@ app.use(express.json());
 
 const spans = {};
 
+
+app.get("/sdk/info", (req, res) => {
+    res.json({ version: tracer.version });
+});
+
 app.post('/openai/chat_completion', async (req, res) => {
   const { prompt } = req.body;
   await client.chat.completions.create({

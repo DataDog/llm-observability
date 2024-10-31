@@ -110,4 +110,8 @@ pytest tests/test_sdk.py
 
 # run a specific test
 pytest -k test_sdk_
+
+# run tests for a particular set of libraries
+TEST_LIBS=nodejs pytest ...
+TEST_LIBS=python,nodejs pytest ...
 ```

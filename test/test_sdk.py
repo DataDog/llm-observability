@@ -1,3 +1,7 @@
+from . import unsupported
+
+
+@unsupported("nodejs", reason="nodejs doesn't implement the task method")
 def test_trace_task(test_client, test_agent):
     span = test_client.sdk_task(
         name="test_task", session_id="test_id", ml_app="test_app"

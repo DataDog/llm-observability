@@ -1,5 +1,6 @@
 import socket
 import os
+from packaging.version import Version
 
 import pytest
 import shutil
@@ -18,7 +19,7 @@ def log_dir(tmp_path_factory):
 
 @pytest.fixture(scope="session")
 def docker_network_name():
-    return f"ddinject-{str(uuid.uuid4())[0:8]}"
+    return f"llmobs-test-{str(uuid.uuid4())[0:8]}"
 
 
 @pytest.fixture(scope="session")
@@ -35,9 +36,13 @@ def ensure_docker_running() -> None:
         pytest.fail("Docker is not running. Please start Docker and re-run the tests.")
 
 
-@pytest.fixture
-def test_lang():
-    return "python"
+@pytest.fixture(params=os.environ.get("TEST_LIBS", "python,nodejs").split(","))
+def test_lang(request):
+    assert request.param in [
+        "python",
+        "nodejs",
+    ], f"Invalid test language '{request.param}' provided"
+    return request.param
 
 
 def _find_port() -> int:
@@ -116,8 +121,10 @@ def test_agent(_test_agent):
     _test_agent.clear()
 
 
-@pytest.fixture()
-def test_client(docker_network, test_lang, testagent_docker_name, testagent_port):
+@pytest.fixture
+def test_client(
+    request, docker_network, test_lang, testagent_docker_name, testagent_port
+):
     curdir = os.path.dirname(os.path.abspath(__file__))
     docker.docker_build(
         f"llmobs-test-server-{test_lang}",
@@ -140,10 +147,22 @@ def test_client(docker_network, test_lang, testagent_docker_name, testagent_port
         },
         volumes=[],
     )
+    try:
+        c = client.InstrumentationClient(f"http://0.0.0.0:{local_port}")
+        server_info = c.wait_to_start()
 
-    c = client.InstrumentationClient(f"http://0.0.0.0:{local_port}")
-    c.wait_to_start()
-    yield c
-    print(container.logs(stderr=True, stdout=False))
-    print(container.logs(stdout=True))
-    container.kill()
+        # Confirm that the test case is compatible with the server
+        lib_support = getattr(request.node.function, "library_support", [])
+        for lang, version, reason in lib_support:
+            if lang == test_lang:
+                if version == "unsupported":
+                    pytest.skip(f"Test does not support {test_lang}, reason: {reason}")
+                if Version(server_info["version"]) < Version(version):
+                    pytest.skip(
+                        f"Test does not support {test_lang} {version}, min version is '{version}'"
+                    )
+        yield c
+        print(container.logs(stderr=True, stdout=False))
+        print(container.logs(stdout=True))
+    finally:
+        container.kill()
