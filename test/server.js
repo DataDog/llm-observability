@@ -18,9 +18,9 @@ app.use(express.json());
 
 const spans = {};
 
-
+const tracerVersion = require('dd-trace/package.json').version
 app.get("/sdk/info", (req, res) => {
-    res.json({ version: tracer.version });
+    res.json({ version: tracerVersion });
 });
 
 app.post('/openai/chat_completion', async (req, res) => {
