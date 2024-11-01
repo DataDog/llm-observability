@@ -34,12 +34,14 @@ class InstrumentationClient:
         """Wait for the server to start."""
         for i in range(100):
             try:
-                resp = self._session.get(self._url("/test"))
-                if resp.status_code == 404:
-                    return
+                resp = self._session.get(self._url("/sdk/info"))
+                if 200 <= resp.status_code < 300:
+                    return resp.json()
             except requests.exceptions.RequestException:
                 pass
-            time.sleep(0.1)
+            time.sleep(0.01)
+        else:
+            assert False, "Test server did not start"
 
     def sdk_task(
         self,
