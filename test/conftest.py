@@ -1,11 +1,13 @@
-import socket
+import base64
+import json
 import os
 from packaging.version import Version
-
-import pytest
 import shutil
+import socket
 import subprocess
 import uuid
+
+import pytest
 
 from . import docker
 from . import client
@@ -64,6 +66,18 @@ def testagent_docker_name():
     return "mlobs-test-agent"
 
 
+class LLMObsTestAgentClient(TestAgentClient):
+    """Extend TestAgentClient to provide additional functionality for LLMObs."""
+
+    def llmobs_requests(self):
+        reqs = [
+            r
+            for r in self.requests()
+            if r["url"].endswith("/evp_proxy/v2/api/v2/llmobs")
+        ]
+        return [json.loads(base64.b64decode(r["body"])) for r in reqs]
+
+
 @pytest.fixture(scope="session")
 def _test_agent(docker_network, testagent_docker_name, testagent_port):
     """
@@ -74,7 +88,7 @@ def _test_agent(docker_network, testagent_docker_name, testagent_port):
     A client is returned to interact with the test agent.
     """
     docker_args = dict(
-        image="ghcr.io/datadog/dd-apm-test-agent/ddapm-test-agent:v1.17.0",
+        image="ghcr.io/datadog/dd-apm-test-agent/ddapm-test-agent:latest",
         environment={
             "PORT": testagent_port,
         },
@@ -86,7 +100,7 @@ def _test_agent(docker_network, testagent_docker_name, testagent_port):
 
     c = docker.docker_run(**docker_args, detach=True)
     try:
-        agent = TestAgentClient(base_url=f"http://localhost:{testagent_port}")
+        agent = LLMObsTestAgentClient(base_url=f"http://localhost:{testagent_port}")
         try:
             # Wait for the agent to start
             agent.wait_to_start(num_tries=10, delay=0.1)
