@@ -23,12 +23,16 @@ class Span(TypedDict):
 class InstrumentationClient:
     """Client to query the shared interface to the instrumentation libraries."""
 
-    def __init__(self, url: str):
+    def __init__(self, url: str, test_lang: str):
         self._base_url = url
         self._session = requests.Session()
+        self._test_lang = test_lang
 
     def _url(self, path: str) -> str:
         return f"{self._base_url}{path}"
+
+    def __repr__(self):
+        return f"InstrumentationClient(test_lang={self._test_lang!r})"
 
     def wait_to_start(self):
         """Wait for the server to start."""

@@ -162,7 +162,9 @@ def test_client(
         volumes=[],
     )
     try:
-        c = client.InstrumentationClient(f"http://0.0.0.0:{local_port}")
+        c = client.InstrumentationClient(
+            f"http://0.0.0.0:{local_port}", test_lang=test_lang
+        )
         server_info = c.wait_to_start()
 
         # Confirm that the test case is compatible with the server
