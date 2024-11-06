@@ -36,7 +36,7 @@ class InstrumentationClient:
 
     def wait_to_start(self):
         """Wait for the server to start."""
-        for i in range(100):
+        for i in range(1000):
             try:
                 resp = self._session.get(self._url("/sdk/info"))
                 if 200 <= resp.status_code < 300:
