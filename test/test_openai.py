@@ -15,3 +15,4 @@ def test_chat_completion(test_lang, test_client, test_agent):
     if test_lang != "nodejs":
         reqs = test_agent.wait_for_llmobs_requests(num=1)
         assert len(reqs) == 1
+        assert reqs[0]["event_type"] == "span"
