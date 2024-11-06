@@ -81,37 +81,3 @@ When you're done with the tutorials, deactivate your virtualenv and return to yo
 ```bash
 deactivate
 ```
-
-
-## tests
-
-### installation
-
-```bash
-pip install -r requirements.txt
-```
-
-### format/lint
-
-```bash
-ruff format
-ruff check
-```
-
-
-### running
-
-```bash
-# run all the tests
-pytest
-
-# run all the tests in a file
-pytest tests/test_sdk.py
-
-# run a specific test
-pytest -k test_sdk_
-
-# run tests for a particular set of libraries
-TEST_LIBS=nodejs pytest ...
-TEST_LIBS=python,nodejs pytest ...
-```

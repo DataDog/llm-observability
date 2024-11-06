@@ -1,6 +1,6 @@
 # tests
 
-This directory contains tests that validate our instrumentation libraries.
+This directory contains tests that validate the LLM Observability instrumentation libraries.
 
 
 ## architecture
@@ -11,6 +11,35 @@ features as endpoints (see Dockerfiles and server.{py,js,}). An HTTP client is u
 different servers. Data produced in the servers is routed to a test agent which receives and persists traces and MLObs
 requests to be returned back to the test case.
 
+## installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## format/lint
+
+```bash
+ruff format
+ruff check
+```
+
+## running
+
+```bash
+# run all the tests
+pytest
+
+# run all the tests in a file
+pytest tests/test_sdk.py
+
+# run a specific test
+pytest -k test_sdk_
+
+# run tests for a particular set of libraries
+TEST_LIBS=nodejs pytest ...
+TEST_LIBS=python,nodejs pytest ...
+```
 
 ## troubleshooting
 
