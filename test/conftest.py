@@ -5,6 +5,7 @@ from packaging.version import Version
 import shutil
 import socket
 import subprocess
+import time
 import uuid
 
 import pytest
@@ -68,6 +69,16 @@ def testagent_docker_name():
 
 class LLMObsTestAgentClient(TestAgentClient):
     """Extend TestAgentClient to provide additional functionality for LLMObs."""
+
+    def wait_for_llmobs_requests(self, num):
+        """Wait for `num` llmobs requests to be received from the test agent."""
+        num_received = 0
+        while num_received < num:
+            reqs = self.llmobs_requests()
+            num_received = len(reqs)
+            if num_received < num:
+                time.sleep(0.1)
+        return reqs
 
     def llmobs_requests(self):
         reqs = [

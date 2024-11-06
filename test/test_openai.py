@@ -13,5 +13,5 @@ def test_chat_completion(test_lang, test_client, test_agent):
     assert traces[0][0]["name"] == "openai.request"
 
     if test_lang != "nodejs":
-        reqs = test_agent.llmobs_requests()
+        reqs = test_agent.wait_for_llmobs_requests(num=1)
         assert len(reqs) == 1
