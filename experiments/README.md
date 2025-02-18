@@ -6,6 +6,8 @@ These notebooks introduce you to Datadog's LLM Observability Experiment SDK usin
 
 - [Datadog API Key](https://docs.datadoghq.com/account_management/api-app-keys)
 - [Datadog App Key](https://app.datadoghq.com/organization-settings/application-keys)
+- [An OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup)
+- [An OpenRouter API Key](https://openrouter.ai/settings/keys)
 - [Rust](https://rustup.rs/): Required for building the Python wheel during the early preview phase. This dependency will be removed in a future update.
 
 ## Setup
@@ -32,9 +34,11 @@ pip install git+https://github.com/DataDog/dd-trace-py.git@llm-experiments
 #### 4. Create a .env file and add the following:
 
 ```bash
-DD_API_KEY=<YOUR_DATADOG_API_KEY>
-DD_APPLICATION_KEY=<YOUR_DATADOG_APP_KEY>
-DD_SITE=<YOUR_DATADOG_SITE> # Optional: (default: "datadoghq.com")
+DD_API_KEY=<>
+DD_APPLICATION_KEY=<>
+OPENAI_API_KEY=<>
+OPENROUTER_API_KEY=<>
+DD_SITE=<> # Optional: (default: "datadoghq.com" | examples: "us3.datadoghq.com", "eu.datadoghq.com")
 ```
 
 #### 5. Launch Jupyter notebooks
