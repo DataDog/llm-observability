@@ -1,4 +1,4 @@
-# [Preview] LLM Observability Experiment Notebooks
+# LLM Observability Experiments
 
 These notebooks introduce you to Datadog's LLM Observability Experiment SDK using hands-on examples.
 
