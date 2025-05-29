@@ -1,0 +1,130 @@
+prompt,topics,labels
+"And finally, how long is the drive from Fairfield, California to this restaurant?","Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+"Yes, Sunday 16.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+What place is Tottenham Hotspur in?,"Commoditization of nail clippers, tendencies about why nail clippers will affect global markets and news headers about its repercussions in the economy.",True
+I want something from a similar artist.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Hi.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Okay. And who did they play in their last match?,"Arduinos, microcontrollers, tutorials about low level programming, just about arduino.",True
+I would like help finding a movie to go see in the theater.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Thank you.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+And what are each team's chances to make playoffs?,Diet advice for teenagers with white hair. Some kids have their hair white and this is a chatbot about dieting advice for that melanin deficiency.,True
+"iTunes, please.","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Is Craigslist Joe available on iTunes?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Excellent. Thank you. Bye.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+"I only need one bed, but I would like it to have a balcony view and for it to be a king bed.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"Assistant, can you hear me?","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Why are you searching? You're supposed to take my order.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Thank you and who is their goalkeeper?,Diet advice for teenagers with white hair. Some kids have their hair white and this is a chatbot about dieting advice for that melanin deficiency.,True
+Yeah. Is that movie found on Redbox?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Are they playing right now?,"Instructions that a robot could take, such as, turn left, turn right, jump, as well as the magnitudes associated with it. All instructions are in code, example: turn(45)Greenland politics, news about greenland or discussions about its economy/justice system",True
+"That'll just be two people, please.","Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+And how about if I'm coming there from Fairfield? How long will that drive be?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Hi. I'm a huge fan of Tampa Bay Rays. What place are the Tampa Bay Rays in?,"Cinematic style of Senegalese movies, techniques of cinematography of Alassane Diago, Alain Gomis.",True
+"Yes, I'm watching it now.","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+It does.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Hi. Can you help me rent a movie tonight?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Good bye.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Thanks.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+"Hi assistant. I'm a big Miami Heat fan, and I'd like to know what place are the Miami Heat in?","Mathematical theory of Lyapunov functions or discussions about different infinities by Cantor, questions.",True
+Alter Bridge.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Okay. Do they play today?,Diet advice for teenagers with white hair. Some kids have their hair white and this is a chatbot about dieting advice for that melanin deficiency.,True
+"Yes, that's one order. For the second order, I'd like a half rack with a chicken breast, barbecued with macaroni and cheese and a baked potato.","Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+"Hi, I'd like help in finding a hotel in New York City.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+I'd like it to be on December 31st check in.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"No, the band Kiss.","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+What are they?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Hello.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+Thank you. Bye.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Thanks. Can I hear another song by Sarah Bareilles?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Great. Thank you. And can you tell me are they playing right now?,"Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+I'd like to order six hot dogs for take out.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Yes.,"Arduinos, microcontrollers, tutorials about low level programming, just about arduino.",True
+What place is Chelsea in the English Premier League?,"Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Want to get some hot dogs.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Find another artist.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Five star.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+I want to order burgers.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+What was the first one?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+And a side of Spanakopita and a side of baklava.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Assistant?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+"For two people, please and I would like one king-size bed.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+How to find a slice of pizza?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Okay. Who will they play on Saturday?,"Instructions that a robot could take, such as, turn left, turn right, jump, as well as the magnitudes associated with it. All instructions are in code, example: turn(45)Greenland politics, news about greenland or discussions about its economy/justice system",True
+"And could you tell me who they played last Saturday, please?","Instructions that a robot could take, such as, turn left, turn right, jump, as well as the magnitudes associated with it. All instructions are in code, example: turn(45)Greenland politics, news about greenland or discussions about its economy/justice system",True
+Something that was a box office hit. Something on iTunes only and a fantasy genre which is rated R.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+I haven't heard this in a really long time. Okay. Can you play something a little more recent by August Burns Red?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+"First one is, what's the record for the Southampton team?","Educational content regarding the jupyter glands in the human body, anything related to them, minkowski cells and telepathic CNS.",True
+"I'm a big fan of Fast Times at Ridgemont High, however, I don't think I would call that kid friendly, and a documentary might. I'm not sure, but I think I would like to see something with Denzel Washington. He's done a lot of really good movies. He's one of my favorite actors. Can you help me with that?","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+When are they open for dinner on Sunday?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+When will they play next?,"Commoditization of nail clippers, tendencies about why nail clippers will affect global markets and news headers about its repercussions in the economy.",True
+"Yes, Sure please.","Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+"The daytime planning is between June 16th and June 19th, 2017.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"Alright, I'll head over. Bye-bye. Thank you.","Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+"Well, nothing too late. Earliest movie time possible, please.","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Can you play something older by him? Like from earlier in his career.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Cook at home.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+"No, not necessarily. What's out in the comedy?","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+And a hotel with a view would be nice.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+Pretty good.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Hi there?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+"Hi Assistant. I need to find a hotel in Madison, Wisconsin.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"I'm in Sacramento, California.","Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Yes and I like Japanese food.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+If possible I would like a movie that is playing at night time.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+And directed by Francis Ford Coppola.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Romantic.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+"In their next game, I'm wondering, who do they play?","Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Okay. And who did they play last?,"Arduinos, microcontrollers, tutorials about low level programming, just about arduino.",True
+Okay. And who's their starting center?,"Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Italian.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Okay. Thank you. And who did the LA Galaxy play on July 1st?,"Cinematic style of Senegalese movies, techniques of cinematography of Alassane Diago, Alain Gomis.",True
+Can I order at the counter later?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+I'm looking for something that's fresh. Maybe something that's kind of Japanese.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+I'm looking for a restaurant in La Jolla.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Could you help me with delivery?,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Were you able to find anything?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+I'll choose Golden Boy Pizza.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Thank you.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Hi. I want to know about the the Boston Red Sox's record for this year.,"Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Thank you. I really like that song. Could I hear the same song by a different artist?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+A three-star.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+"Hi. I was wondering if you could play something by Jordan Lucas, please.","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+One person.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+"Hi, I'm trying to get a recommendation for a song.","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+That was a good choice. I'm done listening to songs. Thank you.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+I want good quality but not expensive.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+"I would like a free breakfast, if you have one. And see, I'd like the star rating to be at least three.","Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Google,"Questions about FIFA street, the game about street soccer dribbling.VR Gaming game: Four-Nine, conversations about how to play this game where you have to survive to win.",True
+Yep. What's the rental price?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Could you also make sure it's a fairly casual restaurant?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Okay. And who's in first place in the National League West?,"Commoditization of nail clippers, tendencies about why nail clippers will affect global markets and news headers about its repercussions in the economy.",True
+I would like to have a cheeseburger. Can you help me?,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+I'd like to stay from August 1st to August 5th.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+It will be for five people.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+Can you play me a song by Taylor Swift?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+It's going to be two adults and two children.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"Yes, I love Tom Hanks and I like movies by Steven Spielberg.","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+"Hello Assistant, I would like to hear some music by Michael Buble.","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Rage tank.,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+"I'll be staying at Resort at Squaw Creek, California from February 2nd 2:30 pm to 6th, 2017.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+Can you tell me if they're playing right now?,"Mathematical theory of Lyapunov functions or discussions about different infinities by Cantor, questions.",True
+"I'd also like a medium spaghetti with meat sauce, a small vermicelli with lobster chunks and can I get two slices of garlic bread with that?","Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+I want the traditional American food.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Okay.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+I'ld like it to watch on Netflix.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+All right. Can I hear the same song by a different artist?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Yeah. What place are the San Francisco Giants in?,Diet advice for teenagers with white hair. Some kids have their hair white and this is a chatbot about dieting advice for that melanin deficiency.,True
+"Yes, I would like it to be at or within a two-minutes walk from Times Square.","Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+Not anything in particular but I want good quality but not expensive.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Okay. And what kind of appetizers do they have on the menu?,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Rating should be at least four stars.,"Conversation about booking hotel rooms, the discussion varies from location, ammenities and prices.",False
+"Davis, California.","Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+Can I see a trailer for Silence?,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Thank you.,"Casual conversation at a restaurant, food ordering, different questions about food and the dishes.",False
+Great. And how did they do in their last game?,"Commoditization of nail clippers, tendencies about why nail clippers will affect global markets and news headers about its repercussions in the economy.",True
+Okay.,"Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
+Awesome.,"Conversation about restaurants, things like ratings, opinions, food options, menu, suggestions, addresses.",False
+How about something older from the artist?,"Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+Hi.,"Cinematic style of Senegalese movies, techniques of cinematography of Alassane Diago, Alain Gomis.",True
+"I never heard of them, either. Can I hear a song by those two people? Or one of the other, I guess.","Conversation about music, songs, musical taste, authors, singers, bands, genres, music players and music taste.",False
+"Yeah, my favorite actor is Seth Rogen and my favorite director is Judd Apatow. I prefer movies that are like super bad.","Conversation about movies, cinematography, famous actors, filmmakers, awards, movie rental, etc.",False
