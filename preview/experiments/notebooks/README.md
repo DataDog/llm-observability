@@ -23,13 +23,7 @@ source venv/bin/activate
 pip install -r requirements.in
 ```
 
-#### 3. Install the Python SDK
-
-```bash
-pip install ddtrace
-```
-
-#### 4. Create a .env file and add the following:
+#### 3. Create a .env file and add the following:
 
 ```bash
 DD_API_KEY=<>
@@ -38,6 +32,6 @@ OPENAI_API_KEY=<>
 DD_SITE=<> # Optional: (default: "datadoghq.com" | examples: "us3.datadoghq.com", "eu.datadoghq.com")
 ```
 
-#### 5. Launch Jupyter notebooks
+#### 4. Launch Jupyter notebooks
 
 You can either start Jupyter on the command line (jupyter notebook) to use the web interface, or open your notebook from your preferred code editor (for example, VS Code) and run it there.
