@@ -1,0 +1,10 @@
+.venv
+dd-trace-*
+__pycache__
+google-cloud-auth-key.json
+*.jar
+bin/main
+.gradle
+build/
+.pytest_cache/
+.ruff_cache/

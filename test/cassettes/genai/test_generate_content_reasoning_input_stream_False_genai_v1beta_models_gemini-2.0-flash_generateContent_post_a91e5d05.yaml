@@ -1,0 +1,90 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "If x + 9 = 10, what is the value of
+      x?"}], "role": "user"}, {"parts": [{"thought": true, "text": "Since 1 + 9 =
+      10, the value of x is 1."}], "role": "model"}, {"parts": [{"text": "The value
+      of x is 1."}], "role": "model"}, {"parts": [{"text": "What is that number plus
+      3?"}], "role": "user"}], "generationConfig": {"temperature": 0.1, "maxOutputTokens":
+      50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '393'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cdae0000000054486c6362baf5b1-7a2106cbb2994fea-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:7a2106cbb2994fea;s:1;t.dm:-0;t.llmobs_parent_id:17017164841056948591;t.llmobs_trace_id:139012343176363431348355101070964195972;t.tid:6894cdae00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '8800322618803179498'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=17017164841056948591,_dd.p.llmobs_trace_id=139012343176363431348355101070964195972,_dd.p.dm=-0,_dd.p.tid=6894cdae00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '6073223271623095729'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+  response:
+    body:
+      string: "{\n  \"candidates\": [\n    {\n      \"content\": {\n        \"parts\":
+        [\n          {\n            \"text\": \"The number is 1. Adding 3 to it gives
+        1 + 3 = 4.\\n\\nSo the answer is 4.\\n\"\n          }\n        ],\n        \"role\":
+        \"model\"\n      },\n      \"finishReason\": \"STOP\",\n      \"avgLogprobs\":
+        -0.14329975446065266\n    }\n  ],\n  \"usageMetadata\": {\n    \"promptTokenCount\":
+        52,\n    \"candidatesTokenCount\": 30,\n    \"totalTokenCount\": 82,\n    \"promptTokensDetails\":
+        [\n      {\n        \"modality\": \"TEXT\",\n        \"tokenCount\": 52\n
+        \     }\n    ],\n    \"candidatesTokensDetails\": [\n      {\n        \"modality\":
+        \"TEXT\",\n        \"tokenCount\": 30\n      }\n    ]\n  },\n  \"modelVersion\":
+        \"gemini-2.0-flash\",\n  \"responseId\": \"rs2UaPaMEry_gLUP6q24uQU\"\n}\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Thu, 07 Aug 2025 16:00:46 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=776
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

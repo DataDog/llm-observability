@@ -1,0 +1,171 @@
+interactions:
+- request:
+    body: '{"max_tokens":100,"messages":[{"role":"user","content":"What is 2+2?"}],"model":"claude-3-7-sonnet-20250219","temperature":0.5,"stream":true}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '141'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - Anthropic/Python 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Stream-Helper
+      : - messages
+      ? !!python/object/apply:multidict._multidict.istr
+      - anthropic-version
+      : - '2023-06-01'
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-689ceae800000000742fe2b2bb8bcf56-88b2337599e28b00-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:88b2337599e28b00;s:1;t.dm:-0;t.llmobs_parent_id:16034362437262691000;t.llmobs_trace_id:139054474336343641693180417489866436263;t.tid:689ceae800000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '9849991915198647040'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=16034362437262691000,_dd.p.llmobs_trace_id=139054474336343641693180417489866436263,_dd.p.dm=-0,_dd.p.tid=689ceae800000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '8372159489583599446'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-timeout
+      : - NOT_GIVEN
+    method: POST
+    uri: https://api.anthropic.com/v1/messages
+  response:
+    body:
+      string: 'event: message_start
+
+        data: {"type":"message_start","message":{"id":"msg_01YAkbSRkqVkYBYWB8mXEcmG","type":"message","role":"assistant","model":"claude-3-7-sonnet-20250219","content":[],"stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":14,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":5,"service_tier":"standard"}}}
+
+
+        event: content_block_start
+
+        data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}           }
+
+
+        event: ping
+
+        data: {"type": "ping"}
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"2+2
+        "}              }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"=
+        4"}     }
+
+
+        event: content_block_stop
+
+        data: {"type":"content_block_stop","index":0     }
+
+
+        event: message_delta
+
+        data: {"type":"message_delta","delta":{"stop_reason":"end_turn","stop_sequence":null},"usage":{"output_tokens":11}      }
+
+
+        event: message_stop
+
+        data: {"type":"message_stop"           }
+
+
+        '
+    headers:
+      CF-RAY:
+      - 96eab3d0fd3a189d-EWR
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/event-stream; charset=utf-8
+      Date:
+      - Wed, 13 Aug 2025 19:43:37 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Robots-Tag:
+      - none
+      anthropic-organization-id:
+      - 4257e925-ee99-4ee8-9c62-8e53716d5203
+      anthropic-ratelimit-input-tokens-limit:
+      - '8000000'
+      anthropic-ratelimit-input-tokens-remaining:
+      - '8000000'
+      anthropic-ratelimit-input-tokens-reset:
+      - '2025-08-13T19:43:37Z'
+      anthropic-ratelimit-output-tokens-limit:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-remaining:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-reset:
+      - '2025-08-13T19:43:37Z'
+      anthropic-ratelimit-tokens-limit:
+      - '9200000'
+      anthropic-ratelimit-tokens-remaining:
+      - '9200000'
+      anthropic-ratelimit-tokens-reset:
+      - '2025-08-13T19:43:37Z'
+      cf-cache-status:
+      - DYNAMIC
+      request-id:
+      - req_011CS6HG1w7p9MLJ1o4X86ad
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      via:
+      - 1.1 google
+    status:
+      code: 200
+      message: OK
+version: 1

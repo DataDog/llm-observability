@@ -1,0 +1,16 @@
+FROM node:22-slim
+
+# Install dependencies
+RUN yarn add express
+
+# Add tested libraries
+RUN yarn add openai
+RUN yarn add @google-cloud/vertexai
+RUN yarn add @google/genai
+RUN yarn add @anthropic-ai/sdk
+
+# Add dd-trace
+RUN yarn add dd-trace
+
+ADD ./server.js .
+CMD ["node", "server.js"]

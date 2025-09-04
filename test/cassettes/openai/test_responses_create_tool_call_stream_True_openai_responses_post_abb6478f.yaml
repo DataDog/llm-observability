@@ -1,0 +1,240 @@
+interactions:
+- request:
+    body: '{"input":"Bob is a student at Stanford University. He is studying computer
+      science.","max_output_tokens":50,"model":"gpt-4.1","stream":true,"temperature":0.1,"tool_choice":"auto","tools":[{"type":"function","name":"extract_student_info","description":"Get
+      the student information from the body of the input text","parameters":{"type":"object","properties":{"name":{"type":"string","description":"Name
+      of the person"},"major":{"type":"string","description":"Major subject."},"school":{"type":"string","description":"The
+      university name."}}}}]}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '542'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - OpenAI/Python 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6892520400000000569feac6a75073bb-19527ca436e10c1f-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:19527ca436e10c1f;s:1;t.dm:-0;t.llmobs_parent_id:3311112842039765509;t.llmobs_trace_id:138999450377477485121675359121467641386;t.tid:6892520400000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '1824657843775671327'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=3311112842039765509,_dd.p.llmobs_trace_id=138999450377477485121675359121467641386,_dd.p.dm=-0,_dd.p.tid=6892520400000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '6241965747490288571'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+    method: POST
+    uri: https://api.openai.com/v1/responses
+  response:
+    body:
+      string: 'event: response.created
+
+        data: {"type":"response.created","sequence_number":0,"response":{"id":"resp_68925204e23081a1a69832483c07eb840eb9f92feb642085","object":"response","created_at":1754419716,"status":"in_progress","background":false,"error":null,"incomplete_details":null,"instructions":null,"max_output_tokens":50,"max_tool_calls":null,"model":"gpt-4.1-2025-04-14","output":[],"parallel_tool_calls":true,"previous_response_id":null,"prompt_cache_key":null,"reasoning":{"effort":null,"summary":null},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":0.1,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[{"type":"function","description":"Get
+        the student information from the body of the input text","name":"extract_student_info","parameters":{"type":"object","properties":{"name":{"type":"string","description":"Name
+        of the person"},"major":{"type":"string","description":"Major subject."},"school":{"type":"string","description":"The
+        university name."}}},"strict":true}],"top_logprobs":0,"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
+
+
+        event: response.in_progress
+
+        data: {"type":"response.in_progress","sequence_number":1,"response":{"id":"resp_68925204e23081a1a69832483c07eb840eb9f92feb642085","object":"response","created_at":1754419716,"status":"in_progress","background":false,"error":null,"incomplete_details":null,"instructions":null,"max_output_tokens":50,"max_tool_calls":null,"model":"gpt-4.1-2025-04-14","output":[],"parallel_tool_calls":true,"previous_response_id":null,"prompt_cache_key":null,"reasoning":{"effort":null,"summary":null},"safety_identifier":null,"service_tier":"auto","store":false,"temperature":0.1,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[{"type":"function","description":"Get
+        the student information from the body of the input text","name":"extract_student_info","parameters":{"type":"object","properties":{"name":{"type":"string","description":"Name
+        of the person"},"major":{"type":"string","description":"Major subject."},"school":{"type":"string","description":"The
+        university name."}}},"strict":true}],"top_logprobs":0,"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
+
+
+        event: response.output_item.added
+
+        data: {"type":"response.output_item.added","sequence_number":2,"output_index":0,"item":{"id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","type":"function_call","status":"in_progress","arguments":"","call_id":"call_uHuxpmP2AO3ZTOLnDF2r7zgS","name":"extract_student_info"}}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":3,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"{\"","obfuscation":"dt3cx3o32OOnpA"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":4,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"name","obfuscation":"eMDkYDC18JSU"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":5,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\":\"","obfuscation":"ic5SWiG7FJgqJ"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":6,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"Bob","obfuscation":"macI7RnaXydYS"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":7,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\",\"","obfuscation":"zxU8902M1rq4w"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":8,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"major","obfuscation":"NN9ZlTNxIZQ"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":9,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\":\"","obfuscation":"9lNefpfsTTp7N"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":10,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"computer","obfuscation":"CWv31YlJ"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":11,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"
+        science","obfuscation":"LEEQpafQ"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":12,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\",\"","obfuscation":"VhzRPojnM2xQ9"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":13,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"school","obfuscation":"FSNUKQv8Qx"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":14,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\":\"","obfuscation":"3noLmSAxn6Trx"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":15,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"Stan","obfuscation":"Gwyzq0MfSe0M"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":16,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"ford","obfuscation":"r3BEj8mmmAYh"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":17,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"
+        University","obfuscation":"oVb8G"}
+
+
+        event: response.function_call_arguments.delta
+
+        data: {"type":"response.function_call_arguments.delta","sequence_number":18,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"delta":"\"}","obfuscation":"ZoPMpoDpAtxxPP"}
+
+
+        event: response.function_call_arguments.done
+
+        data: {"type":"response.function_call_arguments.done","sequence_number":19,"item_id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","output_index":0,"arguments":"{\"name\":\"Bob\",\"major\":\"computer
+        science\",\"school\":\"Stanford University\"}"}
+
+
+        event: response.output_item.done
+
+        data: {"type":"response.output_item.done","sequence_number":20,"output_index":0,"item":{"id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","type":"function_call","status":"completed","arguments":"{\"name\":\"Bob\",\"major\":\"computer
+        science\",\"school\":\"Stanford University\"}","call_id":"call_uHuxpmP2AO3ZTOLnDF2r7zgS","name":"extract_student_info"}}
+
+
+        event: response.completed
+
+        data: {"type":"response.completed","sequence_number":21,"response":{"id":"resp_68925204e23081a1a69832483c07eb840eb9f92feb642085","object":"response","created_at":1754419716,"status":"completed","background":false,"error":null,"incomplete_details":null,"instructions":null,"max_output_tokens":50,"max_tool_calls":null,"model":"gpt-4.1-2025-04-14","output":[{"id":"fc_68925205f51881a196e9c103ce7601110eb9f92feb642085","type":"function_call","status":"completed","arguments":"{\"name\":\"Bob\",\"major\":\"computer
+        science\",\"school\":\"Stanford University\"}","call_id":"call_uHuxpmP2AO3ZTOLnDF2r7zgS","name":"extract_student_info"}],"parallel_tool_calls":true,"previous_response_id":null,"prompt_cache_key":null,"reasoning":{"effort":null,"summary":null},"safety_identifier":null,"service_tier":"default","store":false,"temperature":0.1,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[{"type":"function","description":"Get
+        the student information from the body of the input text","name":"extract_student_info","parameters":{"type":"object","properties":{"name":{"type":"string","description":"Name
+        of the person"},"major":{"type":"string","description":"Major subject."},"school":{"type":"string","description":"The
+        university name."}}},"strict":true}],"top_logprobs":0,"top_p":1.0,"truncation":"disabled","usage":{"input_tokens":79,"input_tokens_details":{"cached_tokens":0},"output_tokens":27,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":106},"user":null,"metadata":{}}}
+
+
+        '
+    headers:
+      CF-RAY:
+      - 96a8783e1bfa2dae-EWR
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/event-stream; charset=utf-8
+      Date:
+      - Tue, 05 Aug 2025 18:48:37 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cf_bm=kCrlF2CaAZ1_uiMYcX7m9DNToc5BQ2Fvklsn.rvvU_Q-1754419717-1.0.1.1-ULvG_Ja3dabv4tuHzsZVeNgh_wne31aej_plhPpuvWDeuwElCktHl1f4YUOVgs0u4bIxJDAuNMFnub0BRzkA3RGjsxJZ49EH1IQYuLSXrDs;
+        path=/; expires=Tue, 05-Aug-25 19:18:37 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=gNlvvzQKGCdayfPowcAoWzo0zeR4ALRV.zrNMhEZRdk-1754419717040-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      openai-organization:
+      - datadog-staging
+      openai-processing-ms:
+      - '158'
+      openai-project:
+      - proj_gt6TQZPRbZfoY2J9AQlEJMpd
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-request-id:
+      - req_75076ff8ac3cecb2a2452fe62a809b46
+    status:
+      code: 200
+      message: OK
+version: 1

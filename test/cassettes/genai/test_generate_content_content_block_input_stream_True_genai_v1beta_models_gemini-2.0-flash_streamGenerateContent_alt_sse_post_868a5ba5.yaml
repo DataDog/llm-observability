@@ -1,0 +1,97 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "Why did the chicken cross the road?"}],
+      "role": "user"}], "generationConfig": {"temperature": 0.1, "maxOutputTokens":
+      50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '157'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cd9200000000628206c8fbe73c5a-0dbe9fd28fb0c17a-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:0dbe9fd28fb0c17a;s:1;t.dm:-0;t.llmobs_parent_id:9722622031145468651;t.llmobs_trace_id:139012340957974880961701988426070221123;t.tid:6894cd9200000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '990404694770762106'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=9722622031145468651,_dd.p.llmobs_trace_id=139012340957974880961701988426070221123,_dd.p.dm=-0,_dd.p.tid=6894cd9200000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '7098243422978784346'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse
+  response:
+    body:
+      string: "data: {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \"This\"}],\"role\":
+        \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 9,\"totalTokenCount\":
+        9,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 9}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"ks2UaMeMGb6xgLUPlZCT2QI\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \" is a classic joke!
+        Here are a few possible answers, ranging from the traditional\"}],\"role\":
+        \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 9,\"totalTokenCount\":
+        9,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 9}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"ks2UaMeMGb6xgLUPlZCT2QI\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \" to the more absurd:\\n\\n*
+        \  **The Classic:** To get to the other side.\"}],\"role\": \"model\"}}],\"usageMetadata\":
+        {\"promptTokenCount\": 9,\"totalTokenCount\": 9,\"promptTokensDetails\": [{\"modality\":
+        \"TEXT\",\"tokenCount\": 9}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"ks2UaMeMGb6xgLUPlZCT2QI\"}\r\n\r\ndata: {\"candidates\": [{\"content\":
+        {\"parts\": [{\"text\": \"\\n*   **The Logical:** Because there was a road
+        there.\"}],\"role\": \"model\"},\"finishReason\": \"MAX_TOKENS\"}],\"usageMetadata\":
+        {\"promptTokenCount\": 8,\"candidatesTokenCount\": 50,\"totalTokenCount\":
+        58,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 8}],\"candidatesTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 50}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"ks2UaMeMGb6xgLUPlZCT2QI\"}\r\n\r\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Disposition:
+      - attachment
+      Content-Type:
+      - text/event-stream
+      Date:
+      - Thu, 07 Aug 2025 16:00:18 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=399
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

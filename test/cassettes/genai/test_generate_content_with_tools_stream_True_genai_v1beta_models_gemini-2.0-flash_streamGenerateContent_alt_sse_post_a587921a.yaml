@@ -1,0 +1,86 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "What is the weather in Tokyo?"}], "role":
+      "user"}], "tools": [{"functionDeclarations": [{"description": "Get the weather
+      in a given location", "name": "get_weather", "parameters": {"properties": {"location":
+      {"description": "The location to get the weather for", "type": "STRING"}}, "type":
+      "OBJECT"}}]}], "generationConfig": {"maxOutputTokens": 50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '385'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cdb2000000008866259effed8dab-cd515fb4adb34a54-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:cd515fb4adb34a54;s:1;t.dm:-0;t.llmobs_parent_id:10280171900278026168;t.llmobs_trace_id:139012343493276081410946816146850947254;t.tid:6894cdb200000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '14794711480501750356'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=10280171900278026168,_dd.p.llmobs_trace_id=139012343493276081410946816146850947254,_dd.p.dm=-0,_dd.p.tid=6894cdb200000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '9828584601611505067'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse
+  response:
+    body:
+      string: "data: {\"candidates\": [{\"content\": {\"parts\": [{\"functionCall\":
+        {\"name\": \"get_weather\",\"args\": {\"location\": \"Tokyo\"}}}],\"role\":
+        \"model\"},\"finishReason\": \"STOP\"}],\"usageMetadata\": {\"promptTokenCount\":
+        27,\"candidatesTokenCount\": 5,\"totalTokenCount\": 32,\"promptTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 27}],\"candidatesTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 5}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"ss2UaPeuE4Gm1dkP9JiGkAU\"}\r\n\r\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Disposition:
+      - attachment
+      Content-Type:
+      - text/event-stream
+      Date:
+      - Thu, 07 Aug 2025 16:00:50 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=581
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

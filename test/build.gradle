@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.javalin:javalin:5.3.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+    implementation 'org.json:json:20230227'
+    implementation 'org.slf4j:slf4j-simple:2.0.3'
+    implementation 'com.openai:openai-java:2.20.1'
+    implementation 'com.anthropic:anthropic-java:2.4.0'
+
+    implementation files('/dd-java-agent.jar')
+}
+
+application {
+    mainClass = 'SingleFileServer'
+}

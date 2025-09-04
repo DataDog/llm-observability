@@ -1,0 +1,90 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "What is the weather in Tokyo?"}], "role":
+      "user"}, {"parts": [{"functionCall": {"id": "abc123", "args": {"location": "Tokyo"},
+      "name": "get_weather"}}], "role": "model"}, {"parts": [{"functionResponse":
+      {"id": "abc123", "name": "get_weather", "response": {"weather": "sunny", "temperature":
+      "78\u00b0F"}}}], "role": "user"}], "generationConfig": {"temperature": 0.1,
+      "maxOutputTokens": 50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '425'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cdbe0000000025d084b75d7ed6c9-653464052dea7edd-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:653464052dea7edd;s:1;t.dm:-0;t.llmobs_parent_id:3709102926416221730;t.llmobs_trace_id:139012344444014031585529099484362031262;t.tid:6894cdbe00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '7292563670027632349'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=3709102926416221730,_dd.p.llmobs_trace_id=139012344444014031585529099484362031262,_dd.p.dm=-0,_dd.p.tid=6894cdbe00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '2724823697641625289'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+  response:
+    body:
+      string: "{\n  \"candidates\": [\n    {\n      \"content\": {\n        \"parts\":
+        [\n          {\n            \"text\": \"The weather in Tokyo is sunny with
+        a temperature of 78\xB0F.\\n\"\n          }\n        ],\n        \"role\":
+        \"model\"\n      },\n      \"finishReason\": \"STOP\",\n      \"avgLogprobs\":
+        -0.0074942567769218892\n    }\n  ],\n  \"usageMetadata\": {\n    \"promptTokenCount\":
+        22,\n    \"candidatesTokenCount\": 17,\n    \"totalTokenCount\": 39,\n    \"promptTokensDetails\":
+        [\n      {\n        \"modality\": \"TEXT\",\n        \"tokenCount\": 22\n
+        \     }\n    ],\n    \"candidatesTokensDetails\": [\n      {\n        \"modality\":
+        \"TEXT\",\n        \"tokenCount\": 17\n      }\n    ]\n  },\n  \"modelVersion\":
+        \"gemini-2.0-flash\",\n  \"responseId\": \"vs2UaKr-IKaWgLUP24SQkA0\"\n}\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Thu, 07 Aug 2025 16:01:02 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=481
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

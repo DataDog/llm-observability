@@ -1,0 +1,94 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "What is the weather in Tokyo?"}], "role":
+      "user"}, {"parts": [{"functionCall": {"id": "abc123", "args": {"location": "Tokyo"},
+      "name": "get_weather"}}], "role": "model"}, {"parts": [{"functionResponse":
+      {"id": "abc123", "name": "get_weather", "response": {"weather": "sunny", "temperature":
+      "78\u00b0F"}}}], "role": "user"}], "generationConfig": {"temperature": 0.1,
+      "maxOutputTokens": 50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '425'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cdba00000000b175c3a42bf7405e-08fa58271e95e3ef-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:08fa58271e95e3ef;s:1;t.dm:-0;t.llmobs_parent_id:796663414666715537;t.llmobs_trace_id:139012344127101381532055264781311130998;t.tid:6894cdba00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '646926421521196015'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=796663414666715537,_dd.p.llmobs_trace_id=139012344127101381532055264781311130998,_dd.p.dm=-0,_dd.p.tid=6894cdba00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '12787341826868068446'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse
+  response:
+    body:
+      string: "data: {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \"The\"}],\"role\":
+        \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 47,\"totalTokenCount\":
+        47,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 47}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"us2UaMaVE4Gm1dkP9JiGkAU\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \" weather in Tokyo\"}],\"role\":
+        \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 47,\"totalTokenCount\":
+        47,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 47}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"us2UaMaVE4Gm1dkP9JiGkAU\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \" is sunny with a
+        temperature of 78\xB0F.\\n\"}],\"role\": \"model\"},\"finishReason\": \"STOP\"}],\"usageMetadata\":
+        {\"promptTokenCount\": 22,\"candidatesTokenCount\": 17,\"totalTokenCount\":
+        39,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 22}],\"candidatesTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 17}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"us2UaMaVE4Gm1dkP9JiGkAU\"}\r\n\r\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Disposition:
+      - attachment
+      Content-Type:
+      - text/event-stream
+      Date:
+      - Thu, 07 Aug 2025 16:00:58 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=363
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

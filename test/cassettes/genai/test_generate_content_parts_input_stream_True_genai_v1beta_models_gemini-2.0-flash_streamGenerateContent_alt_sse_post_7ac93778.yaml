@@ -1,0 +1,96 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "Why did the chicken cross the road?"},
+      {"text": "What is 2 + 2?"}], "role": "user"}], "generationConfig": {"temperature":
+      0.1, "maxOutputTokens": 50}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '185'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-6894cd8a0000000016325f41610b8122-7cfada469ec0a0c7-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:7cfada469ec0a0c7;s:1;t.dm:-0;t.llmobs_parent_id:10131393043632773903;t.llmobs_trace_id:139012340324149580840069469857466628673;t.tid:6894cd8a00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '9005750401726718151'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=10131393043632773903,_dd.p.llmobs_trace_id=139012340324149580840069469857466628673,_dd.p.dm=-0,_dd.p.tid=6894cd8a00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '1599445552075604258'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent?alt=sse
+  response:
+    body:
+      string: "data: {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \"Okay\"}],\"role\":
+        \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 17,\"totalTokenCount\":
+        17,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 17}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"is2UaNPkGYGm1dkP9JiGkAU\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \", here are the answers
+        to your questions:\\n\\n*   **Why did the\"}],\"role\": \"model\"}}],\"usageMetadata\":
+        {\"promptTokenCount\": 17,\"totalTokenCount\": 17,\"promptTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 17}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"is2UaNPkGYGm1dkP9JiGkAU\"}\r\n\r\ndata: {\"candidates\": [{\"content\":
+        {\"parts\": [{\"text\": \" chicken cross the road?** To get to the other side.\\n\\n*
+        \  \"}],\"role\": \"model\"}}],\"usageMetadata\": {\"promptTokenCount\": 17,\"totalTokenCount\":
+        17,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 17}]},\"modelVersion\":
+        \"gemini-2.0-flash\",\"responseId\": \"is2UaNPkGYGm1dkP9JiGkAU\"}\r\n\r\ndata:
+        {\"candidates\": [{\"content\": {\"parts\": [{\"text\": \"**What is 2 + 2?**
+        4\"}],\"role\": \"model\"},\"finishReason\": \"STOP\"}],\"usageMetadata\":
+        {\"promptTokenCount\": 16,\"candidatesTokenCount\": 45,\"totalTokenCount\":
+        61,\"promptTokensDetails\": [{\"modality\": \"TEXT\",\"tokenCount\": 16}],\"candidatesTokensDetails\":
+        [{\"modality\": \"TEXT\",\"tokenCount\": 45}]},\"modelVersion\": \"gemini-2.0-flash\",\"responseId\":
+        \"is2UaNPkGYGm1dkP9JiGkAU\"}\r\n\r\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Disposition:
+      - attachment
+      Content-Type:
+      - text/event-stream
+      Date:
+      - Thu, 07 Aug 2025 16:00:10 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=289
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

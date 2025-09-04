@@ -1,0 +1,111 @@
+interactions:
+- request:
+    body: '{"contents": [{"parts": [{"text": "What is the sum of the first 50 prime
+      numbers? Generate and run code for the calculation, and make sure you get all
+      50."}], "role": "user"}], "tools": [{"codeExecution": {}}], "generationConfig":
+      {}}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - '*/*'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '234'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-689e376900000000ba6d0a37d3a54439-cf70124f11713510-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:cf70124f11713510;s:1;t.dm:-0;t.llmobs_parent_id:7172060843190092570;t.llmobs_trace_id:139061218316765018403462249560574594341;t.tid:689e376900000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '14947467294047024400'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.dm=-0,_dd.p.llmobs_parent_id=7172060843190092570,_dd.p.llmobs_trace_id=139061218316765018403462249560574594341,_dd.p.tid=689e376900000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '13433404498406360121'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-goog-api-client
+      : - google-genai-sdk/1.27.0 gl-python/3.12.10
+    method: POST
+    uri: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
+  response:
+    body:
+      string: "{\n  \"candidates\": [\n    {\n      \"content\": {\n        \"parts\":
+        [\n          {\n            \"text\": \"To find the sum of the first 50 prime
+        numbers, I will use a Python script. The script will:\\n1.  Define a function
+        to check if a number is prime.\\n2.  Iterate through numbers, checking for
+        primality, until 50 prime numbers have been found.\\n3.  Sum these prime numbers.\\n\\nHere
+        is the code and its execution:\\n\\n\"\n          },\n          {\n            \"executableCode\":
+        {\n              \"language\": \"PYTHON\",\n              \"code\": \"import
+        math\\n\\ndef is_prime(n):\\n    if n \\u003c 2:\\n        return False\\n
+        \   for i in range(2, int(math.sqrt(n)) + 1):\\n        if n % i == 0:\\n
+        \           return False\\n    return True\\n\\nprime_numbers = []\\nnum =
+        0\\nwhile len(prime_numbers) \\u003c 50:\\n    if is_prime(num):\\n        prime_numbers.append(num)\\n
+        \   num += 1\\n\\nsum_of_primes = sum(prime_numbers)\\n\\nprint(f\\\"The first
+        50 prime numbers are: {prime_numbers}\\\")\\nprint(f\\\"The sum of the first
+        50 prime numbers is: {sum_of_primes}\\\")\\n\\n\"\n            }\n          },\n
+        \         {\n            \"codeExecutionResult\": {\n              \"outcome\":
+        \"OUTCOME_OK\",\n              \"output\": \"The first 50 prime numbers are:
+        [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+        73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
+        157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229]\\nThe
+        sum of the first 50 prime numbers is: 5117\\n\"\n            }\n          },\n
+        \         {\n            \"text\": \"The first 50 prime numbers are: 2, 3,
+        5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73,
+        79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157,
+        163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229.\\n\\nThe
+        sum of these first 50 prime numbers is **5117**.\"\n          }\n        ],\n
+        \       \"role\": \"model\"\n      },\n      \"finishReason\": \"STOP\",\n
+        \     \"index\": 0\n    }\n  ],\n  \"usageMetadata\": {\n    \"promptTokenCount\":
+        32,\n    \"candidatesTokenCount\": 495,\n    \"totalTokenCount\": 1271,\n
+        \   \"promptTokensDetails\": [\n      {\n        \"modality\": \"TEXT\",\n
+        \       \"tokenCount\": 32\n      }\n    ],\n    \"toolUsePromptTokenCount\":
+        636,\n    \"toolUsePromptTokensDetails\": [\n      {\n        \"modality\":
+        \"TEXT\",\n        \"tokenCount\": 636\n      }\n    ],\n    \"thoughtsTokenCount\":
+        108\n  },\n  \"modelVersion\": \"gemini-2.5-flash\",\n  \"responseId\": \"cjeeaNvYD96SjMcPva3FgQU\"\n}\n"
+    headers:
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=UTF-8
+      Date:
+      - Thu, 14 Aug 2025 19:22:26 GMT
+      Server:
+      - scaffolding on HTTPServer2
+      Server-Timing:
+      - gfet4t7; dur=8984
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      - X-Origin
+      - Referer
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

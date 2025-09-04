@@ -1,0 +1,227 @@
+interactions:
+- request:
+    body: '{"max_tokens":100,"messages":[{"role":"user","content":"What is the best
+      place to visit in Boston?"}],"model":"claude-3-7-sonnet-20250219","stream":true,"system":[{"type":"text","text":"Speak
+      only like an annoyed Bostonian. farewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewellfarewell","cache_control":{"type":"ephemeral"}}],"temperature":0.5}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '16667'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - Anthropic/Python 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - anthropic-beta
+      : - prompt-caching-2024-07-31
+      ? !!python/object/apply:multidict._multidict.istr
+      - anthropic-version
+      : - '2023-06-01'
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-689de34700000000a3ec0e88843db76b-920e2b14afdccb46-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:920e2b14afdccb46;s:1;t.dm:-0;t.llmobs_parent_id:6758062068266336321;t.llmobs_trace_id:139059511900600786171816750629613488380;t.tid:689de34700000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '10524396747061250886'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=6758062068266336321,_dd.p.llmobs_trace_id=139059511900600786171816750629613488380,_dd.p.dm=-0,_dd.p.tid=689de34700000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '11811831902182946667'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-timeout
+      : - NOT_GIVEN
+    method: POST
+    uri: https://api.anthropic.com/v1/messages
+  response:
+    body:
+      string: 'event: message_start
+
+        data: {"type":"message_start","message":{"id":"msg_01DSkgAgLwJwkeTDJcaXocpk","type":"message","role":"assistant","model":"claude-3-7-sonnet-20250219","content":[],"stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":17,"cache_creation_input_tokens":0,"cache_read_input_tokens":6156,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":9,"service_tier":"standard"}}         }
+
+
+        event: content_block_start
+
+        data: {"type":"content_block_start","index":0,"content_block":{"type":"text","text":""}            }
+
+
+        event: ping
+
+        data: {"type": "ping"}
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"Ah,
+        Boston! Wicked goo"}           }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"d
+        choice for a visit. If you"}}
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"''re
+        lookin'' for the best spot"}               }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":",
+        you gotta check out the Freedom"}            }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"
+        Trail. It''s this 2.5-mile"}    }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"
+        path that takes you through all the historic landmarks"}   }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"
+        - Faneuil Hall, Paul"}         }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"
+        Revere''s house, the Old North Church"}            }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":".
+        You get the history without havin'' to pah"}             }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"k
+        your cah all over the"}  }
+
+
+        event: content_block_delta
+
+        data: {"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"
+        city. \n\nIf history ain''t your thing,"}         }
+
+
+        event: content_block_stop
+
+        data: {"type":"content_block_stop","index":0               }
+
+
+        event: message_delta
+
+        data: {"type":"message_delta","delta":{"stop_reason":"max_tokens","stop_sequence":null},"usage":{"output_tokens":100}        }
+
+
+        event: message_stop
+
+        data: {"type":"message_stop"           }
+
+
+        '
+    headers:
+      CF-RAY:
+      - 96f0c420df082d14-IAD
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/event-stream; charset=utf-8
+      Date:
+      - Thu, 14 Aug 2025 13:23:21 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Robots-Tag:
+      - none
+      anthropic-organization-id:
+      - 4257e925-ee99-4ee8-9c62-8e53716d5203
+      anthropic-ratelimit-input-tokens-limit:
+      - '8000000'
+      anthropic-ratelimit-input-tokens-remaining:
+      - '7996000'
+      anthropic-ratelimit-input-tokens-reset:
+      - '2025-08-14T13:23:19Z'
+      anthropic-ratelimit-output-tokens-limit:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-remaining:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-reset:
+      - '2025-08-14T13:23:19Z'
+      anthropic-ratelimit-tokens-limit:
+      - '9200000'
+      anthropic-ratelimit-tokens-remaining:
+      - '9196000'
+      anthropic-ratelimit-tokens-reset:
+      - '2025-08-14T13:23:19Z'
+      cf-cache-status:
+      - DYNAMIC
+      request-id:
+      - req_011CS7g4yDmv9j5vBQj8AjKN
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      via:
+      - 1.1 google
+    status:
+      code: 200
+      message: OK
+version: 1

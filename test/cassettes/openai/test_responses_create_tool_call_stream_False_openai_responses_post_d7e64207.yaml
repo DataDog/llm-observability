@@ -1,0 +1,157 @@
+interactions:
+- request:
+    body: '{"input":"Bob is a student at Stanford University. He is studying computer
+      science.","max_output_tokens":50,"model":"gpt-4.1","temperature":0.1,"tool_choice":"auto","tools":[{"type":"function","name":"extract_student_info","description":"Get
+      the student information from the body of the input text","parameters":{"type":"object","properties":{"name":{"type":"string","description":"Name
+      of the person"},"major":{"type":"string","description":"Major subject."},"school":{"type":"string","description":"The
+      university name."}}}}]}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '528'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - OpenAI/Python 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-68925208000000004cc4be2aa75f5ca8-a807d6f0f54be862-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:a807d6f0f54be862;s:1;t.dm:-0;t.llmobs_parent_id:820381240106070654;t.llmobs_trace_id:138999450694390135176386949581211315013;t.tid:6892520800000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '12107882453604755554'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=820381240106070654,_dd.p.llmobs_trace_id=138999450694390135176386949581211315013,_dd.p.dm=-0,_dd.p.tid=6892520800000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '5531755332723760296'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+    method: POST
+    uri: https://api.openai.com/v1/responses
+  response:
+    body:
+      string: "{\n  \"id\": \"resp_6892520922a881a392d6d81242dbec350c36ec0bbacf7751\",\n
+        \ \"object\": \"response\",\n  \"created_at\": 1754419721,\n  \"status\":
+        \"completed\",\n  \"background\": false,\n  \"error\": null,\n  \"incomplete_details\":
+        null,\n  \"instructions\": null,\n  \"max_output_tokens\": 50,\n  \"max_tool_calls\":
+        null,\n  \"model\": \"gpt-4.1-2025-04-14\",\n  \"output\": [\n    {\n      \"id\":
+        \"fc_68925209f25481a3bb8bd04489cb129a0c36ec0bbacf7751\",\n      \"type\":
+        \"function_call\",\n      \"status\": \"completed\",\n      \"arguments\":
+        \"{\\\"name\\\":\\\"Bob\\\",\\\"major\\\":\\\"computer science\\\",\\\"school\\\":\\\"Stanford
+        University\\\"}\",\n      \"call_id\": \"call_l1L78BovS0tdC7NQjsixIAbl\",\n
+        \     \"name\": \"extract_student_info\"\n    }\n  ],\n  \"parallel_tool_calls\":
+        true,\n  \"previous_response_id\": null,\n  \"prompt_cache_key\": null,\n
+        \ \"reasoning\": {\n    \"effort\": null,\n    \"summary\": null\n  },\n  \"safety_identifier\":
+        null,\n  \"service_tier\": \"default\",\n  \"store\": false,\n  \"temperature\":
+        0.1,\n  \"text\": {\n    \"format\": {\n      \"type\": \"text\"\n    }\n
+        \ },\n  \"tool_choice\": \"auto\",\n  \"tools\": [\n    {\n      \"type\":
+        \"function\",\n      \"description\": \"Get the student information from the
+        body of the input text\",\n      \"name\": \"extract_student_info\",\n      \"parameters\":
+        {\n        \"type\": \"object\",\n        \"properties\": {\n          \"name\":
+        {\n            \"type\": \"string\",\n            \"description\": \"Name
+        of the person\"\n          },\n          \"major\": {\n            \"type\":
+        \"string\",\n            \"description\": \"Major subject.\"\n          },\n
+        \         \"school\": {\n            \"type\": \"string\",\n            \"description\":
+        \"The university name.\"\n          }\n        }\n      },\n      \"strict\":
+        true\n    }\n  ],\n  \"top_logprobs\": 0,\n  \"top_p\": 1.0,\n  \"truncation\":
+        \"disabled\",\n  \"usage\": {\n    \"input_tokens\": 79,\n    \"input_tokens_details\":
+        {\n      \"cached_tokens\": 0\n    },\n    \"output_tokens\": 27,\n    \"output_tokens_details\":
+        {\n      \"reasoning_tokens\": 0\n    },\n    \"total_tokens\": 106\n  },\n
+        \ \"user\": null,\n  \"metadata\": {}\n}"
+    headers:
+      CF-RAY:
+      - 96a8785818cf43c4-EWR
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 05 Aug 2025 18:48:42 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cf_bm=AglnnVwPAigxTtDUcZm6saeHfCXSKiqZlnD9yAgLXb0-1754419722-1.0.1.1-P7UPLvV6NhybNq4jwoRUCjoO953GCYKXcxGAcl83y4Md81SK0GX0HlcVHC8Chve71nfwV2Xda8F0_SPyXwndnwwqqGwb3rGbtTRuYWTHuzM;
+        path=/; expires=Tue, 05-Aug-25 19:18:42 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=.A6LbaY6QJFBf6IS.whCqLBMOAaz7mOcd.SllxUCoYk-1754419722177-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      openai-organization:
+      - datadog-staging
+      openai-processing-ms:
+      - '1049'
+      openai-project:
+      - proj_gt6TQZPRbZfoY2J9AQlEJMpd
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-ratelimit-limit-requests:
+      - '10000'
+      x-ratelimit-limit-tokens:
+      - '30000000'
+      x-ratelimit-remaining-requests:
+      - '9999'
+      x-ratelimit-remaining-tokens:
+      - '29999704'
+      x-ratelimit-reset-requests:
+      - 6ms
+      x-ratelimit-reset-tokens:
+      - 0s
+      x-request-id:
+      - req_1af14309ee4f383f0ff9237f5ca00457
+    status:
+      code: 200
+      message: OK
+version: 1

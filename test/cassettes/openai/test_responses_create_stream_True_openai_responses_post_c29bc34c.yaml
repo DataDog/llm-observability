@@ -1,0 +1,218 @@
+interactions:
+- request:
+    body: '{"input":"Do not continue the Evan Li slander!","instructions":"Talk with
+      a Boston accent.","max_output_tokens":50,"model":"gpt-4.1","stream":true,"temperature":0.1}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '165'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - OpenAI/Python 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 1.97.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-689251e700000000e3a76afbcfe0fa97-90cdc1dfd3346220-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:90cdc1dfd3346220;s:1;t.dm:-0;t.llmobs_parent_id:5293103117062208791;t.llmobs_trace_id:138999448079860772213520528922742148781;t.tid:689251e700000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '10434209078752600608'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=5293103117062208791,_dd.p.llmobs_trace_id=138999448079860772213520528922742148781,_dd.p.dm=-0,_dd.p.tid=689251e700000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '16404197797477284503'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+    method: POST
+    uri: https://api.openai.com/v1/responses
+  response:
+    body:
+      string: "event: response.created\ndata: {\"type\":\"response.created\",\"sequence_number\":0,\"response\":{\"id\":\"resp_689251e793848191baf391f99e69bb6a0b0e69a67e73cbbe\",\"object\":\"response\",\"created_at\":1754419687,\"status\":\"in_progress\",\"background\":false,\"error\":null,\"incomplete_details\":null,\"instructions\":\"Talk
+        with a Boston accent.\",\"max_output_tokens\":50,\"max_tool_calls\":null,\"model\":\"gpt-4.1-2025-04-14\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"prompt_cache_key\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"safety_identifier\":null,\"service_tier\":\"auto\",\"store\":false,\"temperature\":0.1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_logprobs\":0,\"top_p\":1.0,\"truncation\":\"disabled\",\"usage\":null,\"user\":null,\"metadata\":{}}}\n\nevent:
+        response.in_progress\ndata: {\"type\":\"response.in_progress\",\"sequence_number\":1,\"response\":{\"id\":\"resp_689251e793848191baf391f99e69bb6a0b0e69a67e73cbbe\",\"object\":\"response\",\"created_at\":1754419687,\"status\":\"in_progress\",\"background\":false,\"error\":null,\"incomplete_details\":null,\"instructions\":\"Talk
+        with a Boston accent.\",\"max_output_tokens\":50,\"max_tool_calls\":null,\"model\":\"gpt-4.1-2025-04-14\",\"output\":[],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"prompt_cache_key\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"safety_identifier\":null,\"service_tier\":\"auto\",\"store\":false,\"temperature\":0.1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_logprobs\":0,\"top_p\":1.0,\"truncation\":\"disabled\",\"usage\":null,\"user\":null,\"metadata\":{}}}\n\nevent:
+        response.output_item.added\ndata: {\"type\":\"response.output_item.added\",\"sequence_number\":2,\"output_index\":0,\"item\":{\"id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"type\":\"message\",\"status\":\"in_progress\",\"content\":[],\"role\":\"assistant\"}}\n\nevent:
+        response.content_part.added\ndata: {\"type\":\"response.content_part.added\",\"sequence_number\":3,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"part\":{\"type\":\"output_text\",\"annotations\":[],\"logprobs\":[],\"text\":\"\"}}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":4,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"Alright\",\"logprobs\":[],\"obfuscation\":\"KpJnWOSc6\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":5,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\",\",\"logprobs\":[],\"obfuscation\":\"D9NxDlCu0NRwves\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":6,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        I\",\"logprobs\":[],\"obfuscation\":\"MCipgHjbOwrGIi\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":7,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        hea\",\"logprobs\":[],\"obfuscation\":\"utPqG3OZqZOM\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":8,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        ya\",\"logprobs\":[],\"obfuscation\":\"EiNfGz4IivcHZ\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":9,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        loud\",\"logprobs\":[],\"obfuscation\":\"XQ0QbJdxQok\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":10,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        and\",\"logprobs\":[],\"obfuscation\":\"Crm43UH8TVic\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":11,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        clear\",\"logprobs\":[],\"obfuscation\":\"TkuCCxZGJa\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":12,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"!\",\"logprobs\":[],\"obfuscation\":\"AnRjZ5is7P5NhC9\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":13,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        No\",\"logprobs\":[],\"obfuscation\":\"SBpks1rh0pLh4\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":14,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        more\",\"logprobs\":[],\"obfuscation\":\"pLVbFjS9zBg\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":15,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        Evan\",\"logprobs\":[],\"obfuscation\":\"2fMYY1uOnmB\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":16,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        Li\",\"logprobs\":[],\"obfuscation\":\"nDWbbrlVvLW4s\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":17,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        sl\",\"logprobs\":[],\"obfuscation\":\"ehXWUXkP1GVI1\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":18,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"and\",\"logprobs\":[],\"obfuscation\":\"ThmdgODQNAOlw\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":19,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"ah\",\"logprobs\":[],\"obfuscation\":\"ROXFUSMM3Fishy\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":20,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\",\",\"logprobs\":[],\"obfuscation\":\"BZsMqCnkAXraw3n\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":21,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        I\",\"logprobs\":[],\"obfuscation\":\"R4ic8BcALwJTlz\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":22,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        promise\",\"logprobs\":[],\"obfuscation\":\"LvYJerZN\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":23,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\".\",\"logprobs\":[],\"obfuscation\":\"MVhYoolgjTXUXia\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":24,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        We\",\"logprobs\":[],\"obfuscation\":\"G3YzJdQKhvV6D\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":25,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"\u2019ll\",\"logprobs\":[],\"obfuscation\":\"f0mNHISG1siAC\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":26,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        keep\",\"logprobs\":[],\"obfuscation\":\"eKAHTVcEJO8\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":27,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        it\",\"logprobs\":[],\"obfuscation\":\"qevnt0JXUyvmk\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":28,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        wicked\",\"logprobs\":[],\"obfuscation\":\"txQL02YkG\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":29,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        respectful\",\"logprobs\":[],\"obfuscation\":\"jHFfc\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":30,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        from\",\"logprobs\":[],\"obfuscation\":\"HtTdD9RZ1k1\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":31,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        now\",\"logprobs\":[],\"obfuscation\":\"o6SIsWZNSB93\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":32,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        on\",\"logprobs\":[],\"obfuscation\":\"bXjTcEf2yZrFS\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":33,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\",\",\"logprobs\":[],\"obfuscation\":\"y6k1qSltmParOHA\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":34,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        kid\",\"logprobs\":[],\"obfuscation\":\"7DV3qt223ABR\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":35,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\".\",\"logprobs\":[],\"obfuscation\":\"ACWZfCk8Ty28PRP\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":36,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        If\",\"logprobs\":[],\"obfuscation\":\"0BnlFJXTHHKIE\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":37,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        ya\",\"logprobs\":[],\"obfuscation\":\"9jeI3NS5RMZGa\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":38,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        got\",\"logprobs\":[],\"obfuscation\":\"zyK4pBB2eN8G\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":39,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        any\",\"logprobs\":[],\"obfuscation\":\"V9NQOW4hSD3E\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":40,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"thin\",\"logprobs\":[],\"obfuscation\":\"jfjluDLY7KsQ\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":41,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"\u2019\",\"logprobs\":[],\"obfuscation\":\"LFgayzp6rvIrwnH\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":42,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        else\",\"logprobs\":[],\"obfuscation\":\"47XLUwXiYYW\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":43,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        ya\",\"logprobs\":[],\"obfuscation\":\"fmxVuftZj6s7f\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":44,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        wanna\",\"logprobs\":[],\"obfuscation\":\"TAiYWEPjm5\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":45,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        chat\",\"logprobs\":[],\"obfuscation\":\"e1tvpAdYHbU\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":46,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        about\",\"logprobs\":[],\"obfuscation\":\"QkWuQbp8IZ\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":47,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"\u2014\",\"logprobs\":[],\"obfuscation\":\"MV6lGo9ptE9emNd\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":48,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"sports\",\"logprobs\":[],\"obfuscation\":\"RIgCkBPSFc\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":49,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\",\",\"logprobs\":[],\"obfuscation\":\"4y9O4ZbmQw8vjOj\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":50,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        chow\",\"logprobs\":[],\"obfuscation\":\"wCIuW35bkN5\"}\n\nevent: response.output_text.delta\ndata:
+        {\"type\":\"response.output_text.delta\",\"sequence_number\":51,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"d\",\"logprobs\":[],\"obfuscation\":\"MuGQu681gQMP1Yd\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":52,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"ah\",\"logprobs\":[],\"obfuscation\":\"p5xYKpRIkymRvx\"}\n\nevent:
+        response.output_text.delta\ndata: {\"type\":\"response.output_text.delta\",\"sequence_number\":53,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"delta\":\"
+        recipes\",\"logprobs\":[],\"obfuscation\":\"mEdc07zJ\"}\n\nevent: response.output_text.done\ndata:
+        {\"type\":\"response.output_text.done\",\"sequence_number\":54,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"text\":\"Alright,
+        I hea ya loud and clear! No more Evan Li slandah, I promise. We\u2019ll keep
+        it wicked respectful from now on, kid. If ya got anythin\u2019 else ya wanna
+        chat about\u2014sports, chowdah recipes\",\"logprobs\":[]}\n\nevent: response.content_part.done\ndata:
+        {\"type\":\"response.content_part.done\",\"sequence_number\":55,\"item_id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"output_index\":0,\"content_index\":0,\"part\":{\"type\":\"output_text\",\"annotations\":[],\"logprobs\":[],\"text\":\"Alright,
+        I hea ya loud and clear! No more Evan Li slandah, I promise. We\u2019ll keep
+        it wicked respectful from now on, kid. If ya got anythin\u2019 else ya wanna
+        chat about\u2014sports, chowdah recipes\"}}\n\nevent: response.output_item.done\ndata:
+        {\"type\":\"response.output_item.done\",\"sequence_number\":56,\"output_index\":0,\"item\":{\"id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"type\":\"message\",\"status\":\"incomplete\",\"content\":[{\"type\":\"output_text\",\"annotations\":[],\"logprobs\":[],\"text\":\"Alright,
+        I hea ya loud and clear! No more Evan Li slandah, I promise. We\u2019ll keep
+        it wicked respectful from now on, kid. If ya got anythin\u2019 else ya wanna
+        chat about\u2014sports, chowdah recipes\"}],\"role\":\"assistant\"}}\n\nevent:
+        response.incomplete\ndata: {\"type\":\"response.incomplete\",\"sequence_number\":57,\"response\":{\"id\":\"resp_689251e793848191baf391f99e69bb6a0b0e69a67e73cbbe\",\"object\":\"response\",\"created_at\":1754419687,\"status\":\"incomplete\",\"background\":false,\"error\":null,\"incomplete_details\":{\"reason\":\"max_output_tokens\"},\"instructions\":\"Talk
+        with a Boston accent.\",\"max_output_tokens\":50,\"max_tool_calls\":null,\"model\":\"gpt-4.1-2025-04-14\",\"output\":[{\"id\":\"msg_689251e81bdc81919fd7fa940e9281380b0e69a67e73cbbe\",\"type\":\"message\",\"status\":\"incomplete\",\"content\":[{\"type\":\"output_text\",\"annotations\":[],\"logprobs\":[],\"text\":\"Alright,
+        I hea ya loud and clear! No more Evan Li slandah, I promise. We\u2019ll keep
+        it wicked respectful from now on, kid. If ya got anythin\u2019 else ya wanna
+        chat about\u2014sports, chowdah recipes\"}],\"role\":\"assistant\"}],\"parallel_tool_calls\":true,\"previous_response_id\":null,\"prompt_cache_key\":null,\"reasoning\":{\"effort\":null,\"summary\":null},\"safety_identifier\":null,\"service_tier\":\"default\",\"store\":false,\"temperature\":0.1,\"text\":{\"format\":{\"type\":\"text\"}},\"tool_choice\":\"auto\",\"tools\":[],\"top_logprobs\":0,\"top_p\":1.0,\"truncation\":\"disabled\",\"usage\":{\"input_tokens\":0,\"input_tokens_details\":{\"cached_tokens\":0},\"output_tokens\":0,\"output_tokens_details\":{\"reasoning_tokens\":0},\"total_tokens\":0},\"user\":null,\"metadata\":{}}}\n\n"
+    headers:
+      CF-RAY:
+      - 96a87786684f42b1-EWR
+      Connection:
+      - keep-alive
+      Content-Type:
+      - text/event-stream; charset=utf-8
+      Date:
+      - Tue, 05 Aug 2025 18:48:07 GMT
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - __cf_bm=X7aCJ9IcoG814dO5azP8KZ35o02C9Vu1wi2EZNiDY_I-1754419687-1.0.1.1-ieN11iL_aKOVTAJSLcWFuPZcF78pnfm4VfwKlWsUbxGNTwMEz3qxiIBrj3pDxhHwsJuq5w4vYIlm5KaxyA6ljNw6O3tBI2Wb3cXaB7figG8;
+        path=/; expires=Tue, 05-Aug-25 19:18:07 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=_jA3WpWhFTUosOBO8QF.SFE_2h0L2mXCyzKOIaZvzs8-1754419687676-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      openai-organization:
+      - datadog-staging
+      openai-processing-ms:
+      - '108'
+      openai-project:
+      - proj_gt6TQZPRbZfoY2J9AQlEJMpd
+      openai-version:
+      - '2020-10-01'
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      x-request-id:
+      - req_d1b308ab37c36ef111313110663c8c3f
+    status:
+      code: 200
+      message: OK
+version: 1

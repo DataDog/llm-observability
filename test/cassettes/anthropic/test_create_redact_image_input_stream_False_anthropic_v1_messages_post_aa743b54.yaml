@@ -1,0 +1,133 @@
+interactions:
+- request:
+    body: '{"max_tokens":100,"messages":[{"role":"user","content":[{"type":"text","text":"What
+      is this image?"},{"type":"image","source":{"type":"url","url":"https://tinyurl.com/yxbpd5p8"}}]}],"model":"claude-3-7-sonnet-20250219","temperature":0.5}'
+    headers:
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - Accept-Encoding
+      : - gzip, deflate
+      ? !!python/object/apply:multidict._multidict.istr
+      - Connection
+      : - keep-alive
+      Content-Length:
+      - '237'
+      ? !!python/object/apply:multidict._multidict.istr
+      - Content-Type
+      : - application/json
+      ? !!python/object/apply:multidict._multidict.istr
+      - User-Agent
+      : - Anthropic/Python 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Arch
+      : - arm64
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Async
+      : - 'false'
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Lang
+      : - python
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-OS
+      : - Linux
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Package-Version
+      : - 0.63.0
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime
+      : - CPython
+      ? !!python/object/apply:multidict._multidict.istr
+      - X-Stainless-Runtime-Version
+      : - 3.12.10
+      ? !!python/object/apply:multidict._multidict.istr
+      - anthropic-version
+      : - '2023-06-01'
+      ? !!python/object/apply:multidict._multidict.istr
+      - traceparent
+      : - 00-689ddf0c00000000a351f3b893fe0e86-13a45929f934987f-01
+      ? !!python/object/apply:multidict._multidict.istr
+      - tracestate
+      : - dd=p:13a45929f934987f;s:1;t.dm:-0;t.llmobs_parent_id:6413314298188777078;t.llmobs_trace_id:139059426096500783217296442010087190728;t.tid:689ddf0c00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-parent-id
+      : - '1415354219710683263'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-sampling-priority
+      : - '1'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-tags
+      : - _dd.p.llmobs_parent_id=6413314298188777078,_dd.p.llmobs_trace_id=139059426096500783217296442010087190728,_dd.p.dm=-0,_dd.p.tid=689ddf0c00000000
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-datadog-trace-id
+      : - '11768455275378249350'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-read-timeout
+      : - '600'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-retry-count
+      : - '0'
+      ? !!python/object/apply:multidict._multidict.istr
+      - x-stainless-timeout
+      : - '600'
+    method: POST
+    uri: https://api.anthropic.com/v1/messages
+  response:
+    body:
+      string: '{"id":"msg_01KN4dzTjJNudA5YuA3h4hdK","type":"message","role":"assistant","model":"claude-3-7-sonnet-20250219","content":[{"type":"text","text":"This
+        is an image of an orange tabby cat resting on a wooden floor. The cat has
+        distinctive orange and cream striped fur with white markings, particularly
+        around its face. It appears to be relaxed with its eyes closed, in a typical
+        loaf position where its paws are tucked underneath its body. The cat has pointed
+        ears and whiskers visible against its peaceful expression. The warm tones
+        of the cat''s fur contrast nicely with the cooler tones of the wooden"}],"stop_reason":"max_tokens","stop_sequence":null,"usage":{"input_tokens":1551,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":100,"service_tier":"standard"}}'
+    headers:
+      CF-RAY:
+      - 96f0a9b108157ffd-IAD
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 14 Aug 2025 13:05:22 GMT
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      X-Robots-Tag:
+      - none
+      anthropic-organization-id:
+      - 4257e925-ee99-4ee8-9c62-8e53716d5203
+      anthropic-ratelimit-input-tokens-limit:
+      - '8000000'
+      anthropic-ratelimit-input-tokens-remaining:
+      - '8000000'
+      anthropic-ratelimit-input-tokens-reset:
+      - '2025-08-14T13:05:20Z'
+      anthropic-ratelimit-output-tokens-limit:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-remaining:
+      - '1200000'
+      anthropic-ratelimit-output-tokens-reset:
+      - '2025-08-14T13:05:22Z'
+      anthropic-ratelimit-tokens-limit:
+      - '9200000'
+      anthropic-ratelimit-tokens-remaining:
+      - '9200000'
+      anthropic-ratelimit-tokens-reset:
+      - '2025-08-14T13:05:20Z'
+      cf-cache-status:
+      - DYNAMIC
+      request-id:
+      - req_011CS7eh9h5zcf8wE6F3bGDs
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      via:
+      - 1.1 google
+    status:
+      code: 200
+      message: OK
+version: 1

@@ -1,3 +1,4 @@
 .env
 myenv/
 .ipynb_checkpoints/
+.venv/
