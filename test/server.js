@@ -21,13 +21,6 @@ const client = new OpenAI({
   baseURL: getProxyUrl('openai')
 });
 
-// VertexAI
-const { VertexAI } = require('@google-cloud/vertexai');
-const vertexai = new VertexAI({
-  project: 'datadog-sandbox',
-  location: 'us-central1',
-});
-
 // Google GenAI
 const { GoogleGenAI } = require('@google/genai');
 const genai = new GoogleGenAI({
@@ -196,111 +189,6 @@ app.post('/openai/responses/create', async (req, res) => {
   }
 });
 
-app.post('/vertexai/completion', async (req, res) => {
-  try {
-    const { system_instructions, prompt, parameters } = req.body;
-
-    const { generation_config, stream } = parameters;
-
-    const vertexModel = vertexai.getGenerativeModel({
-      model: 'gemini-1.5-flash-002',
-      systemInstructions: system_instructions,
-      generationConfig: normalizeSnakeCaseConfigToCamelCase(generation_config),
-    });
-
-    const throwError = !!parameters.candidate_count;
-    const request = throwError ? { contents: prompt } : getVertexAIGenerateContentRequest(prompt); // trigger an error
-
-    let tools, toolsConfig;
-    if (req.body.tools) {
-      const tool = req.body.tools[0].function_declarations[0];
-      tools = [{
-        function_declarations: {
-          name: tool.name,
-          description: tool.description,
-          parameters: tool.parameters
-        }
-      }];
-
-      toolsConfig = {
-        functionCallingConfig: {
-          mode: 'ANY',
-          allowedFunctionNames: [tool.name],
-        }
-      };
-
-      request.tools = tools;
-      request.toolsConfig = toolsConfig;
-    }
-
-    if (stream) {
-      const streamingResult = await vertexModel.generateContentStream(request);
-      for await (const _ of streamingResult.stream) {} // consume the stream
-      const response = await streamingResult.response;
-      res.json({ response });
-    } else {
-      const response = await vertexModel.generateContent(request);
-      res.json({ response });
-    }
-
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: e.message });
-  }
-});
-
-app.post("/vertexai/chat_completion", async (req, res) => {
-  try {
-    const { system_instructions, prompt, parameters } = req.body;
-
-    const { generation_config, stream } = parameters;
-
-    const vertexModel = vertexai.getGenerativeModel({
-      model: 'gemini-1.5-flash-002',
-      systemInstructions: system_instructions,
-      generationConfig: normalizeSnakeCaseConfigToCamelCase(generation_config),
-    });
-
-    const throwError = !!parameters.candidate_count;
-    const request = throwError ? { contents: prompt } : prompt; // trigger an error
-
-    let chatConfig = {};
-    if (req.body.tools) {
-      const tool = req.body.tools[0].function_declarations[0];
-      chatConfig.tools = [{
-        function_declarations: {
-          name: tool.name,
-          description: tool.description,
-          parameters: tool.parameters
-        }
-      }];
-
-      chatConfig.toolsConfig = {
-        functionCallingConfig: {
-          mode: 'ANY',
-          allowedFunctionNames: [tool.name],
-        }
-      };
-    }
-
-    const chat = vertexModel.startChat(chatConfig);
-
-    if (stream) {
-      const streamingResult = await chat.sendMessageStream(request);
-      for await (const _ of streamingResult.stream) {} // consume the stream
-      const response = await streamingResult.response;
-      res.json({ response });
-    } else {
-      const response = await chat.sendMessage(request);
-      res.json({ response });
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: e.message });
-  }
-})
-
-// TODO(sabrenner): normalize any configs to change snake_case to camelCase
 app.post("/genai/generate_content", async (req, res) => {
   try {
     const { model, contents, config = {} } = req.body;
@@ -467,16 +355,6 @@ function applyAnnotations (span, annotations, annotateAfter = false) {
 
     llmobs.annotate(...args);
   }
-}
-
-function getVertexAIGenerateContentRequest (prompt) {
-  if (!Array.isArray(prompt)) {
-    prompt = [prompt];
-  }
-
-  return {
-    contents: prompt.map(text => ({ role: 'user', parts: [{ text }] }))
-  };
 }
 
 function normalizeSnakeCaseConfigToCamelCase (generationConfig) {

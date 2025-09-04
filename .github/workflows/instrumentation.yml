@@ -18,18 +18,13 @@ jobs:
     tests:
       strategy:
         matrix:
-          test: [sdk, openai, vertexai, genai, anthropic]
+          test: [sdk, openai, genai, anthropic]
           language: [python, nodejs, java]
       runs-on: ubuntu-latest
-      env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        GOOGLE_APPLICATION_CREDENTIALS: ./google_service_account_info.json
       steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-python@v5
           with:
             python-version: '3.12'
         - run: pip install -r test/requirements.txt
-        - run: echo '${{ secrets.GOOGLE_SERVICE_ACCOUNT_INFO }}' > google_service_account_info.json
         - run: TEST_LIBS=${{ matrix.language }} pytest test/test_${{ matrix.test }}.py
-        - run: rm -f ./google_service_account_info.json

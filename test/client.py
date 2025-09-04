@@ -182,56 +182,6 @@ class InstrumentationClient:
         resp.raise_for_status()
         return resp.json()
 
-    def vertexai_completion(
-        self,
-        prompt: any,
-        parameters: dict = None,
-        system_instruction: str = None,
-        asynchronous: bool = None,
-        tools: list = None,
-        tool_config: dict = None,
-    ):
-        url = (
-            "/vertexai/completion" if not asynchronous else "/vertexai/completion_async"
-        )
-        resp = self._session.post(
-            self._url(url),
-            json={
-                "prompt": prompt,
-                "parameters": parameters,
-                "system_instruction": system_instruction,
-                "tools": tools,
-                "tool_config": tool_config,
-            },
-        )
-        resp.raise_for_status()
-
-    def vertexai_chat_completion(
-        self,
-        prompt: any,
-        parameters: dict = None,
-        system_instruction: str = None,
-        asynchronous: str = None,
-        tools: list = None,
-        tool_config: dict = None,
-    ):
-        url = (
-            "/vertexai/chat_completion"
-            if not asynchronous
-            else "/vertexai/chat_completion_async"
-        )
-        resp = self._session.post(
-            self._url(url),
-            json={
-                "prompt": prompt,
-                "parameters": parameters,
-                "system_instruction": system_instruction,
-                "tools": tools,
-                "tool_config": tool_config,
-            },
-        )
-        resp.raise_for_status()
-
     def genai_generate_content(
         self,
         model: str,

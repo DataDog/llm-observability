@@ -5,7 +5,6 @@ RUN yarn add express
 
 # Add tested libraries
 RUN yarn add openai
-RUN yarn add @google-cloud/vertexai
 RUN yarn add @google/genai
 RUN yarn add @anthropic-ai/sdk
 

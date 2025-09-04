@@ -21,19 +21,6 @@ ln -s /path/to/dd-trace-py test/dd-trace-py
 ln -s /path/to/dd-trace-js test/dd-trace-js
 ```
 
-### Setting up Authentication for Google 
-
-Google uses Application Default Credentials to authenticate services such as Vertex AI. This makes running these tests locally a bit more complicated than simply providing an API key as we do for Open AI. To get authentication working locally, complete the following steps.
-
-1. Log into the Datadog Sandbox project on the Google Cloud console.
-2. Navigate to the IAM & Admin section.
-3. Click on Service Accounts.
-4. Search for and select the `llmobs-test` service account.
-5. Navigate to the Keys tab, click Add Key, and download the key file. 
-6. Create a new environment variable `GOOGLE_APPLICATION_CREDENTIALS` which specifies the path to this key file. Ensure that this file is in your local directory (e.g. /test) since this is what will be mounted to the docker container running the server. This will be used by the server to authenticate to Google services using the service account information.
-
-Note: currently the llmobs-test service account only has permissions to access Vertex AI resources. New roles can be added to the service account under IAM in the IAM & Admin section of the Google Cloud console.
-
 ## Format/Lint
 
 ```bash

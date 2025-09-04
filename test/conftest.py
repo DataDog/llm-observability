@@ -414,9 +414,6 @@ def test_client(
         "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY"),
         "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY"),
         "ANTHROPIC_API_KEY": os.environ.get("ANTHROPIC_API_KEY"),
-        "GOOGLE_APPLICATION_CREDENTIALS": os.path.join(
-            "/app", os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "")
-        ),
         "PROXY_LLM_SERVER_URL": f"{dd_trace_agent_url}/vcr",
     }
 

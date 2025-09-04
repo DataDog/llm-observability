@@ -14,13 +14,6 @@ from fastapi import Request  # noqa: E402
 from pydantic import BaseModel  # noqa: E402
 
 import openai  # noqa: E402
-import vertexai  # noqa: E402
-from vertexai.generative_models import (  # noqa: E402
-    GenerativeModel,
-    Tool,
-    FunctionDeclaration,
-    ToolConfig,
-)
 
 from google import genai  # noqa: E402
 
@@ -45,8 +38,6 @@ def get_proxy_url(provider):
 spans = {}
 oaiClient = openai.OpenAI(base_url=get_proxy_url("openai"))
 PROJECT_ID = "datadog-sandbox"
-vertexai.init(project=PROJECT_ID, location="us-central1")
-vertexModel = GenerativeModel("gemini-1.5-flash-002")
 genaiClient = genai.Client(http_options={"base_url": get_proxy_url("genai")})
 anthropicClient = anthropic.Anthropic(base_url=get_proxy_url("anthropic"))
 
@@ -360,108 +351,6 @@ def openai_responses_create(req: ResponsesCreateRequest):
             pass
 
     return {"response": response}
-
-
-@app.post("/vertexai/completion")
-def vertexai_completion(req: CompletionRequest):
-    tools = None
-    tool_config = None
-    if req.tools:
-        tool = req.tools[0]["function_declarations"][0]
-        tools = [
-            Tool(
-                function_declarations=[
-                    FunctionDeclaration(
-                        name=tool["name"],
-                        description=tool["description"],
-                        parameters=tool["parameters"],
-                    )
-                ]
-            )
-        ]
-        tool_config = ToolConfig(
-            function_calling_config=ToolConfig.FunctionCallingConfig(
-                mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
-                allowed_function_names=[tool["name"]],
-            )
-        )
-    vertexModel = GenerativeModel(
-        "gemini-1.5-flash-002",
-        system_instruction=req.system_instruction,
-        tools=tools,
-        tool_config=tool_config,
-    )
-    resp = vertexModel.generate_content(req.prompt, **req.parameters)
-    # consume streamed response
-    if req.parameters and req.parameters.get("stream", None):
-        for _ in resp:
-            pass
-    return {}
-
-
-@app.post("/vertexai/completion_async")
-async def vertexai_completion_async(req: CompletionRequest):
-    vertexModel = GenerativeModel(
-        "gemini-1.5-flash-002", system_instruction=req.system_instruction
-    )
-    resp = await vertexModel.generate_content_async(req.prompt, **req.parameters)
-    # consume streamed response
-    if req.parameters and req.parameters.get("stream", None):
-        async for _ in resp:
-            pass
-    return {}
-
-
-@app.post("/vertexai/chat_completion")
-def vertexai_chat_completion(req: CompletionRequest):
-    tools = None
-    tool_config = None
-    if req.tools:
-        tool = req.tools[0]["function_declarations"][0]
-        tools = [
-            Tool(
-                function_declarations=[
-                    FunctionDeclaration(
-                        name=tool["name"],
-                        description=tool["description"],
-                        parameters=tool["parameters"],
-                    )
-                ]
-            )
-        ]
-        tool_config = ToolConfig(
-            function_calling_config=ToolConfig.FunctionCallingConfig(
-                mode=ToolConfig.FunctionCallingConfig.Mode.ANY,
-                allowed_function_names=[tool["name"]],
-            )
-        )
-    vertexModel = GenerativeModel(
-        "gemini-1.5-flash-002",
-        system_instruction=req.system_instruction,
-        tools=tools,
-        tool_config=tool_config,
-    )
-    chat = vertexModel.start_chat()
-    resp = chat.send_message(req.prompt, **req.parameters)
-    # consume streamed response
-    if req.parameters and req.parameters.get("stream", None):
-        for _ in resp:
-            pass
-    return {}
-
-
-@app.post("/vertexai/chat_completion_async")
-async def vertexai_chat_completion_async(req: CompletionRequest):
-    vertexModel = GenerativeModel(
-        "gemini-1.5-flash-002", system_instruction=req.system_instruction
-    )
-    chat = vertexModel.start_chat()
-    resp = await chat.send_message_async(req.prompt, **req.parameters)
-    # consume streamed response
-    if req.parameters and req.parameters.get("stream", None):
-        async for _ in resp:
-            pass
-    return {}
 
 
 @app.post("/genai/generate_content")
