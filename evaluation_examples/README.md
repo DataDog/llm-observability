@@ -47,6 +47,8 @@ pip install -r requirements.txt
 
 **[This python file](./1-tool-selection-demo.py)** contains an application using the OpenAI Agents sdk instrumented with LLM Observability that has been flagged by the tool selection evaluation for a tool selection error.
 
+Run `python 1-tool-selection-demo.py`. After initially running the demo app, traces should appear in the traces page. To enable the Tool Selection evaluation follow the instructions [here][https://docs.datadoghq.com/llm_observability/evaluations/managed_evaluations/agent_evaluations#tool-selection] and ensure the sampling rate is **100%** and it is configured for **All Spans** and select each span name. Once the evaluation is enabled, run `python 1-tool-selection-demo.py` again and see the result in the evaluations page for that particular trace. 
+
 ### 2. Tool Argument Correctness Demo
 
 **[This python file](./2-tool-argument-correctness-demo.py)** contains an application using pydantic_ai instrumented with LLM Observability that has been flagged by the tool argument correctness evaluation for a tool argument correctness error.
