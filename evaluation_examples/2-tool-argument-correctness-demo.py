@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LLMObs.enable(
+    # feel free to change the ml_app name to any custom name
     ml_app="tool_argument_correctness_demo",
     api_key=os.environ["DD_API_KEY"],
     site=os.environ["DD_SITE"],
