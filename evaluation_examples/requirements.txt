@@ -1,0 +1,3 @@
+ddtrace
+pydantic-ai
+openai-agents
