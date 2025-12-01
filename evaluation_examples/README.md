@@ -1,6 +1,6 @@
 # LLM Observability Jupyter Notebooks
 
-These demos provide examples of apps correctly instrumented for LLM Observability that have triggered evaluations in the past. For detailed information about each of the managed evaluations LLM Observability provides read more [here][https://docs.datadoghq.com/llm_observability/evaluations/managed_evaluations?tab=openai]
+These demos provide examples of apps correctly instrumented for LLM Observability that have triggered evaluations in the past. For detailed information about each of the managed evaluations LLM Observability provides read more [here](https://docs.datadoghq.com/llm_observability/evaluations/managed_evaluations?tab=openai)
 
 ## Prerequisites
 
