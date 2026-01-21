@@ -1,5 +1,5 @@
 ---
-name: experiment-analzyer
+name: experiment-analyzer
 description: Analyze LLM experiment results. Use when user says "analyze experiment", "experiment analysis", "evaluate experiment", "check experiment metrics", or provides an experiment ID for analysis. Requires experiment_id as argument.
 ---
 
