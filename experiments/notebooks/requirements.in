@@ -3,4 +3,4 @@ openai==1.63.0
 python-dotenv==1.0.1
 notebook==7.4.7
 typing_extensions==4.12.2
-ddtrace>=3.15.0
+ddtrace>=4.2.0
