@@ -40,6 +40,12 @@ class ClassificationEvaluationResult(BaseModel):
             indent=3
         )
 
+
+class OptimizationResult(BaseModel):
+    """Pydantic model for optimization results."""
+    prompt: str
+
+
 def classification_task_function(input_data, config):
     """Call GPT-4o mini to predict if conversation is incomplete."""
     client = OpenAI()
@@ -84,19 +90,16 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
     """
     client = OpenAI()
 
-    response = client.chat.completions.create(
+    response = client.chat.completions.parse(
         model=OPTIMIZATION_MODEL_NAME,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        response_format={"type": "json_object"},
+        response_format=OptimizationResult,
     )
 
-    content = response.choices[0].message.content
-    new_prompt = json.loads(content)["prompt"]
-
-    return new_prompt
+    return response.choices[0].message.parsed.prompt
 
 
 def classification_evaluator_function(input_data, output_data, expected_output):
@@ -189,7 +192,6 @@ def main():
         config={
             "prompt": INITIAL_PROMPT,
             "model_name": EVALUATION_MODEL_NAME,
-            "optimization_model_name": OPTIMIZATION_MODEL_NAME,
             "evaluation_output_format": ClassificationEvaluationResult.output_format(),
         }
     )

@@ -39,6 +39,10 @@ class BooleanEvaluationResult(BaseModel):
             indent=3
         )
 
+class OptimizationResult(BaseModel):
+    """Pydantic model for optimization results."""
+    prompt: str
+
 
 def boolean_task_function(input_data, config):
     """Call the model to make the prediction"""
@@ -84,19 +88,16 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
     """
     client = OpenAI()
 
-    response = client.chat.completions.create(
+    response = client.chat.completions.parse(
         model=OPTIMIZATION_MODEL_NAME,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-        response_format={"type": "json_object"},
+        response_format=OptimizationResult,
     )
 
-    content = response.choices[0].message.content
-    new_prompt = json.loads(content)["prompt"]
-
-    return new_prompt
+    return response.choices[0].message.parsed.prompt
 
 
 def boolean_evaluator_function(input_data, output_data, expected_output):
@@ -256,16 +257,16 @@ def main():
         task=boolean_task_function,
         optimization_task=optimization_task_function,
         evaluators=[boolean_evaluator_function],
-        labelization_function=labelization_function,
         compute_score=compute_score,
         summary_evaluators=[boolean_summary_evaluator],
+        labelization_function=labelization_function,
         stopping_condition=stopping_condition,
         max_iterations=MAX_ITERATION,
         config={
+            # Mandatory
             "prompt": INITIAL_PROMPT,
             # Optionals
             "model_name": EVALUATION_MODEL_NAME,
-            "optimization_model_name": OPTIMIZATION_MODEL_NAME,
             "evaluation_output_format": BooleanEvaluationResult.output_format(),
             "runs": 1,
         }
