@@ -142,8 +142,6 @@ def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
 
     return {"accuracy": good_predictions / len(outputs)}
 
-def is_correct(output, expected_output):
-    return expected_output in output
 
 def best_iteration_computation(summary_evaluators) -> float:
     """Compute score for iteration based on precision and accuracy.

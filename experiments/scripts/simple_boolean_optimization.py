@@ -195,42 +195,14 @@ def boolean_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
     }
 
 
-def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
-    """Calculate accuracy"""
-    good_predictions = 0
-    for i, prediction in enumerate(outputs):
-        pred_value = prediction.value if hasattr(prediction, 'value') else prediction
-        expected_value = expected_outputs[i]
-
-        if is_correct(pred_value, expected_value):
-            good_predictions += 1
-
-    return {"accuracy": good_predictions / len(outputs)}
-
-
 def compute_score(summary_evaluators) -> float:
+    # Implementing F1-Score
     precision = summary_evaluators['boolean_summary_evaluator']['value']['precision']
-    accuracy = summary_evaluators['boolean_summary_evaluator']['value']['accuracy']
-    return precision + accuracy
+    recall = summary_evaluators['boolean_summary_evaluator']['value']['recall']
+    return 2 * (precision * recall) / (precision + recall)
 
 
 def stopping_condition(summary_evaluators) -> bool:
-    """
-    [
-        {
-            "boolean_summary_evaluator": {
-                "value": {
-                    "accuracy": 0.3
-                    "precision": 0.5
-                    "recall": 0.2
-                    "fpr": 0.8
-                },
-                "error": "None"
-            }
-        }
-    ]
-    """
-
     precision_condition = summary_evaluators['boolean_summary_evaluator']['value']['precision'] >= 0.9
     accuracy_condition = summary_evaluators['boolean_summary_evaluator']['value']['accuracy'] >= 0.8
 
