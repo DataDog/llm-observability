@@ -21,7 +21,7 @@ OPTIMIZATION_MODEL_NAME = "o3-mini"
 # Dataset variables
 PROJECT_NAME = "PromptOptimization"
 DATASET_NAME = "suggest_action"
-INITIAL_PROMPT = "Predict if one of this class will be in the output: 'RESOLVE', 'IGNORE', 'ASSIGN', 'TICKET', 'CODE_FIX', 'SCALE UP', 'CONFIG_CHANGE'"
+INITIAL_PROMPT = "Predict if one of these actions will be in the output: 'RESOLVE', 'IGNORE', 'ASSIGN', 'TICKET', 'CODE_FIX', 'SCALE UP', 'CONFIG_CHANGE'"
 
 
 class ClassificationEvaluationResult(BaseModel):
@@ -86,7 +86,7 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
         model: Model name to use for optimization
 
     Returns:
-        dict: Contains "new_prompt" and "reasoning" keys
+        str: the optimized prompt
     """
     client = OpenAI()
 
@@ -111,7 +111,7 @@ def classification_evaluator_function(input_data, output_data, expected_output):
         expected_output: Expected boolean value
 
     Returns:
-        str: Classification label (true_positive, false_positive, etc.)
+        bool: whether the evaluation result is in the expected output
     """
     return output_data.value in expected_output
 
@@ -150,14 +150,13 @@ def best_iteration_computation(summary_evaluators) -> float:
 
     Returns sum of precision and accuracy (max score = 2.0).
     """
-    accuracy = summary_evaluators['accuracy_summary_evaluator']['value']['accuracy']
-    return accuracy
+    return summary_evaluators['accuracy_summary_evaluator']['value']['accuracy']
 
 
 def stopping_condition(summary_evaluators) -> bool:
     """Check if optimization should stop.
 
-    Stops when both precision >= 0.9 and accuracy >= 0.8.
+    Stops when accuracy >= 0.95.
     """
     # For accuracy_summary_evaluator
     accuracy = summary_evaluators['accuracy_summary_evaluator']['value']['accuracy']

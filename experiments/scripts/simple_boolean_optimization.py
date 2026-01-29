@@ -84,7 +84,7 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
         model: Model name to use for optimization
 
     Returns:
-        dict: Contains "new_prompt" and "reasoning" keys
+        str: the optimized prompt
     """
     client = OpenAI()
 
