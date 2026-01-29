@@ -1,3 +1,78 @@
+"""Automated Prompt Optimization for Hallucination Detection (Boolean Classification).
+
+CONTEXT AND USE CASE
+====================
+
+You have production LLM traffic (e.g., a chatbot, Q&A system, or AI assistant) and you want
+to deploy an automated evaluation system that detects hallucinations in the model's responses.
+
+WORKFLOW
+========
+
+1. **Data Collection**: Capture representative samples of your LLM's inputs and outputs from
+   production traffic
+
+2. **Manual Annotation**: Create a golden dataset by manually reviewing examples and labeling
+   them as hallucination (True) or not hallucination (False). This is your ground truth.
+
+3. **Dataset Upload**: Upload your annotated dataset to Datadog LLM Observability using
+   `LLMObs.create_dataset()` or the UI.
+
+4. **Run This Script**: Execute this prompt optimization script to automatically:
+   - Test your initial detection prompt on the golden dataset
+   - Analyze successes and failures
+   - Iteratively improve the prompt using an LLM reasoning model
+   - Track performance metrics (precision, recall, accuracy, FPR)
+   - Stop when target metrics are achieved
+
+5. **Deploy**: Once optimized, deploy the best performing prompt to production for
+   automated hallucination detection on live traffic.
+
+WHAT THIS SCRIPT DOES
+=====================
+
+This script uses Datadog's Prompt Optimization framework to:
+- Load your annotated hallucination dataset
+- Define a boolean classification task (hallucination: yes/no)
+- Run experiments with different prompt variations
+- Use AI-powered optimization (metaprompting) to improve the prompt
+- Track metrics across iterations (F1-score, precision, recall)
+- Output the best performing prompt for production use
+
+REQUIREMENTS
+============
+
+- OpenAI API key (for running the evaluation model and optimization model)
+- Datadog API key and App key (for LLM Observability)
+- An uploaded dataset with boolean labels
+
+EXAMPLE DATASET FORMAT
+======================
+
+Record structure:
+{
+    "input_data": [
+        {"role": "user", "content": "What's the capital of France?"},
+        {"role": "assistant", "content": "The capital of France is Berlin."}
+    ],
+    "expected_output": true  # true = hallucination detected, false = no hallucination
+}
+
+CUSTOMIZATION
+=============
+
+This script works for any boolean output use case.
+
+Adjust these variables to fit your use case:
+- DATASET_NAME: Name of your uploaded dataset
+- INITIAL_PROMPT: Starting prompt describing problem. i.e. Detect hallucination
+- EVALUATION_MODEL_NAME: Model that will perform detection in production
+- OPTIMIZATION_MODEL_NAME: Reasoning model for prompt improvement
+- MAX_ITERATION: Maximum optimization iterations
+- stopping_condition(): Target metrics (precision, accuracy) for early stopping
+
+"""
+
 import json
 import os
 
@@ -9,19 +84,21 @@ from pydantic import BaseModel
 os.environ["DD_TRACE_ENABLED"] = "false"
 
 # Experiment variables
-ML_APP = "PromptOptimization"
+ML_APP = "YOUR_ML_APP"
 EXPERIMENT_NAME = "po_test_gpt4o_mini_simple"
 EVALUATION_MODEL_NAME = "gpt-4o-mini"
 JOBS = 20
+RUNS = 1
 
 # Prompt Optimizer variables
 MAX_ITERATION = 20
 OPTIMIZATION_MODEL_NAME = "o3-mini"
 
 # Dataset variables
-PROJECT_NAME = "PromptOptimization"
-DATASET_NAME = "hallucination_boolean"
-INITIAL_PROMPT = "Detect hallucination"
+PROJECT_NAME = "YOUR_PROJECT_NAME"
+DATASET_NAME = "YOUR_DATASET_NAME"
+INITIAL_PROMPT = "YOUR_INITIAL_PROMPT"
+
 
 class BooleanEvaluationResult(BaseModel):
     """Pydantic model for evaluation results."""
@@ -44,8 +121,21 @@ class OptimizationResult(BaseModel):
     prompt: str
 
 
+# You can change this function when you're using another provider
 def boolean_task_function(input_data, config):
-    """Call the model to make the prediction"""
+    """Execute the prediction task on a single input.
+
+    This function represents your production evaluation logic. It takes a
+    conversation or text input and returns a boolean prediction along with
+    reasoning for the decision.
+
+    The function is called once per dataset record during optimization to test
+    how well the current prompt performs.
+
+    Note:
+        This uses structured outputs (response_format=BooleanEvaluationResult)
+        to ensure consistent, parseable responses from the LLM.
+    """
     client = OpenAI()
 
     # Handle both direct input format and nested format from dataset
@@ -75,16 +165,20 @@ def boolean_task_function(input_data, config):
     return response.choices[0].message.parsed
 
 
+# You can change this function when you're using another provider
 def optimization_task_function(system_prompt: str, user_prompt: str, config: dict):
-    """Call LLM to generate an improved prompt based on evaluation results.
+    """Generate an improved detection prompt.
 
-    Args:
-        system_prompt: Instructions for the optimization LLM
-        user_prompt: Current prompt and performance data
-        model: Model name to use for optimization
+    This function is called after each iteration to analyze successes and
+    failures and propose improvements. It uses a reasoning model (o3-mini) to
+    understand why the current prompt is failing and suggest a better version.
+
+    The Datadog framework automatically constructs the system_prompt (optimization
+    instructions) and user_prompt (current performance data, failure examples) and
+    passes them to this function.
 
     Returns:
-        str: the optimized prompt
+        str: The improved detection prompt to test in the next iteration
     """
     client = OpenAI()
 
@@ -101,15 +195,10 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
 
 
 def boolean_evaluator_function(input_data, output_data, expected_output):
-    """Evaluate prediction against expected output.
+    """Classify each prediction into confusion matrix categories.
 
-    Args:
-        input_data: Input to the task
-        output_data: Output from the task (EvaluationResult)
-        expected_output: Expected boolean value
-
-    Returns:
-        str: Classification label (true_positive, false_positive, etc.)
+    These labels are used in the Experiment UI to filter examples and observe
+    their distributions
     """
     prediction = output_data.value if hasattr(output_data, 'value') else output_data
 
@@ -122,14 +211,25 @@ def boolean_evaluator_function(input_data, output_data, expected_output):
     else:
         return "true_negative"
 
+
 def labelization_function(individual_result):
-    """Categorize individual results into good or bad examples.
+    """Categorize results to show diverse examples to the optimization LLM.
 
-    Args:
-        individual_result: Dict containing "evaluations" key with evaluator results.
+    This function is critical for prompt optimization. It labels each result as
+    "GOOD EXAMPLE" or "BAD EXAMPLE" based on whether the prediction was correct.
 
-    Returns:
-        str: "GOOD EXAMPLE" for correct predictions, "BAD EXAMPLE" for incorrect ones.
+    The optimizer uses these labels to:
+    1. Select one random example from each category
+    2. Show the optimization LLM both successful and failed cases
+    3. Help the LLM understand what works and what doesn't
+
+    By seeing both good and bad examples, the optimization model can identify patterns
+    and suggest targeted improvements.
+
+    Note:
+        The number of distinct labels determines diversity of examples shown to the
+        optimizer. Keep label cardinality low (<10 categories) for best results.
+        Label names should be meaningful as they're shown directly to the LLM.
     """
     eval_value = individual_result["evaluations"]["boolean_evaluator_function"]["value"]
 
@@ -139,23 +239,7 @@ def labelization_function(individual_result):
         return "BAD EXAMPLE"
 
 def boolean_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
-    """Calculate precision, recall, accuracy, and FPR across all evaluations.
-
-    Metrics:
-    - Precision = TP / (TP + FP)
-    - Recall = TP / (TP + FN)
-    - Accuracy = (TP + TN) / (TP + TN + FP + FN)
-    - FPR = FP / (FP + TN)
-
-    Args:
-        inputs: List of input data
-        outputs: List of task outputs
-        expected_outputs: List of expected outputs
-        evaluations: List of evaluation results
-
-    Returns:
-        dict: Contains "precision", "recall", "accuracy", and "fpr" keys
-    """
+    """Calculate aggregate performance metrics across the entire dataset."""
     true_positives = 0
     false_positives = 0
     true_negatives = 0
@@ -196,6 +280,15 @@ def boolean_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
 
 
 def compute_score(summary_evaluators) -> float:
+    """Compute optimization score for ranking iterations (Here F1-Score).
+
+    The optimization framework uses this score to determine which iteration performed
+    best. After all iterations complete, the iteration with the highest score is
+    selected as the final result.
+
+    Note:
+        You can customize this to optimize for different metrics.
+    """
     # Implementing F1-Score
     precision = summary_evaluators['boolean_summary_evaluator']['value']['precision']
     recall = summary_evaluators['boolean_summary_evaluator']['value']['recall']
@@ -203,6 +296,12 @@ def compute_score(summary_evaluators) -> float:
 
 
 def stopping_condition(summary_evaluators) -> bool:
+    """Determine whether to stop optimization early (before MAX_ITERATION).
+
+    If this function returns True, optimization stops immediately and returns the
+    current best prompt. This saves time and API costs when target metrics are
+    already achieved.
+    """
     precision_condition = summary_evaluators['boolean_summary_evaluator']['value']['precision'] >= 0.9
     accuracy_condition = summary_evaluators['boolean_summary_evaluator']['value']['accuracy'] >= 0.8
 
@@ -210,8 +309,27 @@ def stopping_condition(summary_evaluators) -> bool:
 
 
 def main():
-    """Run prompt optimization experiment."""
-    # Enable LLMObs
+    """This function orchestrates the entire optimization process:
+
+    1. **Initialize**: Enable Datadog LLM Observability with project settings
+    2. **Load Data**: Pull your annotated hallucination dataset from Datadog
+    3. **Configure**: Set up the optimization with:
+       - Task function (how to run detection)
+       - Optimization task (how to improve the prompt)
+       - Evaluators (how to measure performance)
+       - Scoring (how to rank iterations)
+       - Stopping condition (when to stop early)
+    4. **Optimize**: Run iterative optimization (up to MAX_ITERATION times):
+       - Test current prompt on entire dataset (parallel execution via jobs=JOBS)
+       - Compute metrics (precision, recall, accuracy, FPR)
+       - Analyze failures and generate improvement suggestions
+       - Test improved prompt
+       - Repeat until stopping condition met or max iterations reached
+    5. **Output**: Display the best performing prompt and all experiment URLs
+
+    The optimization runs in parallel (jobs=20) for fast execution. Each iteration
+    is tracked in Datadog LLM Observability for analysis and comparison.
+    """
     LLMObs.enable(
         ml_app=ML_APP,
         project_name=PROJECT_NAME
@@ -240,7 +358,7 @@ def main():
             # Optionals
             "model_name": EVALUATION_MODEL_NAME,
             "evaluation_output_format": BooleanEvaluationResult.output_format(),
-            "runs": 1,
+            "runs": RUNS,
         }
     )
 
