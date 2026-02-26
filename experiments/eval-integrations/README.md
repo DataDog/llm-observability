@@ -49,11 +49,11 @@ pip install -r requirements.txt
 
 Run `python 1-tdeepeval-demo.py`. After running the experiment, the experiment's results should appear under the project name in the experiments page.
 
-<img src="../images/deepeval-experiment-result-overview.png" height="350">
+<img src="../../images/deepeval-experiment-result-overview.png" height="350">
 
 Clicking on the experiment allows you to view the evaluation result(s) per record in the dataset.
 
-<img src="../images/deepeval-experiment-result.png" height="350">
+<img src="../../images/deepeval-experiment-result.png" height="350">
 
 
 ## Teardown
