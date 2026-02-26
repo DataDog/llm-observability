@@ -46,7 +46,7 @@ pip install -r requirements.txt
 
 **[This python file](./1-deepeval-demo.py)** contains an LLMObs experiment using a DeepEval evaluator.
 
-Run `python 1-tdeepeval-demo.py`. After running the experiment, the experiment's results should appear under the project name in the experiments page.
+Run `python 1-deepeval-demo.py`. After running the experiment, the experiment's results should appear under the project name in the experiments page.
 
 <img src="../../images/deepeval-experiment-result-overview.png" height="350">
 
