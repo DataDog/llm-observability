@@ -1,6 +1,6 @@
 # LLM Observability Jupyter Notebooks
 
-These demos provide examples of evaluation frameworks that are integrated into LLM Observability Experiments. For more information about using DeepEval evaluations with LLM Observability  Experiments read more [here](https://docs.datadoghq.com/llm_observability/evaluations/deepeval_evaluations/)
+These demos provide examples of evaluation frameworks that are integrated into LLM Observability Experiments. For more information about using DeepEval evaluations with LLM Observability  Experiments read more [here](https://docs.datadoghq.com/llm_observability/evaluations/deepeval_evaluations/).
 
 ## Prerequisites
 
