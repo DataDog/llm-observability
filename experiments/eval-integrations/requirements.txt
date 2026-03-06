@@ -1,2 +1,2 @@
 deepeval
-ddtrace>=3.14
+ddtrace>=3.14.4
