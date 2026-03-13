@@ -52,27 +52,27 @@ You can either start Jupyter on the command line (`jupyter notebook`) to use the
 
 ### 1. Tracing a simple LLM call
 
-**[This notebook](../1-llm-span.ipynb)** shows you how to create and trace a simple LLM call.
+**[This notebook](./1-llm-span.ipynb)** shows you how to create and trace a simple LLM call.
 
-<img src="./images/llm-span.png" height="350" >
+<img src="../images/llm-span.png" height="350" >
 
 ### 2. Tracing an LLM Workflow
 
-**[This notebook](../2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in addition to a call to an LLM.
+**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in addition to a call to an LLM.
 
-<img src="./images/workflow-span.png" height="350" >
+<img src="../images/workflow-span.png" height="350" >
 
 ### 3. Tracing an LLM Agent
 
-**[This notebook](../3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
+**[This notebook](./3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
 
-<img src="./images/agent-span.png" height="350" >
+<img src="../images/agent-span.png" height="350" >
 
 ### 4. Tracing and evaluating a RAG workflow
 
-**[This notebook](../4-custom-evaluations.ipynb)** shows you how to create, trace, and evaluate a RAG workflow.
+**[This notebook](./4-custom-evaluations.ipynb)** shows you how to create, trace, and evaluate a RAG workflow.
 
-<img src="./images/rag-span.png" height="350" >
+<img src="../images/rag-span.png" height="350" >
 
 ## Teardown
 
