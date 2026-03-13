@@ -1,83 +1,57 @@
-# LLM Observability Jupyter Notebooks
+# Datadog LLM Observability Cookbooks
 
-These notebooks introduce you to Datadog's [LLM Observability Python SDK](https://docs.datadoghq.com/llm_observability/setup/sdk/python/) using hands-on examples.
+Hands-on examples and tutorials for instrumenting, monitoring, and evaluating LLM applications with [Datadog LLM Observability](https://docs.datadoghq.com/llm_observability/).
 
-For a detailed instrumentation guide, see [Trace an LLM Application](https://docs.datadoghq.com/tracing/llm_observability/trace_an_llm_application/).
+## What You'll Learn
 
-## Prerequisites
+This repository provides a complete learning path from basic instrumentation to advanced evaluation workflows:
 
-- [A Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys)
-- [An OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup)
+1. **[Tracing](#1-tracing)** - Instrument and trace LLM applications to capture execution flows
+2. **[Online Evaluation](#2-online-evaluation)** - Monitor production traces with managed evaluators and custom metrics
+3. **[Offline Experiments](#3-experiments)** - Run systematic offline evaluations with datasets, experiments, and CI/CD integration
 
-## Setup
+## Quick Start
 
-#### 1. Activate your virtualenv:
+### Prerequisites
 
-```bash
-python -m venv myenv
-source myenv/bin/activate
-```
+- **Datadog Account**: [Sign up for free](https://www.datadoghq.com/)
+- **API Keys**:
+  - [Datadog API Key](https://docs.datadoghq.com/account_management/api-app-keys)
+  - [Datadog Application Key](https://app.datadoghq.com/organization-settings/application-keys)
+- **LLM Provider**: [OpenAI API Key](https://platform.openai.com/docs/quickstart/account-setup) (used in most examples)
+- **Python**: 3.8+ with `ddtrace>=4.3.0`
 
-#### 2. Create a .env file and add the following:
-
-```bash
-DD_API_KEY=<YOUR_DATADOG_API_KEY>
-DD_SITE=<YOUR_DATADOG_SITE>
-DD_LLMOBS_AGENTLESS_ENABLED=1
-DD_LLMOBS_ML_APP="onboarding-quickstart"
-```
-
-- Note: if [your Datadog site](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site) (`DD_SITE`) is not provided, the value defaults to `"datadoghq.com"`
-- Feel free to update the `DD_LLMOBS_ML_APP` variable to any custom app name.
-- `DD_LLMOBS_AGENTLESS_ENABLED=1` is only required if the Datadog Agent is not running. If the agent is running in your production environment, make sure this environment variable is unset.
-
-
-#### 3. If you don't already have a system-wide OPENAI_API_KEY variable, add one to the .env file:
+### Installation
 
 ```bash
-OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
-```
+# Clone the repository
+git clone https://github.com/DataDog/llm-observability-cookbooks.git
+cd llm-observability-cookbooks
 
-#### 3. Install shared dependencies from the requirements.txt file:
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-```bash
+# Navigate to a specific section and install dependencies
+cd 1-tracing
 pip install -r requirements.txt
 ```
 
-#### 4. Launch Jupyter notebooks
+### Environment Setup
 
-You can either start Jupyter on the command line (`jupyter notebook`) to use the web interface, or open your notebook from your preferred code editor (for example, VS Code) and run it there.
-
-## Notebooks
-
-### 1. Tracing a simple LLM call
-
-**[This notebook](./1-llm-span.ipynb)** shows you how to create and trace a simple LLM call.
-
-<img src="./images/llm-span.png" height="350" >
-
-### 2. Tracing an LLM Workflow
-
-**[This notebook](./2-workflow-span.ipynb)** shows you how to create and trace a more complex, static series of steps that involves a tool call in addition to a call to an LLM.
-
-<img src="./images/workflow-span.png" height="350" >
-
-### 3. Tracing an LLM Agent
-
-**[This notebook](./3-agent-span.ipynb)** shows you how to create and trace an LLM powered agent that calls tools and makes decisions based on data about what to do next.
-
-<img src="./images/agent-span.png" height="350" >
-
-### 4. Tracing and evaluating a RAG workflow
-
-**[This notebook](./4-custom-evaluations.ipynb)** shows you how to create, trace, and evaluate a RAG workflow.
-
-<img src="./images/rag-span.png" height="350" >
-
-## Teardown
-
-When you're done with the tutorials, deactivate your virtualenv and return to your system's default Python env:
+Create a `.env` file in each section directory:
 
 ```bash
-deactivate
+DD_API_KEY=<YOUR_DATADOG_API_KEY>
+DD_SITE=<YOUR_DATADOG_SITE>  # e.g., datadoghq.com, us3.datadoghq.com
+DD_LLMOBS_AGENTLESS_ENABLED=1  # If not using Datadog Agent
+OPENAI_API_KEY=<YOUR_OPENAI_API_KEY>
 ```
+
+## Additional Resources
+
+- **Documentation**: [docs.datadoghq.com/llm_observability](https://docs.datadoghq.com/llm_observability/)
+- **API Reference**: [docs.datadoghq.com/api/latest/llm-observability](https://docs.datadoghq.com/api/latest/llm-observability/)
+- **Python SDK**: [ddtrace Python library](https://ddtrace.readthedocs.io/)
+- **Community**: [Datadog Slack](https://chat.datadoghq.com/)
+

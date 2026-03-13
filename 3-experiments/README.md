@@ -2,6 +2,8 @@
 
 This directory contains hands-on examples for using Datadog's LLM Observability Experimentation SDK. The experiments framework allows you to systematically evaluate and compare LLM applications using datasets, tasks, and evaluators.
 
+Learn more in [our documentation](https://docs.datadoghq.com/llm_observability/experiments/#installation)
+
 ## What are LLM Observability Experiments?
 
 LLM Observability Experiments provide a structured way to:
