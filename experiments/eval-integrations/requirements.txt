@@ -1,2 +1,3 @@
 deepeval
 ddtrace>=3.14
+pydantic-evals
