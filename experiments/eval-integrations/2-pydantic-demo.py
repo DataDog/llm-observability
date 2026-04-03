@@ -2,10 +2,12 @@
 from dataclasses import dataclass
 from ddtrace.llmobs import LLMObs
 from pydantic_evals.evaluators import (
+    EqualsExpected,
     EvaluationReason,
     Evaluator,
     EvaluatorContext,
     EvaluatorOutput,
+    LLMJudge,
     ReportEvaluator,
     ReportEvaluatorContext,
 )
@@ -14,7 +16,7 @@ from pydantic_evals.reporting.analyses import ScalarResult
 import os
 
 LLMObs.enable(
-    project_name="pydantic-demo-project",
+    project_name="pydantic-demo",
     api_key=os.environ["DD_API_KEY"],
     app_key=os.environ["DD_APP_KEY"],
     site=os.environ["DD_SITE"],
@@ -45,6 +47,12 @@ class ComprehensiveCheck(Evaluator):
     def _classify(self, output: str) -> str:
         return 'short' if len(output) < 50 else 'long'
 
+
+llm_judge = LLMJudge(
+    rubric='Response provides the same answer as expected, possibly with explanation',
+    include_input=True,
+    include_expected_output=True,
+)
 
 dataset = LLMObs.create_dataset(
     dataset_name="capitals-of-the-world",
@@ -83,7 +91,7 @@ experiment = LLMObs.experiment(
     name="pydantic-demo",
     task=my_task, 
     dataset=dataset,
-    evaluators=[ComprehensiveCheck()],
+    evaluators=[ComprehensiveCheck(), EqualsExpected(), llm_judge],
     summary_evaluators=[TotalCasesEvaluator()],
     description="Determine whether the actual output is factually correct based on the expected output.",
 )
