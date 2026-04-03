@@ -1,0 +1,5 @@
+python-dotenv>=1.0.0
+ddtrace>=4.6.0
+openai>=1.0.0
+pydantic-ai>=0.0.14
+pydantic>=2.0.0
