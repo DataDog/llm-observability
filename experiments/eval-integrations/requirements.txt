@@ -1,2 +1,3 @@
+ddtrace
 deepeval
-ddtrace>=3.14
+pydantic-ai-slim[openai]
