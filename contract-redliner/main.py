@@ -21,7 +21,6 @@ LLMObs.enable(
 )
 
 from contract_redliner.agent import run_redliner  # noqa: E402 — import after LLMObs.enable()
-from contract_redliner.evaluators import clauses_with_issues
 
 EXAMPLE_CONTRACT = """
 SOFTWARE AS A SERVICE AGREEMENT
@@ -58,17 +57,7 @@ if __name__ == "__main__":
     print("Input contract:")
     print(EXAMPLE_CONTRACT)
 
-    result, span_ctx = run_redliner(EXAMPLE_CONTRACT)
-
-    count, assessment, reasoning = clauses_with_issues(result.model_dump())
-    LLMObs.submit_evaluation(
-        span=span_ctx,
-        label="clauses_with_issues",
-        metric_type="score",
-        value=count,
-        assessment=assessment,
-        reasoning=reasoning,
-    )
+    result = run_redliner(EXAMPLE_CONTRACT)
 
     print("Output:")
     print(result.model_dump_json(indent=2))

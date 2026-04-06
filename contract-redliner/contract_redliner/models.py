@@ -11,20 +11,17 @@ class ContractDeps:
     clauses: list[str]
 
 
-class DocumentSegment(BaseModel):
-    """Output of the segmenter agent."""
-    doc_type: Literal["nda", "saas", "employment", "vendor", "other"]
+class ContractClauses(BaseModel):
     clauses: list[str]
 
 
 class Policy(BaseModel):
     topic: str
     rule: str
-    severity: Literal["critical", "high", "medium", "low"]
 
 
 class ProposalResult(BaseModel):
-    clause_index: int
+    clause_number: int
     risk_level: Literal["low", "medium", "high"]
     suggested_revision: str
     reasoning: str
@@ -43,7 +40,13 @@ class ValidationResult(BaseModel):
     edits: list[ValidationEdit]
 
 
+class RiskSummary(BaseModel):
+    high: int
+    medium: int
+    low: int
+
+
 class RedlineResult(BaseModel):
     """Final structured output returned by the redliner agent."""
     proposals: list[ProposalResult]
-    risk_summary: dict[str, int]  # {"high": n, "medium": n, "low": n}
+    risk_summary: RiskSummary

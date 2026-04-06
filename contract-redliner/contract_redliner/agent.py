@@ -13,159 +13,76 @@ LLM Observability tracing:
 
 import os
 
-from pydantic_ai import Agent, RunContext
-from ddtrace.llmobs import LLMObs
-from ddtrace.llmobs.decorators import agent as llmobs_agent, task as llmobs_task
+from pydantic_ai import Agent
+from ddtrace.llmobs.decorators import agent as llmobs_agent
 
-from .primitives.models import (
-    ContractDeps,
-    DocumentSegment,
-    ProposalResult,
+from .models import (
+    ContractClauses,
     RedlineResult,
 )
-from .primitives.policies import get_policies
-from .tools.tools import generate_proposal, generate_validation
+from .policies import POLICY_DB
 
-MODEL = f"openai:{os.environ.get('OPENAI_MODEL', 'gpt-5-nano-2025-08-07')}"
+MODEL = f"openai:{os.environ.get('OPENAI_MODEL', 'gpt-5.4-nano')}"
 
-# ---------------------------------------------------------------------------
-# Segmenter agent — classify + split into clauses in one structured call
-# ---------------------------------------------------------------------------
-
-segmenter = Agent(
+ClauseExtractor = Agent(
     MODEL,
-    output_type=DocumentSegment,
+    output_type=ContractClauses,
     system_prompt=(
-        "You are a contract parser. Classify the contract type as one of: "
-        "nda, saas, employment, vendor, other. "
-        "Then split the contract into discrete, self-contained clauses. "
-        "Each clause should be a complete paragraph or numbered section. "
-        "Return structured output with doc_type and the list of clause strings."
+        "You are a contract parser. "
+        "Extract the important clauses to review. "
+        "For each clause, write out the main text of the clause only, "
+        "ignoring line numbers and section titles."
     ),
 )
 
-# ---------------------------------------------------------------------------
-# Redliner agent — autonomous tool-calling loop
-# ---------------------------------------------------------------------------
-
-redliner = Agent(
+RedLiner = Agent(
     MODEL,
-    deps_type=ContractDeps,
     output_type=RedlineResult,
     system_prompt=(
-        "You are a contract redlining agent. Your job is to review every clause "
-        "and return a complete RedlineResult.\n\n"
-        "Follow this process for each clause (0-indexed):\n"
-        "1. Call policy_retrieval(clause_topic) to fetch relevant internal policies.\n"
-        "2. Call proposal_tool(clause_index, clause_topic) to analyze and propose improvements.\n\n"
-        "After all clauses have proposals, call validation_tool(proposals) once for a holistic review.\n\n"
-        "The RedlineResult you return must include:\n"
-        "- proposals: all ProposalResult objects (one per clause)\n"
-        "- risk_summary: counts of high/medium/low risk proposals\n\n"
-        "Do not skip any clause. Process them in order."
+        "You are a contract redlining agent. Your job is to review every "
+        "clause and return a complete RedlineResult.\n\n"
+        "Follow these steps:\n"
+        "1. View the policy index.\n"
+        "2. View the relevant policies.\n"
+        "3. For each clause where revisions are needed, return the clause "
+        "number, risk level, suggested revision, and reasoning.\n\n"
+        "Suggested revisions should be no greatly exceed the original clause "
+        "in length."
     ),
 )
 
 
-# ---------------------------------------------------------------------------
-# Tool registrations
-# ---------------------------------------------------------------------------
-
-@redliner.tool
-def policy_retrieval(ctx: RunContext[ContractDeps], clause_topic: str) -> list[dict]:
-    """Retrieve internal policies relevant to a clause topic.
-
-    Args:
-        clause_topic: Short description of what the clause covers (e.g. "liability cap", "termination").
-    """
-    with LLMObs.tool(name="policy_retrieval") as span:
-        policies = get_policies(ctx.deps.doc_type, clause_topic)
-        LLMObs.annotate(
-            span=span,
-            input_data={"doc_type": ctx.deps.doc_type, "clause_topic": clause_topic},
-            output_data=[p.model_dump() for p in policies],
-        )
-    return [p.model_dump() for p in policies]
+@RedLiner.tool_plain
+def get_policy_index() -> str:
+    """Get index of available policies."""
+    lines = ["Policy Index"]
+    for doc_type, policies in POLICY_DB.items():
+        lines.append(f"doc_type: {doc_type}")
+        for topic in policies:
+            lines.append(f" - topic: {topic}")
+    return "\n".join(lines)
 
 
-@redliner.tool
-def proposal_tool(
-    ctx: RunContext[ContractDeps],
-    clause_index: int,
-    clause_topic: str,
-) -> dict:
-    """Analyze a clause and propose improvements against internal policies.
-
-    Args:
-        clause_index: 0-based index of the clause in the contract.
-        clause_topic: Short description of what the clause covers.
-    """
-    with LLMObs.tool(name="proposal_tool") as span:
-        clause_text = ctx.deps.clauses[clause_index]
-        policies = get_policies(ctx.deps.doc_type, clause_topic)
-        result = generate_proposal(clause_index, clause_text, ctx.deps.doc_type, policies)
-        LLMObs.annotate(
-            span=span,
-            input_data={"clause_index": clause_index, "clause_text": clause_text},
-            output_data=result.model_dump(),
-        )
-    return result.model_dump()
-
-
-@redliner.tool
-def validation_tool(ctx: RunContext[ContractDeps], proposals: list[ProposalResult]) -> dict:
-    """Holistically validate all proposed edits for consistency and completeness.
-
-    Args:
-        proposals: List of all ProposalResult objects generated so far.
-    """
-    with LLMObs.tool(name="validation_tool") as span:
-        result = generate_validation(ctx.deps.clauses, proposals, ctx.deps.doc_type)
-        LLMObs.annotate(
-            span=span,
-            input_data={
-                "proposal_count": len(proposals),
-                "doc_type": ctx.deps.doc_type,
-                "clause_count": len(ctx.deps.clauses),
-            },
-            output_data=result.model_dump(),
-        )
-    return result.model_dump()
-
-
-# ---------------------------------------------------------------------------
-# Entry point
-# ---------------------------------------------------------------------------
-
-@llmobs_task
-def _segment(contract_text: str) -> DocumentSegment:
-    result = segmenter.run_sync(contract_text)
-    LLMObs.annotate(
-        input_data={"text_length": len(contract_text)},
-        output_data=result.output.model_dump(),
-    )
-    return result.output
+@RedLiner.tool_plain
+def get_policy(doc_type: str, topic: str = "") -> str:
+    """Look up policy text by doc_type and topic."""
+    return POLICY_DB.get(doc_type, {}).get(topic, "policy not found")
 
 
 @llmobs_agent(name="ContractRedliner")
-def run_redliner(contract_text: str) -> tuple[RedlineResult, dict]:
-    """Classify, segment, propose edits, validate — return (RedlineResult, span_ctx)."""
-    LLMObs.annotate(input_data={"contract_text": contract_text})
+def run_redliner(contract_text: str) -> RedlineResult:
+    """Run redliner on contract text."""
 
-    doc = _segment(contract_text)
-    deps = ContractDeps(doc_type=doc.doc_type, clauses=doc.clauses)
+    print("Extracting clauses...")
+    result = ClauseExtractor.run_sync(contract_text)
+    print(result.output.clauses)
 
-    agent_result = redliner.run_sync(
-        (
-            f"Redline this {doc.doc_type} contract. "
-            f"It has {len(doc.clauses)} clauses (0-indexed). "
-            f"Process every clause and return a complete RedlineResult."
-        ),
-        deps=deps,
+    numbered_clauses = "\n\n".join(
+        f"Clause {i}\n\n{clause}"
+        for i, clause in enumerate(result.output.clauses)
     )
 
-    output = agent_result.output
-    LLMObs.annotate(output_data=output.model_dump())
-    span_ctx = LLMObs.export_span()
+    print("Reviewing clauses...")
+    agent_result = RedLiner.run_sync(numbered_clauses)
 
-    return output, span_ctx
+    return agent_result.output
