@@ -17,14 +17,14 @@ from pydantic_ai import Agent, RunContext
 from ddtrace.llmobs import LLMObs
 from ddtrace.llmobs.decorators import agent as llmobs_agent, task as llmobs_task
 
-from contract_redliner.primitives.models import (
+from .primitives.models import (
     ContractDeps,
     DocumentSegment,
     ProposalResult,
     RedlineResult,
 )
-from contract_redliner.primitives.policies import get_policies
-from contract_redliner.tools.tools import generate_proposal, generate_validation
+from .primitives.policies import get_policies
+from .tools.tools import generate_proposal, generate_validation
 
 MODEL = f"openai:{os.environ.get('OPENAI_MODEL', 'gpt-5-nano-2025-08-07')}"
 

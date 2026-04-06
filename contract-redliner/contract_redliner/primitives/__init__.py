@@ -3,7 +3,7 @@
 This module contains core data models and policy definitions.
 """
 
-from contract_redliner.primitives.models import (
+from .models import (
     ContractDeps,
     DocumentSegment,
     Policy,
@@ -12,7 +12,7 @@ from contract_redliner.primitives.models import (
     ValidationResult,
     RedlineResult,
 )
-from contract_redliner.primitives.policies import POLICY_DB, get_policies
+from .policies import POLICY_DB, get_policies
 
 __all__ = [
     "ContractDeps",

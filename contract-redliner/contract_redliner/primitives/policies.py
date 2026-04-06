@@ -1,4 +1,4 @@
-from contract_redliner.primitives.models import Policy
+from ..primitives.models import Policy
 
 POLICY_DB: dict[str, list[Policy]] = {
     "nda": [

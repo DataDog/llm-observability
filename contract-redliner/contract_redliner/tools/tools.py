@@ -10,7 +10,7 @@ from openai import OpenAI
 from ddtrace.llmobs import LLMObs
 from ddtrace.llmobs.decorators import llm
 
-from contract_redliner.primitives.models import Policy, ProposalResult, ValidationResult
+from ..primitives.models import Policy, ProposalResult, ValidationResult
 
 MODEL = os.environ.get("OPENAI_MODEL", "gpt-5-nano-2025-08-07")
 _client = OpenAI()
