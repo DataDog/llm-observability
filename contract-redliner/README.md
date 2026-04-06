@@ -2,17 +2,6 @@
 
 An AI-powered contract review agent that automates legal due diligence by analyzing contracts against company policies, identifying risk areas, and proposing specific clause revisions. Built with Pydantic AI and traced end-to-end with Datadog LLM Observability.
 
-## What it does
-
-The Contract Redliner agent helps legal and business teams review vendor agreements, SaaS contracts, NDAs, and employment contracts by:
-
-- **Identifying risky clauses**: Automatically flags liability caps, data processing terms, termination clauses, and other high-risk provisions that don't meet company standards
-- **Proposing specific edits**: Generates concrete revision text for each problematic clause, not just generic feedback
-- **Risk-based prioritization**: Classifies issues as high/medium/low risk to focus attention on the most critical items
-- **Policy enforcement**: Validates every clause against your internal policy database to catch non-compliant terms before signature
-
-**Business value**: Reduces contract review time from hours to minutes, catches issues human reviewers might miss, and ensures consistent policy enforcement across all agreements.
-
 ## Quickstart
 
 **1. Set up Python environment**
@@ -45,60 +34,19 @@ cp .env.example .env   # add your DD_API_KEY and OPENAI_API_KEY
 python main.py
 ```
 
-The example script (`main.py`) runs the agent on a sample SaaS contract with intentionally problematic clauses:
-- Missing uptime SLA commitments
-- Overly broad IP ownership terms
-- Unreasonably low liability cap ($100)
-- Unrestricted data processing rights
-- Immediate termination without notice
-- Aggressive payment terms (1 day to suspension)
+The example script (`main.py`) runs the agent on a sample SaaS contract with intentionally problematic clauses.
 
-The agent will flag all six clauses, classify them by risk level, and propose compliant revisions. Output is a structured JSON object with proposals and a risk summary.
-
-## How it works
+### How it works
 
 Two Pydantic AI agents orchestrate the review process:
 
-1. **Segmenter agent**:
-   - Classifies the contract type (`nda` / `saas` / `employment` / `vendor`)
-   - Splits the document into numbered, discrete clauses for analysis
-   - Returns a `DocumentSegment` with doc type and clause list
+1. **ClauseExtractor agent**: extracts clauses from contract
 
-2. **Redliner agent**:
-   - Runs an autonomous tool-calling loop, processing each clause sequentially
-   - For every clause:
-     - Calls `policy_retrieval()` to fetch relevant policies from the internal database
-     - Calls `proposal_tool()` to analyze the clause and generate a revision
-   - After all proposals: calls `validation_tool()` for a final consistency check across all edits
-   - Returns a complete `RedlineResult` with proposals and risk summary
+2. **RedLiner agent**: proposes clause-level revisions
 
 All agent actions, LLM calls, and tool invocations are automatically traced in Datadog LLM Observability for debugging and performance analysis.
 
-## Policy database
-
-The agent enforces company policies stored in `contract_redliner/primitives/policies.py`. Policies are organized by contract type:
-
-- **NDA**: Confidentiality scope, survival terms, return/destruction, injunctive relief
-- **SaaS**: Uptime SLA, data processing (GDPR/CCPA), liability caps, IP ownership, termination
-- **Employment**: At-will employment, non-compete restrictions, severance, IP assignment
-- **Vendor**: Payment terms, indemnification, termination notice, governing law
-
-Each policy includes:
-- **topic**: Short identifier (e.g., `sla_uptime`, `liability_cap`)
-- **rule**: Specific requirement text the clause must meet
-- **severity**: `critical` / `high` / `medium` / `low` classification
-
-**Customization**: Edit `POLICY_DB` to add your organization's policies. The agent automatically filters policies by contract type and uses keyword matching to retrieve relevant policies for each clause.
-
-## Agent tools
-
-| Tool | What it does | LLM call |
-|---|---|---|
-| `policy_retrieval(clause_topic)` | Keyword-filters `POLICY_DB` for the doc type | — |
-| `proposal_tool(clause_index, clause_topic)` | Analyzes the clause against policies, proposes a rewrite | `generate_proposal()` → `ProposalResult` |
-| `validation_tool(proposals)` | Holistic review of all proposals for consistency | `generate_validation()` → `ValidationResult` |
-
-## Example output
+### Example output
 
 After running `python main.py`, the agent returns a structured JSON object:
 
@@ -125,31 +73,6 @@ After running `python main.py`, the agent returns a structured JSON object:
     "low": 1
   }
 }
-```
-
-Each proposal includes:
-- **clause_index**: Zero-based position in the contract
-- **risk_level**: `high` / `medium` / `low` classification
-- **suggested_revision**: Specific replacement text that complies with policy
-- **reasoning**: Explanation of the issue and why the revision is necessary
-
-## Using the agent in your code
-
-```python
-from contract_redliner import run_redliner
-
-contract_text = """
-YOUR CONTRACT TEXT HERE
-"""
-
-result = run_redliner(contract_text)
-print(f"Found {len(result.proposals)} issues")
-print(f"Risk summary: {result.risk_summary}")
-
-for proposal in result.proposals:
-    print(f"Clause {proposal.clause_index}: {proposal.risk_level} risk")
-    print(f"  Issue: {proposal.reasoning}")
-    print(f"  Fix: {proposal.suggested_revision}")
 ```
 
 ## Offline evaluation
