@@ -42,16 +42,7 @@ export DD_SITE=your_datadog_site
 python main.py
 ```
 
-The example script (`main.py`) runs the agent on a sample SaaS contract with intentionally problematic clauses.
-
-### How it works
-
-Two Pydantic AI agents orchestrate the review process:
-
-1. **ClauseExtractor agent**: extracts clauses from contract
-
-2. **RedLiner agent**: proposes clause-level revisions
-
+The example script (`main.py`) runs the agent on a sample SaaS contract with intentionally problematic clauses. 
 All agent actions, LLM calls, and tool invocations are automatically traced in Datadog LLM Observability for debugging and performance analysis.
 
 ### Example output
@@ -59,35 +50,16 @@ All agent actions, LLM calls, and tool invocations are automatically traced in D
 After running `python main.py`, the agent returns a structured JSON object:
 
 ```json
-{
-  "proposals": [
-    {
-      "clause_index": 0,
-      "risk_level": "high",
-      "suggested_revision": "Provider commits to a minimum 99.5% monthly uptime SLA...",
-      "reasoning": "Missing SLA violates critical policy requirement..."
-    },
-    {
-      "clause_index": 3,
-      "risk_level": "high",
-      "suggested_revision": "Customer retains all rights to Customer Data...",
-      "reasoning": "Current clause grants Provider unrestricted data rights..."
-    }
-    // ... more proposals
-  ],
-  "risk_summary": {
-    "high": 4,
-    "medium": 1,
-    "low": 1
-  }
+original_clause='1. SERVICE LEVELS. Provider will use commercially reasonable efforts to make the Service available. No specific uptime commitment is made. Downtime credits are not provided under any circumstances.'
+
+revision={
+  "reasoning": "Clause disclaims any uptime commitment and provides no downtime credits, which conflicts with policy requiring a 99.5% monthly uptime SLA and defined downtime credits. Revise to include minimum uptime and credits while keeping language largely similar and not materially longer.",
+  "revised_clause": "1. SERVICE LEVELS. Provider will use commercially reasonable efforts to make the Service available. Provider shall meet a minimum 99.5% monthly uptime SLA, measured on a monthly basis. If Provider fails to meet the SLA, Customer will receive downtime credits of at least 10% of the applicable monthly service fees for each full hour (or pro-rated, where applicable) of excess downtime during the month in which the SLA is not met.",
+  "risk_level": "high"
 }
 ```
 
 ## Offline evaluation
-
-**Purpose**: Test the agent systematically on labeled data before deploying to production. Offline evaluation answers critical questions: *Does the agent catch all risky clauses? Does it over-flag safe language? Are the proposed revisions actually correct?*
-
-For a contract review agent, missing a high-risk clause (false negative) is far more costly than over-flagging safe language (false positive) — a missed liability cap or non-compliant data processing term can expose the company to legal action, financial penalties, or failed audits. Offline evaluation quantifies this risk before you rely on the agent for real contracts.
 
 **Run the evaluation**:
 
@@ -97,20 +69,13 @@ python experiment.py
 
 This executes the agent on 20 labeled test contracts from `golden_dataset.csv` (covering NDAs, SaaS, employment, and vendor agreements) and measures performance across five dimensions:
 
-1. **clause_recall** (0.0–1.0): Percentage of risky clauses correctly identified
-   - *What you learn*: **Primary safety metric**. Recall = 0.85 means the agent catches 85% of problematic clauses but misses 15% — potentially exposing you to unreviewed risks. In contract review, aim for recall ≥ 0.95.
+1. **clause_recall**: Percentage of risky clauses correctly identified
 
-2. **clause_precision** (0.0–1.0): Percentage of flagged clauses that are actually problematic
-   - *What you learn*: How much noise the agent creates. Precision = 0.70 means 30% of flags are false positives, which erodes attorney trust and wastes review time. Balance precision with recall.
+2. **clause_precision**: Percentage of flagged clauses that are actually problematic
 
-3. **proposal_count_delta**: Exact match on number of flagged clauses
-   - *What you learn*: Is the agent consistently flagging the right number of issues, or is it missing some / adding noise?
+4. **severity_accuracy**: Accuracy of the agent's risk classification when it flagged a clause
 
-4. **severity_match**: Whether the agent's risk classification matches ground truth
-   - *What you learn*: Does the agent correctly prioritize issues? If it marks critical data processing violations as "low risk," reviewers will miss them.
-
-5. **revision_quality** (1–5, LLM-as-judge): How closely the suggested revision matches expected legal language
-   - *What you learn*: Are the proposed clause rewrites actually usable, or do they require heavy editing? Score ≥ 3 is considered acceptable.
+5. **revision_quality**: For flagged cases that are actually problematic, how closely the suggested revision matches expected legal language (1-5 scale)
 
 **Results & iteration**: All experiment runs and per-evaluator metrics are sent to Datadog LLM Observability under the experiment name `contract-redliner-eval`. Compare runs to track improvement across iterations.
 
