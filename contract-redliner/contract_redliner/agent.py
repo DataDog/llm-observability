@@ -17,6 +17,7 @@ class ClauseExtractorResult(BaseModel):
 
 ClauseExtractor = Agent(
     MODEL,
+    name="Clause Extractor",
     output_type=ClauseExtractorResult,
     system_prompt=(
         "Extract clauses from the contract that should be reviewed "
@@ -38,6 +39,7 @@ class ClauseReviewerResult(BaseModel):
 
 ClauseReviewer = Agent(
     MODEL,
+    name="Clause Reviewer",
     output_type=ClauseReviewerResult,
     system_prompt=(
         "You are a contract redlining agent. Your job is to review the "
@@ -72,7 +74,7 @@ async def run_redliner(contract_text: str) -> list[tuple[str, Revision]]:
 
     revisions = []
     for original_clause, result in zip(result.output.clauses, results):
-        revision: Optional[Revision] = result.output.revision
+        revision = result.output.revision
         if revision:
             revisions.append((original_clause, revision))
 

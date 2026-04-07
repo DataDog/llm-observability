@@ -56,4 +56,4 @@ if __name__ == "__main__":
     print("Output:")
     for original_clause, revision in revisions:
         print(f"\n{original_clause=}\n")
-        print(revision.model_dump_json(indent=2))
+        print(f"revision={revision.model_dump_json(indent=2)}")
