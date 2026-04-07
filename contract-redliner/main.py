@@ -3,7 +3,7 @@
 Run from inside the contract_redliner/ directory:
   python main.py
 """
-
+import asyncio
 import os
 from pathlib import Path
 
@@ -51,7 +51,9 @@ if __name__ == "__main__":
     print("Input contract:")
     print(EXAMPLE_CONTRACT)
 
-    result = run_redliner(EXAMPLE_CONTRACT)
+    revisions = asyncio.run(run_redliner(EXAMPLE_CONTRACT))
 
     print("Output:")
-    print(result.model_dump_json(indent=2))
+    for original_clause, revision in revisions:
+        print(f"\n{original_clause=}\n")
+        print(revision.model_dump_json(indent=2))

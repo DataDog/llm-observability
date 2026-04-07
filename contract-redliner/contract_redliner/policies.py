@@ -25,3 +25,12 @@ POLICY_DB: dict[str, dict[str, str]] = {
         "governing_law": "Governing law must be the State of Delaware or the counterparty's primary state of incorporation. Arbitration clauses must specify JAMS or AAA as the arbitration body.",
     },
 }
+
+def policy_index() -> str:
+    """Get index of available policies."""
+    lines = []
+    for topic, policies in POLICY_DB.items():
+        lines.append(f"topic: {topic}")
+        for policy in policies:
+            lines.append(f" - policy: {policy}")
+    return "\n".join(lines)
