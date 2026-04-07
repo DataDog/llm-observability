@@ -14,7 +14,7 @@ LLM Observability tracing:
 import os
 
 from pydantic_ai import Agent
-from ddtrace.llmobs.decorators import agent as llmobs_agent
+from ddtrace.llmobs.decorators import agent as llmobs_agent, tool as llmobs_tool
 
 from .models import (
     ContractClauses,
@@ -22,7 +22,7 @@ from .models import (
 )
 from .policies import POLICY_DB
 
-MODEL = f"openai:{os.environ.get('OPENAI_MODEL', 'gpt-5.4-nano')}"
+MODEL = 'gpt-5.4-nano'
 
 ClauseExtractor = Agent(
     MODEL,

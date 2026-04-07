@@ -7,16 +7,10 @@ Run from inside the contract_redliner/ directory:
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-load_dotenv(Path(__file__).parent / ".env")
-
 from ddtrace.llmobs import LLMObs
 
 LLMObs.enable(
     ml_app="contract-redliner",
-    api_key=os.environ["DD_API_KEY"],
-    site=os.environ.get("DD_SITE", "datadoghq.com"),
     agentless_enabled=True,
 )
 

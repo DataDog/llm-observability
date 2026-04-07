@@ -13,20 +13,28 @@ cd contract-redliner/
 python3 -m venv .venv
 
 # Activate the virtual environment
-# On macOS/Linux:
 source .venv/bin/activate
-# On Windows:
-# .venv\Scripts\activate
 
 # Install dependencies
-pip install -r requirements.txt
+pip install ddtrace "pydantic-ai-slim[openai]"
 ```
 
 **2. Configure environment variables**
 
+Set these env vars:
 ```bash
-cp .env.example .env   # add your DD_API_KEY and OPENAI_API_KEY
+export DD_API_KEY=your_datadog_api_key_here
+export DD_APP_KEY=your_datadog_app_key_here
+export OPENAI_API_KEY=your_openai_api_key_here
 ```
+
+If you need to use a different value for `DD_SITE` than the 
+default `datadoghq.com`, also set:
+
+```bash
+export DD_SITE=your_datadog_site
+```
+
 
 **3. Run the agent**
 
