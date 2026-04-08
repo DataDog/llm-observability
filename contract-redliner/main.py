@@ -51,9 +51,8 @@ if __name__ == "__main__":
     print("Input contract:")
     print(EXAMPLE_CONTRACT)
 
-    revisions = asyncio.run(run_redliner(EXAMPLE_CONTRACT))
+    proposed_revisions = asyncio.run(run_redliner(EXAMPLE_CONTRACT))
 
     print("Output:")
-    for original_clause, revision in revisions:
-        print(f"\n{original_clause=}\n")
-        print(f"revision={revision.model_dump_json(indent=2)}")
+    for revision in proposed_revisions:
+        print(revision.model_dump_json(indent=2))
