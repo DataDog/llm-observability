@@ -44,10 +44,7 @@ dataset = LLMObs.create_dataset_from_csv(
 
 async def task(input_data: dict, config: dict | None = None) -> list[dict]:
     revisions = await run_redliner(input_data["contract"])
-    return [
-        {"original_clause": clause, **revision.model_dump()}
-        for clause, revision in revisions
-    ]
+    return [revision.model_dump() for revision in revisions]
 
 
 # ---------------------------------------------------------------------------

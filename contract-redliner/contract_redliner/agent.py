@@ -82,10 +82,13 @@ Validator = Agent(
     )
 )
 
+class ProposedRevisionWithOriginal(ProposedRevision):
+    original_clause: str
+
 RedLiner = Agent(
     MODEL,
     name="RedLiner",
-    output_type=list[ProposedRevision],
+    output_type=list[ProposedRevisionWithOriginal],
     system_prompt=(
         "You are a contract redlining agent. Use the review_clause tool "
         "to review each contract clause against company policies. "
@@ -103,7 +106,7 @@ async def review_clause(clause: str) -> Optional[ProposedRevision]:
 
 
 @RedLiner.tool_plain
-async def validate_revisions(revisions: list[ProposedRevision]) -> str:
+async def validate_revisions(revisions: list[ProposedRevision]) -> list[ValidatorDecision]:
     revision_text = "\n\n".join(
         revision.model_dump_json(indent=2)
         for revision in revisions
@@ -113,6 +116,6 @@ async def validate_revisions(revisions: list[ProposedRevision]) -> str:
 
 
 @llmobs_agent(name="ContractRedliner")
-async def run_redliner(contract_text: str) -> list[ProposedRevision]:
+async def run_redliner(contract_text: str) -> list[ProposedRevisionWithOriginal]:
     result = await RedLiner.run(contract_text)
     return result.output
