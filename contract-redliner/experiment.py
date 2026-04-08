@@ -9,9 +9,11 @@ Usage:
     python experiment.py
 """
 
-import os
+import asyncio
+import json
 from pathlib import Path
-from ddtrace.llmobs import LLMObs, EvaluatorResult, LLMJudge, ScoreStructuredOutput
+from ddtrace.llmobs import LLMObs, EvaluatorResult
+from openai import AsyncOpenAI
 
 MODEL = 'gpt-5.4-nano'
 
@@ -49,100 +51,107 @@ async def task(input_data: dict, config: dict | None = None) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
+# Clause matching
+# ---------------------------------------------------------------------------
+
+def clauses_match(clause1: str, clause2: str) -> bool:
+    """True if either normalized clause contains the other."""
+    a = " ".join(clause1.lower().split())
+    b = " ".join(clause2.lower().split())
+    return a in b or b in a
+
+
+def _matched_pairs(expected: list[dict], output_data: list[dict]) -> list[tuple[dict, dict]]:
+    """Return (expected, actual) pairs where original_clause matches. One match per expected clause."""
+    pairs = []
+    for exp in expected:
+        for item in output_data:
+            if clauses_match(exp["original_clause"], item["original_clause"]):
+                pairs.append((exp, item))
+                break
+    return pairs
+
+
+# ---------------------------------------------------------------------------
 # Evaluators
 # ---------------------------------------------------------------------------
 
-clause_recall = LLMJudge(
-    name="clause_recall",
-    provider="openai",
-    model=MODEL,
-    system_prompt="You are evaluating a contract review agent.",
-    user_prompt=(
-        "EXPECTED problematic clauses (ground truth):\n{{expected_output}}\n\n"
-        "AGENT flagged clauses:\n{{output_data}}\n\n"
-        "For each expected clause, determine whether the agent flagged it "
-        "(the same clause, identified by its section title). "
-        "Score = (number of expected clauses the agent caught) / (total expected clauses). "
-        "If there are no expected clauses, score 1.0."
-    ),
-    structured_output=ScoreStructuredOutput(
-        description="Fraction of expected problematic clauses the agent caught (0.0–1.0)",
-        min_score=0.0,
-        max_score=1.0,
-        min_threshold=1.0,
-        reasoning=True,
-    ),
-)
+async def clause_recall(input_data, output_data, expected_output) -> EvaluatorResult:
+    expected = json.loads(expected_output["expected_proposals"])
+    if not expected:
+        return EvaluatorResult(value=1.0, assessment="pass")
 
-clause_precision = LLMJudge(
-    name="clause_precision",
-    provider="openai",
-    model=MODEL,
-    system_prompt="You are evaluating a contract review agent.",
-    user_prompt=(
-        "EXPECTED problematic clauses (ground truth):\n{{expected_output}}\n\n"
-        "AGENT flagged clauses:\n{{output_data}}\n\n"
-        "For each clause the agent flagged, determine whether it is actually problematic "
-        "(i.e. it appears in the expected list, matched by section title). "
-        "Score = (number of flagged clauses that are actually problematic) / (total flagged clauses). "
-        "If the agent flagged nothing, score 1.0."
-    ),
-    structured_output=ScoreStructuredOutput(
-        description="Fraction of agent-flagged clauses that are actually problematic (0.0–1.0)",
-        min_score=0.0,
-        max_score=1.0,
-        min_threshold=1.0,
-        reasoning=True,
-    ),
-)
+    flagged_clauses = [item["original_clause"] for item in output_data]
+    matched = sum(
+        1 for exp in expected
+        if any(clauses_match(exp["original_clause"], flagged) for flagged in flagged_clauses)
+    )
+    score = matched / len(expected)
+    return EvaluatorResult(value=score, assessment="pass" if score >= 1.0 else "fail")
 
 
-severity_accuracy = LLMJudge(
-    name="severity_accuracy",
-    provider="openai",
-    model=MODEL,
-    system_prompt="You are evaluating a contract review agent.",
-    user_prompt=(
-        "EXPECTED problematic clauses (ground truth):\n{{expected_output}}\n\n"
-        "AGENT flagged clauses:\n{{output_data}}\n\n"
-        "For each clause the agent flagged, compare its risk_level against the expected "
-        "risk_level for that clause (matched by section title). "
-        "Score = (number of correctly classified clauses) / (number of expected clauses). "
-        "If a clause was flagged but not expected, it does not contribute to the score. "
-        "If there are no expected clauses, score 1.0."
-    ),
-    structured_output=ScoreStructuredOutput(
-        description="Fraction of expected clauses whose risk level the agent classified correctly (0.0–1.0)",
-        min_score=0.0,
-        max_score=1.0,
-        min_threshold=1.0,
-        reasoning=True,
-    ),
-)
+async def clause_precision(input_data, output_data, expected_output) -> EvaluatorResult:
+    if not output_data:
+        return EvaluatorResult(value=1.0, assessment="pass")
+
+    expected_clauses = [item["original_clause"] for item in json.loads(expected_output["expected_proposals"])]
+    matched = sum(
+        1 for item in output_data
+        if any(clauses_match(item["original_clause"], exp) for exp in expected_clauses)
+    )
+    score = matched / len(output_data)
+    return EvaluatorResult(value=score, assessment="pass" if score >= 1.0 else "fail")
 
 
-revision_quality = LLMJudge(
-    name="revision_quality",
-    provider="openai",
-    model=MODEL,
-    system_prompt="You are a senior contract lawyer reviewing an AI agent's redlining work.",
-    user_prompt=(
-        "AGENT OUTPUT (actual proposals):\n{{output_data}}\n\n"
-        "EXPECTED PROPOSALS (ground truth):\n{{expected_output}}\n\n"
-        "Score the agent's suggested revisions from 1 to 5 based on how closely they "
-        "match the expected revisions in legal intent, risk coverage, and clause structure. "
-        "1 = completely wrong or missing, 5 = near-identical in substance. "
-        "If there are no expected proposals (clean contract), score 5 if the agent "
-        "also flagged nothing, 1 if it over-flagged."
-    ),
-    structured_output=ScoreStructuredOutput(
-        description="Quality score for the agent's suggested revisions (1=completely wrong, 5=near-identical in substance)",
-        min_score=1,
-        max_score=5,
-        min_threshold=3,
-        reasoning=True,
-    ),
-)
+async def severity_accuracy(input_data, output_data, expected_output) -> EvaluatorResult:
+    pairs = _matched_pairs(json.loads(expected_output["expected_proposals"]), output_data)
+    if not pairs:
+        return EvaluatorResult(value=1.0, assessment="pass")
+
+    correct = sum(1 for exp, item in pairs if item["risk_level"] == exp["risk_level"])
+    score = correct / len(pairs)
+    return EvaluatorResult(value=score, assessment="pass" if score >= 1.0 else "fail")
+
+
+_openai = AsyncOpenAI()
+
+
+async def _rate_revision(expected: dict, actual: dict) -> float:
+    response = await _openai.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a senior contract lawyer reviewing an AI agent's redlining work.",
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"EXPECTED REVISION:\n{json.dumps(expected, indent=2)}\n\n"
+                    f"AGENT REVISION:\n{json.dumps(actual, indent=2)}\n\n"
+                    "Score the agent's suggested revision from 1 to 5 based on how closely it "
+                    "matches the expected revision in legal intent, risk coverage, and clause structure. "
+                    "1 = completely wrong or missing, 5 = near-identical in substance. "
+                    "Reply with ONLY a single integer from 1 to 5."
+                ),
+            },
+        ],
+        max_completion_tokens=5,
+    )
+    try:
+        return float(response.choices[0].message.content.strip())
+    except (ValueError, AttributeError):
+        return 1.0
+
+
+async def revision_quality(input_data, output_data, expected_output) -> EvaluatorResult:
+    pairs = _matched_pairs(json.loads(expected_output["expected_proposals"]), output_data)
+    if not pairs:
+        return EvaluatorResult(value=1.0, assessment="fail")
+
+    scores = await asyncio.gather(*[_rate_revision(exp, actual) for exp, actual in pairs])
+    avg = sum(scores) / len(scores)
+    return EvaluatorResult(value=avg, assessment="pass" if avg >= 3.0 else "fail")
 
 
 # ---------------------------------------------------------------------------
@@ -154,13 +163,11 @@ async def main():
         name="contract-redliner-eval",
         task=task,
         dataset=dataset,
-        runs=3,
         evaluators=[clause_recall, clause_precision, severity_accuracy, revision_quality],
     )
-    result = await experiment.run(jobs=5)
-    print(f"done: {result}")
+    await experiment.run(jobs=5)
+    print(f"done")
 
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
