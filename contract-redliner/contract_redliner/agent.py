@@ -1,15 +1,20 @@
 """Contract redliner agent using Pydantic AI."""
-import asyncio
-from dataclasses import dataclass
-from typing import Literal, Optional, Union
+from typing import Literal, Optional
 
 from pydantic import BaseModel
 from pydantic_ai import Agent
 from ddtrace.llmobs.decorators import agent as llmobs_agent
 
-from .policies import POLICY_DB, policy_index
+from .policies import POLICY_DB
 
 MODEL = 'gpt-5.4-nano'
+
+_TOPIC_KEYWORDS: dict[str, set[str]] = {
+    "nda": {"confidential", "disclosure", "proprietary", "secret", "non-disclosure"},
+    "saas": {"uptime", "sla", "software", "service", "liability", "platform", "data processing"},
+    "employment": {"employee", "employment", "salary", "compete", "severance", "at-will", "invention"},
+    "vendor": {"payment", "invoice", "indemnif", "arbitration", "governing", "renewal"},
+}
 
 
 class ProposedRevision(BaseModel):
@@ -41,22 +46,15 @@ class RetrievedPolicy(BaseModel):
     policy_name: str
 
 
-PolicyRetriever = Agent(
-    MODEL,
-    name="Policy Retriever",
-    output_type=list[RetrievedPolicy],
-    system_prompt=(
-        "Return policies that may be relevant for the given contract clause."
-        "\n\nPolicy Index:\n\n"
-        f"{policy_index()}"
-    )
-)
-
-
 @ClauseReviewer.tool_plain
-async def retrieve_policies(clause: str) -> list[RetrievedPolicy]:
-    result = await PolicyRetriever.run(clause)
-    return result.output
+def retrieve_policies(clause: str) -> list[RetrievedPolicy]:
+    clause_lower = clause.lower()
+    results = []
+    for topic, keywords in _TOPIC_KEYWORDS.items():
+        if any(kw in clause_lower for kw in keywords):
+            for policy_name in POLICY_DB[topic]:
+                results.append(RetrievedPolicy(topic=topic, policy_name=policy_name))
+    return results
 
 
 @ClauseReviewer.tool_plain

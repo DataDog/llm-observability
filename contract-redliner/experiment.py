@@ -12,8 +12,7 @@ Usage:
 import asyncio
 import json
 from pathlib import Path
-from ddtrace.llmobs import LLMObs, EvaluatorResult
-from openai import AsyncOpenAI
+from ddtrace.llmobs import LLMObs, EvaluatorResult, LLMJudge, ScoreStructuredOutput
 
 MODEL = 'gpt-5.4-nano'
 
@@ -110,45 +109,23 @@ async def severity_accuracy(input_data, output_data, expected_output) -> Evaluat
     return EvaluatorResult(value=score, assessment="pass" if score >= 1.0 else "fail")
 
 
-_openai = AsyncOpenAI()
+revision_quality = LLMJudge(
+    name="revision_quality",
+    user_prompt=(
+        "You are a senior contract lawyer reviewing an AI agent's redlining work.\n\n"
+        "Expected revisions:\n{{expected_output}}\n\n"
+        "Agent revisions:\n{{output_data}}\n\n"
+        "Score 1–5 based on alignment in legal intent, risk coverage, and clause structure. "
 
-
-async def _rate_revision(expected: dict, actual: dict) -> float:
-    response = await _openai.chat.completions.create(
-        model=MODEL,
-        messages=[
-            {
-                "role": "system",
-                "content": "You are a senior contract lawyer reviewing an AI agent's redlining work.",
-            },
-            {
-                "role": "user",
-                "content": (
-                    f"EXPECTED REVISION:\n{json.dumps(expected, indent=2)}\n\n"
-                    f"AGENT REVISION:\n{json.dumps(actual, indent=2)}\n\n"
-                    "Score the agent's suggested revision from 1 to 5 based on how closely it "
-                    "matches the expected revision in legal intent, risk coverage, and clause structure. "
-                    "1 = completely wrong or missing, 5 = near-identical in substance. "
-                    "Reply with ONLY a single integer from 1 to 5."
-                ),
-            },
-        ],
-        max_completion_tokens=5,
-    )
-    try:
-        return float(response.choices[0].message.content.strip())
-    except (ValueError, AttributeError):
-        return 1.0
-
-
-async def revision_quality(input_data, output_data, expected_output) -> EvaluatorResult:
-    pairs = _matched_pairs(json.loads(expected_output["expected_proposals"]), output_data)
-    if not pairs:
-        return EvaluatorResult(value=1.0, assessment="fail")
-
-    scores = await asyncio.gather(*[_rate_revision(exp, actual) for exp, actual in pairs])
-    avg = sum(scores) / len(scores)
-    return EvaluatorResult(value=avg, assessment="pass" if avg >= 3.0 else "fail")
+    ),
+    structured_output=ScoreStructuredOutput(
+        min_score=1, 
+        max_score=5, 
+        reasoning=True,
+        description="Revision quality score from 1 (wrong/missing) to 5 (near-identical in substance)."),
+    provider="openai",
+    model=MODEL,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -156,14 +133,17 @@ async def revision_quality(input_data, output_data, expected_output) -> Evaluato
 # ---------------------------------------------------------------------------
 
 async def main():
+    print("Running contract redliner experiment demo...")
+
     experiment = LLMObs.async_experiment(
         name="contract-redliner-eval",
         task=task,
         dataset=dataset,
         evaluators=[clause_recall, clause_precision, severity_accuracy, revision_quality],
     )
-    await experiment.run(jobs=5)
-    print(f"done")
+    await experiment.run(jobs=5, sample_size=1)
+
+    print(f"Experiment done. Check results: {experiment.url}")
 
 
 if __name__ == "__main__":
