@@ -51,14 +51,12 @@ Note: the agent can take up to 30s to complete the task.
 After running `python main.py`, the agent returns a structured JSON object:
 
 ```json
-original_clause='1. SERVICE LEVELS. Provider will use commercially reasonable efforts to make the Service available. No specific uptime commitment is made. Downtime credits are not provided under any circumstances.'
-
-revision={
-  "reasoning": "Clause disclaims any uptime commitment and provides no downtime credits, which conflicts with policy requiring a 99.5% monthly uptime SLA and defined downtime credits. Revise to include minimum uptime and credits while keeping language largely similar and not materially longer.",
-  "revised_clause": "1. SERVICE LEVELS. Provider will use commercially reasonable efforts to make the Service available. Provider shall meet a minimum 99.5% monthly uptime SLA, measured on a monthly basis. If Provider fails to meet the SLA, Customer will receive downtime credits of at least 10% of the applicable monthly service fees for each full hour (or pro-rated, where applicable) of excess downtime during the month in which the SLA is not met.",
-  "risk_level": "high"
+{
+  "reasoning": "Liability cap of $100 is likely noncompliant with policy requiring a cap tied to amounts paid (e.g., fees paid in the prior 12 months) and certain structural requirements. Also, the clause lacks explicit alignment that SLA credit remedy is exclusive for availability failures and lacks common carve-outs structure.",
+  "revised_clause": "3. LIMITATION OF LIABILITY. EXCEPT FOR CLAIMS FOR (i) PROVIDER’S BREACH OF CONFIDENTIALITY OBLIGATIONS, (ii) PROVIDER’S GROSS NEGLIGENCE OR WILLFUL MISCONDUCT, AND (iii) AMOUNTS PAYABLE FOR CUSTOMER’S NON-PAYMENT, IN NO EVENT SHALL PROVIDER BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES. TO THE FULTH EXTENT PERMITTED BY LAW, PROVIDER’S TOTAL AGGREGATE LIABILITY ARISING OUT OF OR RELATING TO THIS AGREEMENT (WHETHER IN CONTRACT, TORT, OR OTHERWISE) WILL NOT EXCEED THE AMOUNT OF FEES PAID BY CUSTOMER TO PROVIDER IN THE 12 MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM. THE PARTIES AGREE THAT THE REMEDIES SET FORTH IN THIS AGREEMENT, INCLUDING DOWNTIME CREDITS UNDER SECTION 1, ARE CUSTOMER’S EXCLUSIVE REMEDY FOR SERVICE AVAILABILITY FAILURES.",
+  "risk_level": "medium",
+  "original_clause": "3. LIMITATION OF LIABILITY. IN NO EVENT SHALL PROVIDER BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES. Provider's total aggregate liability for any claims arising under this Agreement shall not exceed $100 USD."
 }
-
 ...[additional revisions]
 ```
 
