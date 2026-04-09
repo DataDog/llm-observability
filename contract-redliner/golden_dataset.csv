@@ -1,0 +1,193 @@
+id,contract,expected_proposals,category,severity
+saas_clean,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider guarantees 99.9% monthly uptime. Customer shall receive a credit of 10% of monthly fees per hour of excess downtime.
+
+2. DATA PROCESSING. Provider shall process Customer Data solely as directed by Customer. A GDPR-compliant Data Processing Addendum is attached as Exhibit A.
+
+3. INTELLECTUAL PROPERTY. Provider retains all rights in the Service and any improvements. Customer retains full ownership of all Customer Data.
+
+4. LIMITATION OF LIABILITY. Provider's aggregate liability shall not exceed fees paid by Customer in the twelve (12) months preceding the claim.
+
+5. TERMINATION. Either party may terminate upon thirty (30) days written notice. Immediate termination is permitted only for material uncured breach.",[],saas,none
+saas_no_sla,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider will use commercially reasonable efforts to maintain availability. No uptime guarantee is provided and no credits shall be owed for downtime.
+
+2. DATA PROCESSING. Provider processes Customer Data in accordance with its Privacy Policy.
+
+3. INTELLECTUAL PROPERTY. All IP in the Service remains with Provider. Customer retains ownership of Customer Data.
+
+4. LIMITATION OF LIABILITY. Provider's aggregate liability shall not exceed fees paid in the twelve months prior to the claim.
+
+5. TERMINATION. Either party may terminate upon thirty (30) days written notice.","[{""original_clause"": ""1. SERVICE LEVELS. Provider will use commercially reasonable efforts to maintain availability. No uptime guarantee is provided and no credits shall be owed for downtime."", ""reasoning"": ""Policy requires a minimum 99.5% uptime SLA with defined credit remedies. The current clause makes no commitment and waives all credits, leaving Customer with no contractual recourse for service failures."", ""revised_clause"": ""SERVICE LEVELS. Provider guarantees 99.5% monthly uptime. For each hour of excess downtime, Customer shall receive a credit equal to 10% of monthly fees, applied to the next invoice."", ""risk_level"": ""high""}]",saas,high
+saas_short_notice,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider guarantees 99.9% monthly uptime with 10% per-hour credits.
+
+2. DATA PROCESSING. A Data Processing Addendum is incorporated by reference as Exhibit A.
+
+3. INTELLECTUAL PROPERTY. Provider retains all IP. Customer retains ownership of Customer Data.
+
+4. LIMITATION OF LIABILITY. Provider's total liability shall not exceed fees paid in the twelve months preceding the claim.
+
+5. TERMINATION. Either party may terminate this Agreement upon five (5) days written notice.","[{""original_clause"": ""5. TERMINATION. Either party may terminate this Agreement upon five (5) days written notice."", ""reasoning"": ""Five-day notice is below the 30-day minimum required by policy."", ""revised_clause"": ""TERMINATION. Either party may terminate this Agreement upon thirty (30) days written notice."", ""risk_level"": ""medium""}]",saas,medium
+saas_joint_ip,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider guarantees 99.9% monthly uptime with defined credits.
+
+2. DATA PROCESSING. A compliant Data Processing Addendum is attached as Exhibit A.
+
+3. INTELLECTUAL PROPERTY. All improvements and derivative works created using the Service shall be jointly owned by Provider and Customer in equal shares.
+
+4. LIMITATION OF LIABILITY. Provider's aggregate liability shall not exceed fees paid in the prior twelve months.
+
+5. TERMINATION. Either party may terminate upon thirty (30) days written notice.","[{""original_clause"": ""3. INTELLECTUAL PROPERTY. All improvements and derivative works created using the Service shall be jointly owned by Provider and Customer in equal shares."", ""reasoning"": ""Policy requires platform IP to remain exclusively with Provider. Joint ownership creates legal ambiguity, hinders future development, and may expose proprietary technology to third-party claims."", ""revised_clause"": ""INTELLECTUAL PROPERTY. Provider retains all right, title, and interest in the Service and any improvements or derivative works thereto. Customer retains full ownership of all Customer Data."", ""risk_level"": ""high""}]",saas,high
+saas_bad_data_license,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider will use best efforts to maintain the Service. No uptime SLA is provided.
+
+2. DATA PROCESSING. Customer grants Provider an irrevocable license to use Customer Data for any purpose, including product improvement and marketing.
+
+3. INTELLECTUAL PROPERTY. Provider retains all IP in the Service. Customer retains ownership of Customer Data.
+
+4. LIMITATION OF LIABILITY. IN NO EVENT SHALL PROVIDER'S LIABILITY EXCEED $500.
+
+5. TERMINATION. Either party may terminate upon thirty (30) days written notice.","[{""original_clause"": ""2. DATA PROCESSING. Customer grants Provider an irrevocable license to use Customer Data for any purpose, including product improvement and marketing."", ""reasoning"": ""Granting Provider an irrevocable, purpose-unlimited license to Customer Data is a critical privacy and compliance risk, especially for EU/California customers requiring a DPA."", ""revised_clause"": ""DATA PROCESSING. Provider shall process Customer Data solely as instructed by Customer and only as necessary to provide the Service. A Data Processing Addendum is incorporated by reference."", ""risk_level"": ""high""}, {""original_clause"": ""4. LIMITATION OF LIABILITY. IN NO EVENT SHALL PROVIDER'S LIABILITY EXCEED $500."", ""reasoning"": ""A $500 liability cap is grossly inadequate and violates the 12-month fees policy minimum."", ""revised_clause"": ""LIMITATION OF LIABILITY. Provider's aggregate liability shall not exceed fees paid by Customer in the twelve (12) months preceding the claim."", ""risk_level"": ""high""}]",saas,high
+saas_all_issues,"SOFTWARE AS A SERVICE AGREEMENT
+
+1. SERVICE LEVELS. Provider will endeavour to maintain Service availability. No SLA or credits are provided.
+
+2. DATA PROCESSING. No data processing terms are specified.
+
+3. INTELLECTUAL PROPERTY. All derivative works created by Customer shall be jointly owned by both parties.
+
+4. LIMITATION OF LIABILITY. Provider's total liability shall not exceed $100.
+
+5. TERMINATION. Either party may terminate immediately upon written notice.","[{""original_clause"": ""1. SERVICE LEVELS. Provider will endeavour to maintain Service availability. No SLA or credits are provided."", ""reasoning"": ""No SLA and no downtime credits violates policy requiring a 99.5% uptime minimum."", ""revised_clause"": ""SERVICE LEVELS. Provider guarantees 99.5% monthly uptime. Downtime credits of 10% of monthly fees per hour of excess downtime shall apply."", ""risk_level"": ""high""}, {""original_clause"": ""2. DATA PROCESSING. No data processing terms are specified."", ""reasoning"": ""Policy requires a DPA for any EU/California personal data processing."", ""revised_clause"": ""DATA PROCESSING. Provider processes Customer Data solely as instructed by Customer. A GDPR-compliant Data Processing Addendum is incorporated as Exhibit A."", ""risk_level"": ""high""}, {""original_clause"": ""3. INTELLECTUAL PROPERTY. All derivative works created by Customer shall be jointly owned by both parties."", ""reasoning"": ""Joint IP ownership of Customer derivative works violates policy \u2014 platform IP must remain with Provider."", ""revised_clause"": ""INTELLECTUAL PROPERTY. Provider retains all IP in the Service. Customer retains full ownership of all Customer Data and derivative works."", ""risk_level"": ""high""}, {""original_clause"": ""4. LIMITATION OF LIABILITY. Provider's total liability shall not exceed $100."", ""reasoning"": ""A $100 flat cap is commercially unreasonable and violates policy."", ""revised_clause"": ""LIMITATION OF LIABILITY. Provider's aggregate liability shall not exceed fees paid by Customer in the twelve (12) months preceding the claim."", ""risk_level"": ""high""}, {""original_clause"": ""5. TERMINATION. Either party may terminate immediately upon written notice."", ""reasoning"": ""Immediate termination without notice violates the 30-day minimum required by policy."", ""revised_clause"": ""TERMINATION. Either party may terminate upon thirty (30) days written notice."", ""risk_level"": ""medium""}]",saas,high
+nda_clean,"MUTUAL NON-DISCLOSURE AGREEMENT
+
+1. CONFIDENTIAL INFORMATION. 'Confidential Information' means all non-public information disclosed by either party, excluding information that: (a) is or becomes publicly known through no breach of this Agreement; (b) was independently developed by the recipient; (c) was received from a third party without restriction; or (d) is required to be disclosed by law, provided prompt written notice is given.
+
+2. TERM AND SURVIVAL. This Agreement shall remain in effect for two (2) years. Confidentiality obligations shall survive termination for three (3) years for general information.
+
+3. RETURN OR DESTRUCTION. Upon request, each party shall promptly return or destroy all Confidential Information and certify such destruction in writing.
+
+4. INJUNCTIVE RELIEF. Each party acknowledges that breach may cause irreparable harm and that either party shall be entitled to seek injunctive relief in addition to other remedies available at law or equity.",[],nda,none
+nda_no_carveouts,"NON-DISCLOSURE AGREEMENT
+
+1. CONFIDENTIAL INFORMATION. 'Confidential Information' means any and all information disclosed by Disclosing Party to Receiving Party, in any form whatsoever.
+
+2. TERM AND SURVIVAL. Confidentiality obligations shall survive termination of this Agreement for three (3) years.
+
+3. RETURN OR DESTRUCTION. Receiving Party shall return or destroy Confidential Information upon written request and provide written certification of destruction.
+
+4. INJUNCTIVE RELIEF. Either party may seek injunctive relief for any breach hereof, on a mutual basis.","[{""original_clause"": ""1. CONFIDENTIAL INFORMATION. 'Confidential Information' means any and all information disclosed by Disclosing Party to Receiving Party, in any form whatsoever."", ""reasoning"": ""Policy requires all four standard carve-outs in the definition of Confidential Information. Omitting them makes the scope unbounded and commercially unacceptable."", ""revised_clause"": ""CONFIDENTIAL INFORMATION. 'Confidential Information' means non-public information disclosed by Disclosing Party, excluding information that: (a) is or becomes public through no breach hereof; (b) was independently developed by Receiving Party; (c) was received from a third party without restriction; or (d) is required by law to be disclosed, provided prompt written notice is given to Disclosing Party."", ""risk_level"": ""high""}]",nda,high
+nda_return_only,"NON-DISCLOSURE AGREEMENT
+
+1. CONFIDENTIAL INFORMATION. 'Confidential Information' means non-public information disclosed by either party, excluding publicly known, independently developed, third-party received, or legally compelled disclosures.
+
+2. TERM AND SURVIVAL. Confidentiality obligations shall survive in perpetuity.
+
+3. RETURN OR DESTRUCTION. Upon termination, Receiving Party shall return all Confidential Information to Disclosing Party within 30 days.
+
+4. INJUNCTIVE RELIEF. Either party may seek injunctive relief on a mutual basis.","[{""original_clause"": ""3. RETURN OR DESTRUCTION. Upon termination, Receiving Party shall return all Confidential Information to Disclosing Party within 30 days."", ""reasoning"": ""Policy requires that Receiving Party have the option to destroy (not only return) Confidential Information, with written certification provided upon request."", ""revised_clause"": ""RETURN OR DESTRUCTION. Upon request, Receiving Party shall promptly return or, at its election, destroy all Confidential Information and provide written certification of such destruction."", ""risk_level"": ""high""}]",nda,high
+nda_all_issues,"NON-DISCLOSURE AGREEMENT
+
+1. CONFIDENTIAL INFORMATION. Means all non-public information disclosed hereunder with no exclusions.
+
+2. TERM AND SURVIVAL. Confidentiality obligations shall survive in perpetuity.
+
+3. RETURN OR DESTRUCTION. Receiving Party shall return all materials; destruction is not permitted.
+
+4. INJUNCTIVE RELIEF. Disclosing Party shall be exclusively entitled to seek injunctive relief. Receiving Party waives any right to injunctive relief.","[{""original_clause"": ""1. CONFIDENTIAL INFORMATION. Means all non-public information disclosed hereunder with no exclusions."", ""reasoning"": ""No carve-outs make the definition unenforceable and overbroad. Policy requires standard exclusions."", ""revised_clause"": ""CONFIDENTIAL INFORMATION. 'Confidential Information' means non-public information disclosed by either party, excluding: (a) publicly known information; (b) independently developed information; (c) information received from a third party without restriction; and (d) information required to be disclosed by law."", ""risk_level"": ""high""}, {""original_clause"": ""2. TERM AND SURVIVAL. Confidentiality obligations shall survive in perpetuity."", ""reasoning"": ""Perpetual obligations are commercially unreasonable and violate the 3-year policy cap."", ""revised_clause"": ""TERM AND SURVIVAL. Confidentiality obligations survive termination for three (3) years for general information; trade secrets survive as designated."", ""risk_level"": ""high""}, {""original_clause"": ""3. RETURN OR DESTRUCTION. Receiving Party shall return all materials; destruction is not permitted."", ""reasoning"": ""Policy requires destruction as an option. Return-only obligation is insufficient."", ""revised_clause"": ""RETURN OR DESTRUCTION. Upon request, Receiving Party shall promptly return or destroy all Confidential Information and provide written certification of such destruction."", ""risk_level"": ""medium""}, {""original_clause"": ""4. INJUNCTIVE RELIEF. Disclosing Party shall be exclusively entitled to seek injunctive relief. Receiving Party waives any right to injunctive relief."", ""reasoning"": ""Policy requires injunctive relief to be mutual. Unilateral entitlement only for Disclosing Party is unacceptable."", ""revised_clause"": ""INJUNCTIVE RELIEF. Either party acknowledges that breach may cause irreparable harm and that either party shall be entitled to seek injunctive or other equitable relief without prejudice to other remedies."", ""risk_level"": ""medium""}]",nda,high
+employment_clean,"EMPLOYMENT AGREEMENT
+
+1. AT-WILL EMPLOYMENT. Employee's employment is at-will. Either party may terminate the employment relationship at any time, for any lawful reason or no reason.
+
+2. NON-COMPETE. Employee agrees not to compete with Company for twelve (12) months following termination within a fifty (50) mile radius of Employee's primary work location.
+
+3. SEVERANCE. Upon termination without cause, Employee shall receive two (2) weeks of base salary per year of service, contingent on execution of a release of claims.
+
+4. IP ASSIGNMENT. Employee hereby assigns to Company all inventions, works, and intellectual property created during the term of employment.",[],employment,none
+employment_fixed_term,"EMPLOYMENT AGREEMENT
+
+1. EMPLOYMENT TERM. Employee is hired for a fixed term of two (2) years and may only be terminated for cause as defined herein.
+
+2. NON-COMPETE. Employee agrees not to compete for twelve (12) months within a fifty (50) mile radius following termination.
+
+3. SEVERANCE. Employee shall receive two (2) weeks per year of service upon termination without cause.
+
+4. IP ASSIGNMENT. Employee assigns all work-product IP to Company.","[{""original_clause"": ""1. EMPLOYMENT TERM. Employee is hired for a fixed term of two (2) years and may only be terminated for cause as defined herein."", ""reasoning"": ""Policy requires an at-will employment clause for US employees. A fixed-term cause-only arrangement significantly limits Company's ability to manage its workforce and creates substantial legal exposure."", ""revised_clause"": ""EMPLOYMENT. Employee's employment is at-will. Either party may terminate the relationship at any time for any lawful reason or no reason, with or without notice."", ""risk_level"": ""high""}]",employment,high
+employment_no_severance,"EMPLOYMENT AGREEMENT
+
+1. AT-WILL EMPLOYMENT. Employment is at-will and may be terminated by either party at any time for any lawful reason.
+
+2. NON-COMPETE. Employee shall not compete with Company for three (3) years following termination, anywhere in the United States.
+
+3. SEVERANCE. No severance is provided upon termination.
+
+4. IP ASSIGNMENT. Employee assigns to Company all inventions created during employment.","[{""original_clause"": ""2. NON-COMPETE. Employee shall not compete with Company for three (3) years following termination, anywhere in the United States."", ""reasoning"": ""A 3-year nationwide non-compete is likely unenforceable in most US jurisdictions and violates policy limits of 12 months and 50 miles."", ""revised_clause"": ""NON-COMPETE. Employee agrees not to engage in competitive activity for twelve (12) months following termination within a fifty (50) mile radius of Employee's primary work location, or with specifically named competitors."", ""risk_level"": ""high""}, {""original_clause"": ""3. SEVERANCE. No severance is provided upon termination."", ""reasoning"": ""No severance provision violates policy minimum of 2 weeks per year of service."", ""revised_clause"": ""SEVERANCE. In the event of termination without cause, Employee shall receive severance pay equal to two (2) weeks of base salary for each full year of service, with a minimum of two (2) weeks."", ""risk_level"": ""medium""}]",employment,high
+employment_all_issues,"EMPLOYMENT AGREEMENT
+
+1. AT-WILL EMPLOYMENT. This is an at-will arrangement terminable by either party.
+
+2. NON-COMPETE. Employee shall not compete for five (5) years worldwide.
+
+3. SEVERANCE. No severance shall be paid for any reason.
+
+4. IP ASSIGNMENT. All intellectual property created by Employee during or outside of working hours belongs to Company.","[{""original_clause"": ""2. NON-COMPETE. Employee shall not compete for five (5) years worldwide."", ""reasoning"": ""A 5-year worldwide non-compete is unenforceable and violates policy."", ""revised_clause"": ""NON-COMPETE. Employee shall not compete for twelve (12) months post-termination within a fifty (50) mile radius of Employee's primary office location."", ""risk_level"": ""high""}, {""original_clause"": ""3. SEVERANCE. No severance shall be paid for any reason."", ""reasoning"": ""No severance provision violates policy minimum of 2 weeks per year of service."", ""revised_clause"": ""SEVERANCE. In the event of termination without cause, Employee shall receive severance pay equal to two (2) weeks of base salary for each full year of service, with a minimum of two (2) weeks."", ""risk_level"": ""medium""}, {""original_clause"": ""4. IP ASSIGNMENT. All intellectual property created by Employee during or outside of working hours belongs to Company."", ""reasoning"": ""Assigning all IP regardless of when created is overbroad and likely unenforceable. Policy requires a carve-out for pre-existing IP."", ""revised_clause"": ""IP ASSIGNMENT. Employee assigns to Company all IP created during working hours or using Company resources during employment. Pre-existing IP listed in Exhibit A is excluded."", ""risk_level"": ""medium""}]",employment,high
+vendor_clean,"VENDOR SERVICES AGREEMENT
+
+1. PAYMENT. Customer shall pay all invoices within thirty (30) days of receipt. Late payments accrue interest at 1.5% per month.
+
+2. INDEMNIFICATION. Each party shall indemnify and hold harmless the other from claims arising out of its own acts or omissions.
+
+3. TERMINATION. Either party may terminate this Agreement for convenience upon thirty (30) days written notice. Auto-renewal requires sixty (60) days opt-out notice.
+
+4. GOVERNING LAW. This Agreement shall be governed by the laws of the State of Delaware.",[],vendor,none
+vendor_unilateral_indemnity,"VENDOR SERVICES AGREEMENT
+
+1. PAYMENT. Customer shall pay invoices within thirty (30) days.
+
+2. INDEMNIFICATION. Customer shall indemnify, defend, and hold harmless Vendor from and against any and all claims, losses, and liabilities arising from Customer's use of the services.
+
+3. TERMINATION. Either party may terminate upon thirty (30) days written notice.
+
+4. GOVERNING LAW. This Agreement is governed by Delaware law.","[{""original_clause"": ""2. INDEMNIFICATION. Customer shall indemnify, defend, and hold harmless Vendor from and against any and all claims, losses, and liabilities arising from Customer's use of the services."", ""reasoning"": ""Policy requires mutual indemnification. Unilateral indemnification benefiting only Vendor creates significant financial exposure for Customer."", ""revised_clause"": ""INDEMNIFICATION. Each party shall indemnify, defend, and hold harmless the other party from claims arising out of its own acts, omissions, or breach of this Agreement."", ""risk_level"": ""high""}]",vendor,high
+vendor_immediate_termination,"VENDOR SERVICES AGREEMENT
+
+1. PAYMENT. Customer shall pay all invoices within sixty (60) days of receipt. No late payment interest applies.
+
+2. INDEMNIFICATION. Each party indemnifies the other for its own acts or omissions.
+
+3. TERMINATION. This Agreement may be terminated immediately by either party for any reason without notice.
+
+4. GOVERNING LAW. This Agreement is governed by the laws of Delaware.","[{""original_clause"": ""3. TERMINATION. This Agreement may be terminated immediately by either party for any reason without notice."", ""reasoning"": ""Allowing immediate termination for any reason provides no operational continuity. Policy mandates 30 days written notice for termination for convenience."", ""revised_clause"": ""TERMINATION. Either party may terminate for convenience upon thirty (30) days written notice. Immediate termination is permitted only for material uncured breach. Auto-renewal requires sixty (60) days opt-out notice."", ""risk_level"": ""medium""}]",vendor,medium
+vendor_multi_issue,"VENDOR SERVICES AGREEMENT
+
+1. PAYMENT. Customer shall pay invoices within ninety (90) days.
+
+2. INDEMNIFICATION. Vendor shall indemnify Customer for Vendor's breaches only. Customer provides no indemnification to Vendor.
+
+3. TERMINATION. Either party may terminate immediately without notice.
+
+4. GOVERNING LAW. This Agreement is governed by the laws of England and Wales.","[{""original_clause"": ""1. PAYMENT. Customer shall pay invoices within ninety (90) days."", ""reasoning"": ""Net-90 payment terms violate policy requiring Net-30."", ""revised_clause"": ""PAYMENT. Customer shall pay all invoices within thirty (30) days of receipt. Late payments accrue interest at 1.5% per month."", ""risk_level"": ""medium""}, {""original_clause"": ""2. INDEMNIFICATION. Vendor shall indemnify Customer for Vendor's breaches only. Customer provides no indemnification to Vendor."", ""reasoning"": ""Policy requires mutual indemnification. One-sided protection is not acceptable."", ""revised_clause"": ""INDEMNIFICATION. Each party shall indemnify, defend, and hold harmless the other party from claims arising out of its own acts, omissions, or breach."", ""risk_level"": ""medium""}, {""original_clause"": ""3. TERMINATION. Either party may terminate immediately without notice."", ""reasoning"": ""Immediate termination without notice violates the 30-day minimum required by policy."", ""revised_clause"": ""TERMINATION. Either party may terminate for convenience upon thirty (30) days written notice."", ""risk_level"": ""medium""}, {""original_clause"": ""4. GOVERNING LAW. This Agreement is governed by the laws of England and Wales."", ""reasoning"": ""Policy requires governing law to be Delaware or counterparty's US state of incorporation. English law creates jurisdictional complexity and enforcement challenges."", ""revised_clause"": ""GOVERNING LAW. This Agreement shall be governed by the laws of the State of Delaware, without regard to conflict of law principles."", ""risk_level"": ""low""}]",vendor,medium
+vendor_all_issues,"VENDOR SERVICES AGREEMENT
+
+1. PAYMENT. All invoices are due within ninety (90) days. No interest accrues on late payments.
+
+2. INDEMNIFICATION. Customer shall fully indemnify Vendor against all claims of any nature whatsoever.
+
+3. TERMINATION. This Agreement auto-renews annually. Neither party may terminate for convenience; termination requires mutual written consent.
+
+4. GOVERNING LAW. This Agreement is governed by the laws of the Cayman Islands.","[{""original_clause"": ""1. PAYMENT. All invoices are due within ninety (90) days. No interest accrues on late payments."", ""reasoning"": ""Net-90 payment terms with no late interest violate policy requiring Net-30."", ""revised_clause"": ""PAYMENT. Customer shall pay all invoices within thirty (30) days of receipt. Late payments accrue interest at 1.5% per month."", ""risk_level"": ""medium""}, {""original_clause"": ""2. INDEMNIFICATION. Customer shall fully indemnify Vendor against all claims of any nature whatsoever."", ""reasoning"": ""Policy requires mutual indemnification. Unlimited unilateral indemnity is unacceptable."", ""revised_clause"": ""INDEMNIFICATION. Indemnification obligations are mutual. Each party shall indemnify the other only for claims arising from its own breach or negligence."", ""risk_level"": ""high""}, {""original_clause"": ""3. TERMINATION. This Agreement auto-renews annually. Neither party may terminate for convenience; termination requires mutual written consent."", ""reasoning"": ""Requiring mutual consent to terminate is commercially unreasonable and traps Customer. Policy requires a 30-day termination right and 60-day auto-renewal opt-out."", ""revised_clause"": ""TERMINATION. Either party may terminate for convenience upon thirty (30) days written notice. Auto-renewal may be prevented by sixty (60) days opt-out notice prior to renewal date."", ""risk_level"": ""high""}, {""original_clause"": ""4. GOVERNING LAW. This Agreement is governed by the laws of the Cayman Islands."", ""reasoning"": ""Offshore governing law creates enforcement complexity. Policy requires US jurisdiction."", ""revised_clause"": ""GOVERNING LAW. This Agreement is governed by the laws of the State of Delaware."", ""risk_level"": ""low""}]",vendor,high
+employment_low_severance,"EMPLOYMENT AGREEMENT
+
+1. EMPLOYMENT AT-WILL. Employee's employment is at-will and may be terminated by either party at any time for any reason, with or without cause or notice.
+
+2. NON-COMPETE. Employee agrees not to engage in any competitive activity anywhere in the United States for a period of three (3) years following termination.
+
+3. SEVERANCE. In the event of termination without cause, Employee shall receive one (1) week of severance pay regardless of length of service.
+
+4. IP ASSIGNMENT. Employee hereby assigns to Employer all inventions, works, and intellectual property conceived or created during employment, whether or not related to Employer's business.","[{""original_clause"": ""2. NON-COMPETE. Employee agrees not to engage in any competitive activity anywhere in the United States for a period of three (3) years following termination."", ""reasoning"": ""A 3-year nationwide non-compete is unenforceable in most US jurisdictions and exceeds policy limits. Policy requires maximum 12 months and 50-mile radius."", ""revised_clause"": ""NON-COMPETE. Employee agrees not to engage in competitive activity within a fifty (50) mile radius of Employee's primary work location for a period of twelve (12) months following termination."", ""risk_level"": ""high""}, {""original_clause"": ""3. SEVERANCE. In the event of termination without cause, Employee shall receive one (1) week of severance pay regardless of length of service."", ""reasoning"": ""A flat 1-week severance is below policy minimum of 2 weeks per year of service and creates legal and reputational risk."", ""revised_clause"": ""SEVERANCE. In the event of termination without cause, Employee shall receive severance pay equal to two (2) weeks of base salary for each full year of service, with a minimum of two (2) weeks."", ""risk_level"": ""medium""}, {""original_clause"": ""4. IP ASSIGNMENT. Employee hereby assigns to Employer all inventions, works, and intellectual property conceived or created during employment, whether or not related to Employer's business."", ""reasoning"": ""Assigning all inventions regardless of subject matter or resources used is overbroad and likely unenforceable. Scoping to work-related IP is standard practice."", ""revised_clause"": ""IP ASSIGNMENT. Employee assigns to Employer all inventions conceived or created during employment that relate to Employer's business, are made with Employer resources, or arise from Employee's work duties. Inventions unrelated to Employer's business and created without Employer resources are excluded."", ""risk_level"": ""low""}]",employment,high

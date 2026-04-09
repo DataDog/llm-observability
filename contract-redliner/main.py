@@ -1,0 +1,52 @@
+"""Entry point for the contract redliner demo.
+
+Run from inside the contract_redliner/ directory:
+  python main.py
+"""
+import asyncio
+import os
+from pathlib import Path
+
+from ddtrace.llmobs import LLMObs
+
+LLMObs.enable(
+    ml_app="contract-redliner",
+    agentless_enabled=True,
+)
+
+from contract_redliner.agent import run_redliner  # noqa: E402 — import after LLMObs.enable()
+
+EXAMPLE_CONTRACT = """
+SOFTWARE AS A SERVICE AGREEMENT
+
+This Software as a Service Agreement ("Agreement") is entered into as of the Effective Date
+between Acme Corp ("Provider") and Customer.
+
+1. SERVICE LEVELS. Provider will use commercially reasonable efforts to make the Service
+available. No specific uptime commitment is made. Downtime credits are not provided under
+any circumstances.
+
+2. INTELLECTUAL PROPERTY. All improvements, modifications, or derivative works created by
+Customer using the Service shall be jointly owned by both parties. Provider may use any
+feedback provided by Customer to improve the Service without restriction or compensation.
+
+3. LIMITATION OF LIABILITY. IN NO EVENT SHALL PROVIDER BE LIABLE FOR ANY INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES. Provider's total aggregate
+liability for any claims arising under this Agreement shall not exceed $100 USD.
+
+4. DATA PROCESSING. Customer grants Provider a perpetual, irrevocable license to use,
+process, and disclose Customer Data for any purpose, including improving Provider's products,
+marketing, and sharing with third-party partners without restriction.
+"""
+
+
+if __name__ == "__main__":
+    print("Running contract redliner demo...")
+    print("Input contract:")
+    print(EXAMPLE_CONTRACT)
+
+    proposed_revisions = asyncio.run(run_redliner(EXAMPLE_CONTRACT))
+
+    print("Output:")
+    for revision in proposed_revisions:
+        print(revision.model_dump_json(indent=2))
