@@ -44,7 +44,7 @@ pip install -r requirements.txt
 
 ### 1. DeepEval Demo
 
-**[This python file](./1-deepeval-demo.py)** contains an LLMObs experiment using a DeepEval evaluator.
+**[This python file](./1-deepeval-demo.py)** contains an LLMObs experiment using a DeepEval evaluator. Read more about DeepEval evaluations [here](https://deepeval.com/docs/metrics-introduction).
 
 Run `python 1-deepeval-demo.py`. After running the experiment, the experiment's results should appear under the project name in the experiments page.
 
@@ -53,6 +53,19 @@ Run `python 1-deepeval-demo.py`. After running the experiment, the experiment's 
 Clicking on the experiment allows you to view the evaluation result(s) per record in the dataset.
 
 <img src="../../images/deepeval-experiment-result.png" height="350">
+
+
+### 2. Pydantic Demo
+
+**[This python file](./2-pydantic-demo.py)** contains an LLMObs experiment using a Pydantic evaluator and a Pydantic report evaluator. LLM Observability supports all Pydantic evaluators, and all Pydantic report evaluators that return a `ScalarResult`. Read more about Pydantic evaluators [here](https://ai.pydantic.dev/evals/evaluators/overview/) and Pydantic report evaluators [here](https://ai.pydantic.dev/evals/evaluators/report-evaluators/).
+
+Run `python 2-pydantic-demo.py`. After running the experiment, the experiment's results should appear under the project name in the experiments page.
+
+<img src="../../images/pydantic-experiment-result-overview.png" height="350">
+
+Clicking on the experiment allows you to view the evaluation result(s) per record in the dataset.
+
+<img src="../../images/pydantic-experiment-result.png" height="350">
 
 
 ## Teardown
