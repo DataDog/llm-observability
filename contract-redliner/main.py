@@ -37,12 +37,6 @@ liability for any claims arising under this Agreement shall not exceed $100 USD.
 4. DATA PROCESSING. Customer grants Provider a perpetual, irrevocable license to use,
 process, and disclose Customer Data for any purpose, including improving Provider's products,
 marketing, and sharing with third-party partners without restriction.
-
-5. TERMINATION. Either party may terminate this Agreement immediately upon written notice
-for any reason or no reason, without penalty or further obligation.
-
-6. PAYMENT. Customer shall pay all fees within 90 days of invoice. Late payments accrue
-interest at 5% per month. Provider may suspend Service after 1 day of non-payment.
 """
 
 

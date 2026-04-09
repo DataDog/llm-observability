@@ -43,7 +43,8 @@ python main.py
 ```
 
 The example script (`main.py`) runs the agent on a sample SaaS contract with intentionally problematic clauses. 
-All agent actions, LLM calls, and tool invocations are automatically traced in Datadog LLM Observability for debugging and performance analysis.
+All agent actions, LLM calls, and tool invocations are automatically traced in Datadog LLM Observability for debugging and performance analysis.  
+Note: the agent can take up to 30s to complete the task.
 
 ### Example output
 
