@@ -141,7 +141,7 @@ async def main():
         dataset=dataset,
         evaluators=[clause_recall, clause_precision, severity_accuracy, revision_quality],
     )
-    await experiment.run(jobs=5, sample_size=1)
+    await experiment.run(jobs=5)
 
     print(f"Experiment done. Check results: {experiment.url}")
 
