@@ -232,7 +232,7 @@ def labelization_function(individual_result):
         return "BAD EXAMPLE"
 
 
-def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
+def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluators_results):
     """Calculate classification accuracy across the entire dataset.
 
     This summary evaluator computes the percentage of correctly classified incidents.

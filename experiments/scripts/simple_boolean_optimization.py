@@ -238,7 +238,7 @@ def labelization_function(individual_result):
     else:  # false_positive or false_negative
         return "BAD EXAMPLE"
 
-def boolean_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
+def boolean_summary_evaluator(inputs, outputs, expected_outputs, evaluators_results):
     """Calculate aggregate performance metrics across the entire dataset."""
     true_positives = 0
     false_positives = 0
