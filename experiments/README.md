@@ -11,4 +11,15 @@ LLM Observability Experiments provide a structured way to:
 - **Track performance metrics** over time and across iterations
 - **Identify issues** like hallucinations or poor accuracy before production
 
-To get started, explore the notebooks in the `notebooks/` directory or use the Postman collection (`experiments.postman_collection.json`) for submitting data directly to our APIs for cases where we don't support an SDK in your language.
+## Key SDK classes
+
+| Class | Description |
+|-------|-------------|
+| `EvaluatorResult` | Rich evaluation result with `value`, `reasoning`, `assessment`, `metadata`, and `tags`. |
+| `MultiEvaluatorResult` | Return multiple named metrics from one evaluator call. Each sub-value can be a plain value or an `EvaluatorResult`. Labels default to `"<evaluator_name>-<key>"`; pass `prefix=False` for raw keys. |
+| `BaseEvaluator` | Base class for class-based evaluators with custom configuration or state. |
+| `BaseSummaryEvaluator` | Base class for evaluators that run once after all records and compute aggregate statistics. |
+
+## Getting started
+
+Explore the notebooks in the `notebooks/` directory or use the Postman collection (`experiments.postman_collection.json`) for submitting data directly to our APIs for cases where we don't support an SDK in your language.
