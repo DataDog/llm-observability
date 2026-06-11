@@ -1,0 +1,40 @@
+{
+  "name": "@datadog/llm-experiments",
+  "version": "0.1.0",
+  "description": "Thin workflow layer over the Datadog LLM Observability API for running LLM experiments (Node.js / TypeScript). Interface parity with datadog-llm-experiments-java.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@datadog/datadog-api-client": "^1.58.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "prepack": "npm run clean && npm run build",
+    "test": "node --import tsx --test test/*.test.ts",
+    "sanity": "node --import tsx sanity-check.ts",
+    "runTopicRelevance": "node --import tsx examples/topicRelevance.ts",
+    "runMinimalExperiment": "node --import tsx examples/minimalExperiment.ts",
+    "runDatasetOperations": "node --import tsx examples/datasetOperations.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
