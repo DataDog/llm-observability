@@ -89,7 +89,7 @@ from openai import OpenAI
 from pydantic import BaseModel
 
 # Prevent ddtrace connection refused error
-os.environ["DD_TRACE_ENABLED"] = "false"
+os.environ["DD_APM_TRACING_ENABLED"] = "false"
 
 # Experiment variables
 ML_APP = "YOUR_ML_APP"
@@ -318,7 +318,8 @@ def main():
     """
     LLMObs.enable(
         ml_app=ML_APP,
-        project_name=PROJECT_NAME
+        project_name=PROJECT_NAME,
+        agentless_enabled=True,
     )
 
     # Load dataset
