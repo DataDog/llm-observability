@@ -4,8 +4,7 @@
  * Used only for the endpoints with active spec-drift workarounds — the records
  * POST (W1), the experiment events POST (W2), and the experiment status PATCH
  * (the generated update model has no `status` field). Everything else goes
- * through the generated `@datadog/datadog-api-client`. This mirrors what the Java
- * SDK's `DirectPost` does.
+ * through the generated `@datadog/datadog-api-client`.
  *
  * Because we build the URL ourselves (`https://api.<site><path>`), the staging
  * site `datad0g.com` and the GovCloud sites just work here too.

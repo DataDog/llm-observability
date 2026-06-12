@@ -3,10 +3,8 @@
 > **Status: preview (v0.1).** The API may change. Not yet published to npm — install from source.
 
 A thin workflow layer over the Datadog LLM Observability API for running LLM
-experiments from Node.js. This SDK is **interface-compatible** with
-[`datadog-llm-experiments-java`](../java-sdk): the same six concepts, the same
-operations, and the same wire format. A user who knows one SDK can use the other
-without learning anything new.
+experiments from Node.js — six small types covering datasets, tasks, evaluators,
+and experiment runs.
 
 ## Requirements
 
@@ -106,33 +104,15 @@ budget, it throws a clear error.
 - A thrown error in an **evaluator** is captured as an `error` on that metric;
   other evaluators and rows continue.
 
-## API parity with the Java SDK
-
-The two SDKs map one-to-one. Node uses object-argument constructors and
-`async/await` where Java uses builders and blocking calls; everything else —
-type names, methods, wire format, auto-tags, metadata propagation — is identical.
-
-| Java | Node |
-|---|---|
-| `ExperimentsClient.builder()....build()` | `new ExperimentsClient({...})` *or* `ExperimentsClient.builder()....build()` |
-| `client.createDataset(name, desc)` | `client.createDataset(name, desc)` |
-| `client.pullDataset(name)` | `await client.pullDataset(name)` (optional `{ expectedRecordCount, maxWaitMs }` — see below) |
-| `dataset.addRecord(input, expected, meta)` | `dataset.addRecord(input, expected, meta)` |
-| `Experiment.builder(client)....build()` | `Experiment.builder(client)....build()` |
-| `experiment.run()` | `await experiment.run()` |
-| `result.url()` | `result.url` |
-| `client.api()` (generated `LlmObservabilityApi`) | `client.api()` (generated `LLMObservabilityApi` from `@datadog/datadog-api-client`) |
-
 ## Limitations (v0.1)
 
 - **Sequential execution.** Rows run one at a time; parallelism is a v0.2 add.
 - **No tracer dependency.** Spans are emitted via the events endpoint, not
-  `dd-trace`. This is intentional per the polyglot spec.
-- **Transport.** Like the Java SDK, the Node SDK calls the generated
-  `@datadog/datadog-api-client` (`LLMObservabilityApi`) for project, dataset and
-  experiment creation and for the dataset list/record-list reads. The three
-  endpoints with active spec-drift workarounds are hand-rolled over `fetch`,
-  exactly as Java hand-rolls them via `DirectPost`:
+  `dd-trace`. This is intentional.
+- **Transport.** The SDK calls the generated `@datadog/datadog-api-client`
+  (`LLMObservabilityApi`) for project, dataset and experiment creation and for
+  the dataset/record list reads. Three endpoints the generated client cannot
+  perform correctly are hand-rolled over `fetch`:
   - **W1** — records POST must send `type: "datasets"` (generated model still emits `"records"`).
   - **W2** — events POST must send `type: "experiments"` (generated model still emits `"events"`).
   - experiment **status PATCH** — the generated update model exposes only `name`/`description`, not `status`.
@@ -154,12 +134,7 @@ type names, methods, wire format, auto-tags, metadata propagation — is identic
 DD_API_KEY=... DD_APPLICATION_KEY=... npm run runTopicRelevance
 ```
 
-These are direct ports of the Java SDK examples — same dataset records,
-evaluators, config and tags — so the Node and Java runs produce equivalent
-artifacts. They write to Node-specific projects (`node-sdk-bootstrap`,
-`node-sdk-minimal`; the Java examples use `java-sdk-bootstrap` /
-`java-sdk-minimal`), keeping each SDK's artifacts in its own project for
-side-by-side comparison.
+The examples write to the `node-sdk-bootstrap` and `node-sdk-minimal` projects.
 
 ## Develop & test
 
@@ -170,4 +145,4 @@ npm run build # type-check + emit dist/
 
 The unit tests assert the exact wire format (span/metric JSON, `type`
 discriminators, auto-tags, metadata propagation, metric typing, error capture)
-against a mocked `fetch`, so they run offline and pin parity with the spec.
+against a mocked `fetch`, so they run offline and pin the wire format.

@@ -1,8 +1,8 @@
 /**
  * Immutable dataset record: `{ input, expectedOutput?, metadata? }`.
  *
- * Mirrors the Java `DatasetRecord`. `metadata` is propagated raw (unwrapped) to
- * the experiment span's `meta.metadata`.
+ * `metadata` is propagated raw (unwrapped) to the experiment span's
+ * `meta.metadata`.
  */
 export class DatasetRecord {
   readonly input: unknown;

@@ -5,7 +5,7 @@ import { appBase } from "./internal/http.js";
 
 /**
  * A local buffer of dataset records, auto-created and pushed remotely on the
- * first `experiment.run()` (or eagerly via `push()`). Mirrors the Java `Dataset`.
+ * first `experiment.run()` (or eagerly via `push()`).
  *
  * `addRecord` is fluent. `id()`/`projectId()` are null until the dataset has been
  * pushed.

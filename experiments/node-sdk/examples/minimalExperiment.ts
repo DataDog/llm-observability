@@ -1,8 +1,6 @@
 /**
- * MinimalExperiment — direct port of the Java SDK's `MinimalExperiment`.
- *
- * Same single record, task and evaluator as the Java example; writes to the
- * Node-specific project `node-sdk-minimal` (Java uses `java-sdk-minimal`).
+ * MinimalExperiment — the smallest end-to-end run: a single record, one task,
+ * one evaluator. Writes to the `node-sdk-minimal` project.
  *
  *   DD_API_KEY=... DD_APPLICATION_KEY=... npm run runMinimalExperiment
  */

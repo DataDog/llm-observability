@@ -34,9 +34,8 @@ export interface ExperimentsClientOptions {
 /**
  * Auth + site + project; the factory for everything else.
  *
- * Object-argument constructor, mirroring the Java `ExperimentsClient.builder()`
- * surface. A static `builder()` is also provided so code reads the same as the
- * Java/other-language examples.
+ * Constructed with an options object; a static `builder()` is also provided for a
+ * fluent style.
  */
 export class ExperimentsClient {
   private readonly creds: ApiCredentials;
@@ -62,7 +61,7 @@ export class ExperimentsClient {
     );
   }
 
-  /** Fluent builder, parity with the Java `ExperimentsClient.builder()`. */
+  /** Fluent builder alternative to the options-object constructor. */
   static builder(): ExperimentsClientBuilder {
     return new ExperimentsClientBuilder();
   }
@@ -91,10 +90,9 @@ export class ExperimentsClient {
   }
 
   /**
-   * Escape hatch: the underlying generated `LLMObservabilityApi`.
-   *
-   * Parity with the Java SDK's `api()`. Use it to reach LLM Obs endpoints the six
-   * public types do not model (annotation queues, custom evals, deletes, etc.).
+   * Escape hatch: the underlying generated `LLMObservabilityApi`. Use it to reach
+   * LLM Obs endpoints the six public types do not model (annotation queues,
+   * custom evals, deletes, etc.).
    */
   api(): v2.LLMObservabilityApi {
     return this._api;
@@ -227,7 +225,7 @@ function unwrapAnyValue(value: unknown): unknown {
   return value;
 }
 
-/** Fluent builder mirroring the Java `ExperimentsClient.Builder`. */
+/** Fluent builder for {@link ExperimentsClient}. */
 export class ExperimentsClientBuilder {
   private _apiKey = "";
   private _appKey = "";

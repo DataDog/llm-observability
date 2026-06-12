@@ -1,8 +1,8 @@
 /**
- * One row of an experiment run — mirrors the Java `ExperimentResult.Row`.
+ * One row of an experiment run.
  *
  * Implemented as a class (rather than a plain object) so `isError` is a derived
- * accessor, matching the Java getter `isError()`.
+ * accessor.
  */
 export class Row {
   readonly index: number;
@@ -51,7 +51,7 @@ export class Row {
   }
 }
 
-/** Returned by `Experiment.run()` — mirrors the Java `ExperimentResult`. */
+/** Returned by `Experiment.run()`. */
 export class ExperimentResult {
   readonly experimentId: string;
   readonly rows: Row[];

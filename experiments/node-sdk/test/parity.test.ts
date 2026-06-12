@@ -5,13 +5,11 @@ import { ExperimentsClient } from "../src/index.js";
 import { MockFetch, defaultRoutes } from "./mockFetch.js";
 
 /**
- * Artifact-parity check: runs the *actual* TopicRelevance example code against a
- * capturing mock transport and asserts the wire artifacts it emits (dataset
- * records, experiment, spans, metrics) match what the Java `runTopicRelevance`
- * example produces.
+ * Artifact check: runs the *actual* TopicRelevance example code against a
+ * capturing mock transport and asserts the exact wire artifacts it emits
+ * (dataset records, experiment, spans, metrics).
  *
- * Only the inherently per-run fields differ between any two runs (of either SDK)
- * and are therefore excluded from the comparison: span_id / trace_id (random),
+ * Only the inherently per-run fields are excluded from the comparison: span_id / trace_id (random),
  * start_ns / duration (timing), and the server-assigned experiment/dataset/record
  * ids. Everything an end user sees as "the experiment" — records, inputs,
  * outputs, expected outputs, metadata, tags, eval labels/types/values — is
@@ -25,7 +23,7 @@ beforeEach(() => {
 });
 afterEach(() => mock.restore());
 
-test("TopicRelevance emits the same artifacts as the Java example", async () => {
+test("TopicRelevance emits the expected wire artifacts", async () => {
   const client = new ExperimentsClient({
     apiKey: "k",
     applicationKey: "a",
@@ -35,7 +33,7 @@ test("TopicRelevance emits the same artifacts as the Java example", async () => 
   });
 
   // Fixed dataset name so the run is deterministic (the example normally appends
-  // Date.now(), exactly like the Java example).
+  // Date.now()).
   const { dataset, experiment } = buildTopicRelevance(client, "topic-relevance-demo");
   const result = await experiment.run();
 
@@ -70,8 +68,8 @@ test("TopicRelevance emits the same artifacts as the Java example", async () => 
     .matching("POST /api/v2/llm-obs/v1/experiments")
     .filter((r) => !r.path.includes("/events"))[0];
   // The generated client serializes camelCase model props to snake_case on the
-  // wire (ensureUnique → ensure_unique, projectId → project_id) — same as Java's
-  // generated client. The captured body is the actual wire payload.
+  // wire (ensureUnique → ensure_unique, projectId → project_id). The captured
+  // body is the actual wire payload.
   assert.equal(expReq.body.data.type, "experiments");
   assert.equal(expReq.body.data.attributes.name, "topic-relevance-demo");
   assert.equal(expReq.body.data.attributes.ensure_unique, true);
@@ -95,14 +93,14 @@ test("TopicRelevance emits the same artifacts as the Java example", async () => 
   }));
 
   // All four prompts miss their topic keywords → keywordOverlap=false →
-  // response="false", confidence=0.65 (identical logic to Java).
+  // response="false", confidence=0.65.
   const expectedMeta = (input: any, expected: string, metadata: any) => ({
     input,
     output: { response: "false", confidence: 0.65 },
     expected_output: expected,
     metadata,
   });
-  const baseTags = ["dataset_id:ds-1", "experiment_id:exp-1", "owner:design-partner-bootstrap", "variant:java-v0.1"];
+  const baseTags = ["dataset_id:ds-1", "experiment_id:exp-1", "owner:design-partner-bootstrap", "variant:node-v0.1"];
 
   assert.deepEqual(normalizedSpans[0], {
     name: "topic-relevance-demo",

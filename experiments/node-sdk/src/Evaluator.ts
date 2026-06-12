@@ -1,8 +1,7 @@
 /**
  * User-provided evaluator: `(input, output, expectedOutput) -> value`.
  *
- * Equivalent to the Java `Evaluator<V>` functional interface. May be sync or
- * async. The return type drives the metric type (see MetricBuilder):
+ * May be sync or async. The return type drives the metric type (see MetricBuilder):
  *   - boolean -> boolean metric
  *   - number  -> score metric
  *   - anything else -> categorical metric (stringified)

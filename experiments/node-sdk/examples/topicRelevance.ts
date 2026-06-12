@@ -1,11 +1,7 @@
 /**
- * TopicRelevance — direct port of the Java SDK's `TopicRelevance` example.
- *
- * Identical to the Java example in every respect — same four dataset records
- * (inputs, expected outputs, metadata), same evaluators, config and tags — except
- * it writes to the Node-specific project `node-sdk-bootstrap` (the Java example
- * uses `java-sdk-bootstrap`), so the two SDKs' artifacts stay in separate projects
- * for easy side-by-side comparison.
+ * TopicRelevance — the canonical example: a mock keyword-overlap task over four
+ * dataset records, scored by a boolean, a numeric, and a categorical evaluator.
+ * Writes to the `node-sdk-bootstrap` project.
  *
  *   DD_API_KEY=... DD_APPLICATION_KEY=... [DD_SITE=datadoghq.com] npm run runTopicRelevance
  */
@@ -23,7 +19,7 @@ function requireEnv(name: string): string {
 
 /**
  * Mock "task": does the prompt contain any keyword from the (comma-separated)
- * topics list? Mirrors the Java `keywordOverlap` exactly.
+ * topics list?
  */
 function keywordOverlap(prompt: string, topics: string): boolean {
   const p = prompt.toLowerCase();
@@ -39,15 +35,15 @@ type Input = { prompt: string; topics: string };
 
 /**
  * Build the dataset + experiment (the part shared by the runnable `main` and the
- * parity test). `datasetName` is parameterized so tests can use a stable name;
- * `main` passes a timestamped one, exactly like the Java example.
+ * artifact test). `datasetName` is parameterized so tests can use a stable name;
+ * `main` passes a timestamped one so each run creates a fresh dataset.
  */
 export function buildTopicRelevance(
   client: ExperimentsClient,
   datasetName = `topic-relevance-demo-${Date.now()}`,
 ): { dataset: Dataset; experiment: Experiment<Input, Record<string, unknown>> } {
   const dataset = client
-    .createDataset(datasetName, "Java SDK v0.1 smoke test")
+    .createDataset(datasetName, "Node SDK v0.1 smoke test")
     .addRecord(
       { prompt: "I love hiking in the mountains on weekends.", topics: "outdoor, travel" },
       "true",
@@ -85,7 +81,7 @@ export function buildTopicRelevance(
       (output as any).response === "true" ? "in-topic" : "off-topic",
     )
     .config({ approach: "keyword-overlap", version: "v0.1" })
-    .tags({ variant: "java-v0.1", owner: "design-partner-bootstrap" })
+    .tags({ variant: "node-v0.1", owner: "design-partner-bootstrap" })
     .build();
 
   return { dataset, experiment };
@@ -113,7 +109,7 @@ async function main(): Promise<void> {
   }
 }
 
-// Run only when invoked directly (not when imported by the parity test).
+// Run only when invoked directly (not when imported by the artifact test).
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((err) => {
     console.error(err);

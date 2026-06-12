@@ -1,9 +1,7 @@
 /**
- * DatasetOperations — direct port of the Java SDK's `DatasetOperations`.
- *
- * Same three records as the Java example; writes to the Node-specific project
- * `node-sdk-bootstrap` (Java uses `java-sdk-bootstrap`). Creates and pushes a
- * dataset, then pulls the same dataset back by name and verifies the round-trip.
+ * DatasetOperations — dataset create/push/pull round-trip over three records.
+ * Creates and pushes a dataset, then pulls the same dataset back by name and
+ * verifies the round-trip. Writes to the `node-sdk-bootstrap` project.
  *
  *   DD_API_KEY=... DD_APPLICATION_KEY=... npm run runDatasetOperations
  */

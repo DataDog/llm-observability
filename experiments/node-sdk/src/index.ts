@@ -2,7 +2,7 @@
  * Datadog LLM Experiments — Node.js / TypeScript SDK.
  *
  * A thin workflow layer over the Datadog LLM Observability API for running LLM
- * experiments. Interface parity with the Java SDK (`datadog-llm-experiments-java`).
+ * experiments.
  */
 export { ExperimentsClient, ExperimentsClientBuilder } from "./ExperimentsClient.js";
 export type { ExperimentsClientOptions, PullDatasetOptions } from "./ExperimentsClient.js";

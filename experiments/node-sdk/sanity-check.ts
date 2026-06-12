@@ -128,7 +128,7 @@ async function main(): Promise<void> {
   check("row 0 categorical eval", result.rows[0].evaluations.verdict === "match");
   check("row 2 captured task error", result.rows[2].isError && result.rows[2].errorMessage === "intentional task failure");
 
-  console.log("\n4. Transport split (parity with Java)");
+  console.log("\n4. Transport split (generated client vs hand-rolled)");
   const generated = requests.filter((r) => r.via === "generated").map((r) => `${r.method} ${r.path}`);
   const handRolled = requests.filter((r) => r.via === "fetch").map((r) => `${r.method} ${r.path}`);
   console.log("   via generated client:");

@@ -30,8 +30,7 @@ function relaxRequiredFlags(): void {
 
 /**
  * Builds the generated `datadog-api-client` LLM Observability API, configured for
- * the SDK's needs. This is the Node analogue of the Java SDK's `ExperimentsClient`
- * constructor:
+ * the SDK's needs:
  *
  *  - W7: construct a fresh `Configuration` via `createConfiguration` rather than
  *    the env-driven default, so `DD_SITE` is never read eagerly.
@@ -45,11 +44,11 @@ function relaxRequiredFlags(): void {
  *   listLLMObsDatasetRecords, createLLMObsExperiment.
  *
  * Only the three endpoints the generated client genuinely cannot perform are
- * hand-rolled in `http.ts`, exactly as the Java SDK hand-rolls them via
- * `DirectPost`: records POST (W1 — wrong `type` discriminator), events POST
- * (W2 — wrong `type` discriminator), and the experiment status PATCH (the
- * update model has no `status` field). The records LIST read still goes through
- * the generated client; its response just needs a small extraction shim because
+ * hand-rolled in `http.ts`: records POST (W1 — wrong `type` discriminator),
+ * events POST (W2 — wrong `type` discriminator), and the experiment status PATCH
+ * (the update model has no `status` field). The records LIST read still goes
+ * through the generated client; its response just needs a small extraction shim
+ * because
  * the flat record model leaves the nested `attributes` under
  * `additionalProperties` (see ExperimentsClient.pullDataset).
  */

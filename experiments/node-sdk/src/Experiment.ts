@@ -10,7 +10,7 @@ import { toMetric } from "./internal/metricBuilder.js";
 import { toSpan } from "./internal/spanBuilder.js";
 
 /**
- * Builder + `run()` orchestration. Mirrors the Java `Experiment<I, O>`.
+ * Builder + `run()` orchestration.
  *
  * v0.1 runs sequentially (one row at a time), emits one root span per dataset
  * row, and posts all spans + metrics in a single events call.
@@ -99,7 +99,7 @@ export class Experiment<I = unknown, O = unknown> {
     const experimentId = this._experimentId as string;
 
     // Best-effort interrupt handling: if the process is signalled mid-run, mark
-    // the experiment interrupted (mirrors the Java shutdown hook).
+    // the experiment interrupted.
     let finished = false;
     const interruptHandler = () => {
       if (!finished) {
@@ -235,8 +235,7 @@ export class Experiment<I = unknown, O = unknown> {
 
   private async updateStatus(status: string, error: string | null): Promise<void> {
     // Hand-rolled: the generated updateLLMObsExperiment model exposes only
-    // name/description, not `status`/`error`, so the lifecycle PATCH bypasses it
-    // (same approach as the Java SDK).
+    // name/description, not `status`/`error`, so the lifecycle PATCH bypasses it.
     if (this._experimentId === null) return;
     const attributes: Record<string, unknown> = { status };
     if (error !== null) attributes.error = error;
@@ -252,7 +251,7 @@ export class Experiment<I = unknown, O = unknown> {
   }
 }
 
-/** Builder mirroring the Java `Experiment.Builder<I, O>`. */
+/** Builder for {@link Experiment}. */
 export class ExperimentBuilder<I = unknown, O = unknown> {
   /** @internal */ readonly client: ExperimentsClient;
   /** @internal */ _name = "";
