@@ -118,11 +118,10 @@ test("pullDataset finds a dataset by name and loads its records", async () => {
     {
       match: "GET /api/v2/llm-obs/v1/proj-1/datasets/ds-9/records",
       response: {
-        // The generated record model carries input/expected_output/metadata at the
-        // top level of each data item (not under `attributes`).
+        // The API returns record content nested under data[].attributes (JSON:API).
         data: [
-          { id: "r1", input: "i1", expected_output: "e1", metadata: { a: 1 } },
-          { id: "r2", input: "i2" },
+          { id: "r1", type: "datasets", attributes: { input: "i1", expected_output: "e1", metadata: { a: 1 } } },
+          { id: "r2", type: "datasets", attributes: { input: "i2" } },
         ],
       },
     },
@@ -155,5 +154,57 @@ test("pullDataset throws a clear error when the dataset is absent", async () => 
     { match: "GET /api/v2/llm-obs/v1/proj-1/datasets", response: { data: [] } },
   ]);
   mock.install();
-  await assert.rejects(() => newClient().pullDataset("ghost"), /not found.*after retries/);
+  // maxWaitMs: 0 → a single attempt, no 30s wait, in the test.
+  await assert.rejects(() => newClient().pullDataset("ghost", { maxWaitMs: 0 }), /not found/);
+});
+
+test("pullDataset waits (backoff) until all expected records are readable", async () => {
+  mock.restore();
+  let recordsCalls = 0;
+  mock = new MockFetch([
+    { match: "POST /api/v2/llm-obs/v1/projects", response: { data: { id: "proj-1" } } },
+    {
+      match: "GET /api/v2/llm-obs/v1/proj-1/datasets/ds-9/records",
+      response: () => {
+        // First read sees only 1 of 2 records (read-after-write lag); then both.
+        recordsCalls += 1;
+        const rec = (id: string, input: string) => ({ id, type: "datasets", attributes: { input } });
+        return recordsCalls < 2
+          ? { data: [rec("r1", "i1")] }
+          : { data: [rec("r1", "i1"), rec("r2", "i2")] };
+      },
+    },
+    {
+      match: "GET /api/v2/llm-obs/v1/proj-1/datasets",
+      response: { data: [{ id: "ds-9", attributes: { name: "wanted" } }] },
+    },
+  ]);
+  mock.install();
+
+  const ds = await newClient().pullDataset("wanted", {
+    expectedRecordCount: 2,
+    maxWaitMs: 5000, // generous ceiling; the first retry (~250ms) already satisfies it
+  });
+  assert.equal(ds.records().length, 2);
+  assert.ok(recordsCalls >= 2, "records endpoint was polled more than once");
+});
+
+test("pullDataset throws if expected records never arrive within the budget", async () => {
+  mock.restore();
+  mock = new MockFetch([
+    { match: "POST /api/v2/llm-obs/v1/projects", response: { data: { id: "proj-1" } } },
+    {
+      match: "GET /api/v2/llm-obs/v1/proj-1/datasets/ds-9/records",
+      response: { data: [{ id: "r1", type: "datasets", attributes: { input: "i1" } }] }, // only ever 1 record
+    },
+    {
+      match: "GET /api/v2/llm-obs/v1/proj-1/datasets",
+      response: { data: [{ id: "ds-9", attributes: { name: "wanted" } }] },
+    },
+  ]);
+  mock.install();
+  await assert.rejects(
+    () => newClient().pullDataset("wanted", { expectedRecordCount: 3, maxWaitMs: 0 }),
+    /expected 3.*backend may not have finished ingesting/,
+  );
 });

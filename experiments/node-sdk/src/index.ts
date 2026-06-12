@@ -5,7 +5,7 @@
  * experiments. Interface parity with the Java SDK (`datadog-llm-experiments-java`).
  */
 export { ExperimentsClient, ExperimentsClientBuilder } from "./ExperimentsClient.js";
-export type { ExperimentsClientOptions } from "./ExperimentsClient.js";
+export type { ExperimentsClientOptions, PullDatasetOptions } from "./ExperimentsClient.js";
 export { Dataset } from "./Dataset.js";
 export { DatasetRecord } from "./DatasetRecord.js";
 export { Experiment, ExperimentBuilder } from "./Experiment.js";

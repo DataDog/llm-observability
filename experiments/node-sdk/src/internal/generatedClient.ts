@@ -44,9 +44,14 @@ function relaxRequiredFlags(): void {
  *   createLLMObsProject, createLLMObsDataset, listLLMObsDatasets,
  *   listLLMObsDatasetRecords, createLLMObsExperiment.
  *
- * The three endpoints with active spec-drift workarounds (records POST → W1,
- * events POST → W2, experiment status PATCH → no model field) are hand-rolled in
- * `http.ts`, exactly as the Java SDK hand-rolls them via `DirectPost`.
+ * Only the three endpoints the generated client genuinely cannot perform are
+ * hand-rolled in `http.ts`, exactly as the Java SDK hand-rolls them via
+ * `DirectPost`: records POST (W1 — wrong `type` discriminator), events POST
+ * (W2 — wrong `type` discriminator), and the experiment status PATCH (the
+ * update model has no `status` field). The records LIST read still goes through
+ * the generated client; its response just needs a small extraction shim because
+ * the flat record model leaves the nested `attributes` under
+ * `additionalProperties` (see ExperimentsClient.pullDataset).
  */
 
 /** Operations the SDK invokes that are flagged "unstable" and must be enabled. */

@@ -80,6 +80,25 @@ The dataset is created and pushed automatically on the first `run()`. Call
 | `number` | score metric |
 | anything else | categorical metric (stringified) |
 
+### Eventually-consistent reads (`pullDataset`)
+
+LLM Obs reads lag writes slightly, so a `pullDataset` issued right after a push
+can briefly see the dataset missing or only some records. `pullDataset` polls
+with exponential backoff (250ms → 500ms → 1s → …, capped at a 30s total by
+default) until the dataset is visible. Pass `expectedRecordCount` to also wait
+until that many records are readable — confirming the push fully landed — and
+`maxWaitMs` to tune the ceiling:
+
+```ts
+const pulled = await client.pullDataset(name, {
+  expectedRecordCount: dataset.records().length,
+  maxWaitMs: 30_000, // default
+});
+```
+
+If the dataset never appears (or the expected records never arrive) within the
+budget, it throws a clear error.
+
 ### Error handling
 
 - A thrown error (or rejected promise) in a **task** is captured on that row's
@@ -97,7 +116,7 @@ type names, methods, wire format, auto-tags, metadata propagation — is identic
 |---|---|
 | `ExperimentsClient.builder()....build()` | `new ExperimentsClient({...})` *or* `ExperimentsClient.builder()....build()` |
 | `client.createDataset(name, desc)` | `client.createDataset(name, desc)` |
-| `client.pullDataset(name)` | `await client.pullDataset(name)` |
+| `client.pullDataset(name)` | `await client.pullDataset(name)` (optional `{ expectedRecordCount, maxWaitMs }` — see below) |
 | `dataset.addRecord(input, expected, meta)` | `dataset.addRecord(input, expected, meta)` |
 | `Experiment.builder(client)....build()` | `Experiment.builder(client)....build()` |
 | `experiment.run()` | `await experiment.run()` |

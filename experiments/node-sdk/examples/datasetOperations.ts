@@ -47,7 +47,11 @@ async function main(): Promise<void> {
   console.log(`Pushed records     : ${dataset.records().length}`);
 
   console.log("=== Pulling the same dataset back from Datadog ===");
-  const pulled = await client.pullDataset(datasetName);
+  // Wait (exponential backoff, up to 30s) until all pushed records are readable —
+  // LLM Obs reads are eventually consistent right after a write.
+  const pulled = await client.pullDataset(datasetName, {
+    expectedRecordCount: dataset.records().length,
+  });
   console.log(`Pulled dataset id  : ${pulled.id()}`);
   console.log(`Pulled records     : ${pulled.records().length}`);
   pulled.records().forEach((rec, i) => {
