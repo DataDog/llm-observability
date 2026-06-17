@@ -40,9 +40,34 @@ This script uses Datadog's Prompt Optimization framework to:
 - Define a generation task (produce descriptions from input data)
 - Use LLM-as-a-Judge evaluation (similarity scoring between generated vs expected)
 - Run experiments with different prompt variations
-- Use AI-powered optimization (metaprompting) to improve the generation prompt
+- Use AI-powered optimization to improve the generation prompt
 - Track accuracy across iterations based on similarity thresholds
 - Output the best performing prompt for production use
+
+OPTIMIZATION METHODS
+====================
+
+Two methods are available (set via the METHOD variable):
+
+- **"metaprompting"** (default): Iterative LLM-as-a-judge optimization loop.
+  Runs baseline, then iteratively improves the prompt using an optimization LLM
+  that analyzes low-scoring and high-scoring outputs. Best for targeted fixes.
+
+- **"gepa"**: GEPA evolutionary optimizer. Uses evolutionary search with
+  Pareto-efficient candidate management. Best for exploring diverse prompt
+  strategies. Requires: ``pip install ddtrace[gepa]``
+
+DATASET SPLITTING
+=================
+
+Enable dataset splitting to get unbiased performance estimates:
+
+- ``dataset_split=False`` (default): Use full dataset for everything.
+- ``dataset_split=True``: Auto-split 60/20/20 (train/valid/test).
+  Train examples go to the optimizer, valid scores rank iterations,
+  test gives the final unbiased score.
+- ``dataset_split=(0.7, 0.15, 0.15)``: Custom ratios.
+- ``test_dataset="my_test_set"``: Use a separate test dataset.
 
 REQUIREMENTS
 ============
@@ -50,6 +75,7 @@ REQUIREMENTS
 - OpenAI API key (for running the generation model, judge model, and optimization model)
 - Datadog API key and App key (for LLM Observability)
 - An uploaded dataset with input data and expected descriptions
+- For GEPA method: ``pip install ddtrace[gepa]``
 
 EXAMPLE DATASET FORMAT
 ======================
@@ -89,8 +115,9 @@ Adjust these variables to fit your use case:
 - EVALUATION_MODEL_NAME: Model that will generate descriptions in production
 - JUDGE_MODEL_NAME: Model that will evaluate similarity (can be same or different)
 - OPTIMIZATION_MODEL_NAME: Reasoning model for prompt improvement
-- MAX_ITERATION: Maximum optimization iterations
-- stopping_condition(): Target accuracy threshold for early stopping
+- METHOD: "metaprompting" or "gepa"
+- MAX_ITERATION: Maximum optimization iterations (metaprompting only)
+- stopping_condition(): Target accuracy threshold for early stopping (metaprompting only)
 - llm_judge_evaluator_function(): Customize the similarity evaluation criteria
 
 """
@@ -103,7 +130,7 @@ from openai import OpenAI
 from pydantic import BaseModel
 
 # Prevent ddtrace connection refused error
-os.environ["DD_TRACE_ENABLED"] = "false"
+os.environ["DD_APM_TRACING_ENABLED"] = "false"
 
 # Experiment variables
 ML_APP = "YOUR_ML_APP"
@@ -117,13 +144,21 @@ RUNS = 1
 MAX_ITERATION = 2
 OPTIMIZATION_MODEL_NAME = "o3-mini"
 
+# Optimization method: "metaprompting" or "gepa"
+METHOD = "metaprompting"
+
+# Dataset splitting: False, True, or tuple of ratios e.g. (0.6, 0.2, 0.2)
+DATASET_SPLIT = False
+
 # Dataset variables
 PROJECT_NAME = "YOUR_PROJECT_NAME"
 DATASET_NAME = "YOUR_DATASET_NAME"
 INITIAL_PROMPT = "YOUR_INITIAL_PROMPT"
 
+
 class DescriptionGenerationResult(BaseModel):
     """Pydantic model for generated description."""
+
     description: str
     reasoning: str
 
@@ -133,14 +168,15 @@ class DescriptionGenerationResult(BaseModel):
         return json.dumps(
             {
                 "description": "string: clear, concise description",
-                "reasoning": "string: explanation of key points in the description"
+                "reasoning": "string: explanation of key points in the description",
             },
-            indent=3
+            indent=3,
         )
 
 
 class SimilarityJudgeResult(BaseModel):
     """Pydantic model for LLM judge similarity evaluation."""
+
     similarity_score: float
     reasoning: str
 
@@ -149,15 +185,19 @@ class SimilarityJudgeResult(BaseModel):
         """Return JSON schema for output format."""
         return json.dumps(
             {
-                "similarity_score": "float: similarity score between 0.0 and 1.0, where 1.0 means identical meaning and 0.0 means completely unrelated",
-                "reasoning": "string: explanation of the similarity assessment"
+                "similarity_score": (
+                    "float: similarity score between 0.0 and 1.0, where 1.0 means "
+                    "identical meaning and 0.0 means completely unrelated"
+                ),
+                "reasoning": "string: explanation of the similarity assessment",
             },
-            indent=3
+            indent=3,
         )
 
 
 class OptimizationResult(BaseModel):
     """Pydantic model for optimization results."""
+
     prompt: str
 
 
@@ -212,9 +252,9 @@ def llm_judge_evaluator_function(input_data, output_data, expected_output):
     client = OpenAI()
 
     # Extract descriptions
-    generated_description = output_data.description if hasattr(output_data, 'description') else str(output_data)
-    expected_description = expected_output.get('description', '') if isinstance(expected_output, dict) else str(expected_output)
-    expected_value = expected_output.get('value', 'yes') if isinstance(expected_output, dict) else 'yes'
+    generated_description = output_data.description if hasattr(output_data, "description") else str(output_data)
+    expected_description = expected_output.get("description", "") if isinstance(expected_output, dict) else str(expected_output)
+    expected_value = expected_output.get("value", "yes") if isinstance(expected_output, dict) else "yes"
 
     # Create judge prompt
     # Prompt to be adapted to the current use case
@@ -254,7 +294,7 @@ Assess the similarity between these descriptions."""
     return {
         "similarity_score": judge_result.similarity_score,
         "expected_value": expected_value,
-        "reasoning": judge_result.reasoning
+        "reasoning": judge_result.reasoning,
     }
 
 
@@ -287,7 +327,7 @@ def labelization_function(individual_result):
     return label
 
 
-def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
+def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluators_results):
     """Calculate accuracy based on similarity scores and expected values.
 
     Args:
@@ -302,10 +342,10 @@ def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
     match_count = 0
     not_match_count = 0
 
-    for i, prediction in enumerate(evaluations['llm_judge_evaluator_function']):
-        similarity_score = prediction['similarity_score']
-        expected_value = expected_outputs[i]['value']
-        is_good_expected = expected_value == 'yes'
+    for i, prediction in enumerate(evaluators_results["llm_judge_evaluator_function"]):
+        similarity_score = prediction["similarity_score"]
+        expected_value = expected_outputs[i]["value"]
+        is_good_expected = expected_value == "yes"
 
         if is_good_expected:
             if similarity_score >= 0.5:
@@ -332,13 +372,16 @@ def accuracy_summary_evaluator(inputs, outputs, expected_outputs, evaluations):
 
 def compute_score(summary_evaluators) -> float:
     """Compute the optimization score from accuracy."""
-    accuracy = summary_evaluators['accuracy_summary_evaluator']['value']['accuracy']
+    accuracy = summary_evaluators["accuracy_summary_evaluator"]["value"]["accuracy"]
     return accuracy
 
 
 def stopping_condition(summary_evaluators) -> bool:
-    """Determine if optimization should stop (accuracy > 0.9)."""
-    accuracy = summary_evaluators['accuracy_summary_evaluator']['value']['accuracy']
+    """Determine if optimization should stop (accuracy > 0.9).
+
+    Note: Only used with method="metaprompting". GEPA manages its own stopping.
+    """
+    accuracy = summary_evaluators["accuracy_summary_evaluator"]["value"]["accuracy"]
     return accuracy > 0.9
 
 
@@ -355,17 +398,12 @@ def main():
        - LLM Judge evaluator (how to measure similarity to expected outputs)
        - Scoring (how to rank iterations by accuracy)
        - Stopping condition (when to stop early)
-    4. **Optimize**: Run iterative optimization (up to MAX_ITERATION times):
-       - Test current prompt on entire dataset (parallel execution)
-       - Use LLM judge to evaluate similarity scores for each generated output
-       - Compute accuracy based on similarity thresholds
-       - Analyze low-scoring and high-scoring examples
-       - Generate improved prompt based on judge feedback
-       - Test improved prompt
-       - Repeat until stopping condition met or max iterations reached
+    4. **Optimize**: Run iterative optimization:
+       - **metaprompting**: Up to MAX_ITERATION rounds of generate-judge-improve
+       - **gepa**: Evolutionary search with Pareto-efficient candidate management
     5. **Output**: Display the best performing prompt and all experiment URLs
 
-    The optimization runs in parallel (jobs=20) for fast execution. Each iteration
+    The optimization runs in parallel (jobs=JOBS) for fast execution. Each iteration
     is tracked in Datadog LLM Observability where you can:
     - View similarity score distributions
     - Analyze examples that scored high vs low
@@ -374,15 +412,28 @@ def main():
     - Export the best prompt for production deployment
     """
     # Enable LLMObs
-    LLMObs.enable(
-        ml_app=ML_APP,
-        project_name=PROJECT_NAME
-    )
+    LLMObs.enable(ml_app=ML_APP, project_name=PROJECT_NAME, agentless_enabled=True)
 
     # Load dataset
     print(f"Loading dataset '{DATASET_NAME}' from LLMObs...")
     dataset = LLMObs.pull_dataset(dataset_name=DATASET_NAME)
     print(f"Loaded dataset with {len(dataset)} records\n")
+
+    # Build config
+    config = {
+        # Mandatory
+        "prompt": INITIAL_PROMPT,
+        # Optionals
+        "model_name": EVALUATION_MODEL_NAME,
+        "evaluation_output_format": DescriptionGenerationResult.output_format(),
+        "runs": RUNS,
+    }
+
+    # GEPA-specific config (only used when METHOD="gepa")
+    if METHOD == "gepa":
+        config["max_metric_calls"] = 150  # Total evaluation budget for GEPA
+        # config["gepa_seed"] = 42  # For reproducible runs
+        # config["candidate_selection_strategy"] = "elite"
 
     # Run prompt optimization
     prompt_optimization = LLMObs._prompt_optimization(
@@ -396,14 +447,8 @@ def main():
         labelization_function=labelization_function,
         stopping_condition=stopping_condition,
         max_iterations=MAX_ITERATION,
-        config={
-            # Mandatory
-            "prompt": INITIAL_PROMPT,
-            # Optionals
-            "model_name": EVALUATION_MODEL_NAME,
-            "evaluation_output_format": DescriptionGenerationResult.output_format(),
-            "runs": RUNS,
-        }
+        dataset_split=DATASET_SPLIT,
+        config=config,
     )
 
     result = prompt_optimization.run(jobs=JOBS)
@@ -413,6 +458,10 @@ def main():
     print("=" * 80)
     print(f"\nBest prompt:\n{result.best_prompt}")
     print(f"\nBest accuracy: {result.best_score:.4f}")
+
+    if result.test_score is not None:
+        print(f"Test accuracy: {result.test_score:.4f}")
+        print(f"Test experiment: {result.test_experiment_url}")
 
     # Print all experiment URLs for reference
     print(f"\n{'=' * 80}")
