@@ -20,16 +20,33 @@ from src.models import PortfolioBriefing
 
 
 class CompletenessEvaluator(BaseEvaluator):
-    """Check that every requested ticker appears in the output."""
+    """Check that every requested ticker appears in the output.
 
-    def __init__(self, requested_tickers: list[str]):
+    Works in both modes: pass ``requested_tickers`` explicitly (the standalone
+    ``run_evaluations`` path), or omit it and the requested tickers are read from the
+    evaluation context — so it can be attached to the inline-experiment boundary via
+    ``experiment_start(evaluators=...)``, where each replayed case supplies its own
+    ``input_data`` (``{"tickers": [...]}``).
+    """
+
+    def __init__(self, requested_tickers: list[str] | None = None):
         super().__init__(name="completeness")
         self.requested_tickers = requested_tickers
+
+    def _resolve_tickers(self, context: EvaluatorContext) -> list[str]:
+        if self.requested_tickers is not None:
+            return self.requested_tickers
+        data = context.input_data
+        if isinstance(data, dict):
+            return data.get("tickers", []) or []
+        if isinstance(data, str):
+            return [t.strip() for t in data.split(",") if t.strip()]
+        return []
 
     def evaluate(self, context: EvaluatorContext) -> EvaluatorResult:
         output = context.output_data
         result_tickers = {a["ticker"].upper() for a in output.get("analyses", [])}
-        requested = {t.upper() for t in self.requested_tickers}
+        requested = {t.upper() for t in self._resolve_tickers(context)}
         missing = requested - result_tickers
         passed = len(missing) == 0
 
