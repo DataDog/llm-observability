@@ -1,0 +1,17 @@
+[project]
+name = "stock-watchlist-agent"
+version = "0.1.0"
+description = "Multi-agent stock watchlist analyst using Pydantic AI and OpenAI web search"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic-ai[openai]>=0.2",
+    "pydantic>=2.0",
+    "ddtrace",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
