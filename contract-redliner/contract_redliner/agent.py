@@ -7,7 +7,7 @@ from ddtrace.llmobs.decorators import agent as llmobs_agent
 
 from .policies import POLICY_DB
 
-MODEL = 'gpt-5.4-nano'
+MODEL = 'openai:gpt-5.4-mini'
 
 _TOPIC_KEYWORDS: dict[str, set[str]] = {
     "nda": {"confidential", "disclosure", "proprietary", "secret", "non-disclosure"},
