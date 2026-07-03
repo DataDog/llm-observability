@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 from ddtrace.llmobs import LLMObs, EvaluatorResult, LLMJudge, ScoreStructuredOutput
 
-MODEL = 'gpt-5.4-nano'
+MODEL = 'gpt-5.4-mini'
 
 LLMObs.enable(
     ml_app="contract-redliner",
