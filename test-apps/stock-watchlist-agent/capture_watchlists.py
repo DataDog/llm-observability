@@ -15,6 +15,9 @@ captured case (one ``PortfolioBriefing``).
     # ...with traces sent to LLM Obs, each case linked to its real orchestrator span
     ddtrace-experiment capture capture_watchlists:generate_traffic --trace --ml-app stock-watchlist-agent
 
+    # publish the capture as the baseline experiment (real run -> real cost) + a dataset:
+    ddtrace-experiment capture capture_watchlists --publish --project stock-watchlist-agent
+
     WATCHLISTS="NVDA AMD|AAPL JPM XOM"   # optional override: '|'-separated lists
 """
 import os
@@ -34,8 +37,17 @@ DEFAULT_WATCHLISTS = [
 ]
 
 
-async def generate_traffic():
+def _watchlists() -> list[list[str]]:
     env = os.environ.get("WATCHLISTS")
-    watchlists = [s.split() for s in env.split("|")] if env else DEFAULT_WATCHLISTS
-    for tickers in watchlists:
+    return [s.split() for s in env.split("|")] if env else DEFAULT_WATCHLISTS
+
+
+# `--publish` reads these: SUBJECT names the experiment; INPUTS are the boundary's kwargs
+# (analyze_portfolio(tickers=...)), one dataset record each.
+SUBJECT = "portfolio"
+INPUTS = [{"tickers": w} for w in _watchlists()]
+
+
+async def generate_traffic():  # local capture (no --publish): exercise the boundary directly
+    for tickers in _watchlists():
         await analyze_portfolio(tickers)
