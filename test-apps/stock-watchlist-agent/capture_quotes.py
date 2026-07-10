@@ -22,8 +22,17 @@ from src.agents.researcher import stock_quote_lookup
 DEFAULT_TICKERS = ["NVDA", "AAPL", "MSFT", "SPY", "XOM"]
 
 
-async def generate_traffic():
+def _tickers() -> list[str]:
     env = os.environ.get("TICKERS")
-    tickers = env.split() if env else DEFAULT_TICKERS
-    for ticker in tickers:
+    return env.split() if env else DEFAULT_TICKERS
+
+
+# `--publish` reads these: SUBJECT names the experiment; INPUTS are the boundary's kwargs
+# (stock_quote_lookup(ticker=...)), one dataset record each.
+SUBJECT = "stock_quote"
+INPUTS = [{"ticker": t} for t in _tickers()]
+
+
+async def generate_traffic():  # local capture (no --publish): exercise the boundary directly
+    for ticker in _tickers():
         await stock_quote_lookup(ticker)
