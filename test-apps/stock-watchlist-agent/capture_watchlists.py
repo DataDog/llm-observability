@@ -9,14 +9,12 @@ This module is just a harness: it imports the real (decorated) ``analyze_portfol
 and exercises it over a representative set of watchlists. Each call becomes one
 captured case (one ``PortfolioBriefing``).
 
-    # record a baseline of the current behavior (one case per watchlist)
-    ddtrace-experiment capture capture_watchlists:generate_traffic
+    # record a baseline of the current behavior offline (one case per watchlist)
+    ddtrace-experiment run capture_watchlists:generate_traffic
 
-    # ...with traces sent to LLM Obs, each case linked to its real orchestrator span
-    ddtrace-experiment capture capture_watchlists:generate_traffic --trace --ml-app stock-watchlist-agent
-
-    # publish the capture as the baseline experiment (real run -> real cost) + a dataset:
-    ddtrace-experiment capture capture_watchlists --publish --project stock-watchlist-agent
+    # publish it as the baseline experiment (real run -> real cost + traces) + a dataset;
+    # run again after a change to get the compare view:
+    ddtrace-experiment run capture_watchlists --publish --project stock-watchlist-agent
 
     WATCHLISTS="NVDA AMD|AAPL JPM XOM"   # optional override: '|'-separated lists
 """

@@ -3,8 +3,8 @@
 Plain Python logging plus ddtrace's logging integration, so every record carries
 ``dd.trace_id`` / ``dd.span_id`` / ``dd.service`` / ``dd.env`` / ``dd.version``. When the
 app runs under tracing (a normal run with ``DD_API_KEY``, or
-``ddtrace-experiment ... --trace``), those ids let each log line pivot to its LLM Obs
-trace in Datadog; otherwise they're emitted as ``0`` / empty.
+``ddtrace-experiment run ... --publish``), those ids let each log line pivot to its LLM
+Obs trace in Datadog; otherwise they're emitted as ``0`` / empty.
 """
 from __future__ import annotations
 

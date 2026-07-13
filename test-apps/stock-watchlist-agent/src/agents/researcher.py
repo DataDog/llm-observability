@@ -20,8 +20,8 @@ log = logging.getLogger(__name__)
 # It returns its output, so `experiment_start` collects it on return — no
 # `experiment_end` is needed (that marker is only for outputs emitted mid-flow rather
 # than returned). We decorate this plain helper instead of the pydantic_ai Tool
-# function so the tool's RunContext injection stays intact and replay is a clean,
-# ctx-free `stock_quote_lookup(ticker=...)` call. Inert outside `ddtrace-experiment`.
+# function so the tool's RunContext injection stays intact and the re-run is a clean,
+# ctx-free `stock_quote_lookup(ticker=...)` call. Inert outside `ddtrace-experiment run`.
 @experiment_start(name="stock_quote", inputs=["ticker"], output=lambda ret: ret)
 async def stock_quote_lookup(ticker: str) -> str:
     log.info("tool get_stock_quote: %s", ticker)

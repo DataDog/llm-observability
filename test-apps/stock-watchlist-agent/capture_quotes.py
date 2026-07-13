@@ -5,12 +5,12 @@ The experiment boundary is the ``@experiment_start(name="stock_quote")`` on
 ``(ticker -> quote)`` case per ticker by calling that lookup **directly** — no agent,
 no orchestrator — so the experiment stays limited to just the quote function.
 
-    # capture a baseline of the quote tool (one case per ticker)
-    ddtrace-experiment capture capture_quotes:generate_traffic
+    # record a baseline of the quote tool offline (one case per ticker)
+    ddtrace-experiment run capture_quotes:generate_traffic
 
-    # replay scoped to ONLY the quote tool (importing researcher registers `stock_quote`
+    # run again scoped to ONLY the quote tool (importing researcher registers `stock_quote`
     # but not `portfolio`, so the orchestrator experiment is skipped)
-    ddtrace-experiment replay src.agents.researcher --comparator structural
+    ddtrace-experiment run src.agents.researcher --comparator structural
 
     TICKERS="NVDA AAPL SPY"   # optional override (space-separated)
 """

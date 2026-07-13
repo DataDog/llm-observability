@@ -122,11 +122,11 @@ orchestrator = Agent(
 
 
 def _portfolio_evaluators() -> list[Any]:
-    """Evaluators scored on each replayed case, beyond the structural comparator.
+    """Evaluators scored on each re-run case, beyond the structural comparator.
 
     Imported lazily (a zero-arg thunk, like ``fixtures``) so the LLM judges — which carry
     provider config — are constructed only when an activated runner resolves them
-    (`replay --evaluate` or `--publish`), never in a production import of this module.
+    (`run --evaluate` or `run --publish`), never in a production import of this module.
     """
     from src.evals import CompletenessEvaluator
     from src.evals import grounding_judge
@@ -139,13 +139,13 @@ def _portfolio_evaluators() -> list[Any]:
 
 # Mark this input->output boundary as an inline-experiment subject. This is a pure
 # no-op in normal execution (prod or local) — it only activates under the
-# `ddtrace-experiment` command, which records (tickers -> briefing) baselines and
-# replays the current code against them. `trace_link` points the captured case at this
-# call's real orchestrator span (returned as the second element below) so `--trace`
-# links each case to its actual trace instead of wrapping it in a synthetic span.
-# `evaluators` attaches richer checks (completeness + two LLM judges) that score each
-# replayed case alongside the structural comparator — locally via `replay --evaluate`
-# and as eval metrics on `replay --publish`.
+# `ddtrace-experiment run` command, which records (tickers -> briefing) baselines and
+# re-runs the current code against them. `trace_link` points the case at this call's real
+# orchestrator span (returned as the second element below) so a published run links each
+# case to its actual trace instead of wrapping it in a synthetic span. `evaluators`
+# attaches richer checks (completeness + two LLM judges) that score each case alongside
+# the structural comparator — locally via `run --evaluate` and as eval metrics on
+# `run --publish`.
 @experiment_start(
     name="portfolio",
     inputs=["tickers"],
