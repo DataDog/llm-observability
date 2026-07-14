@@ -94,3 +94,18 @@ compared against the same frozen baseline.
 - Both subjects here are single-function (return-based), so no `experiment_end` is needed.
 - Cost/time knobs: `capture_one` = 1 case; `WATCHLISTS="NVDA"` narrows `capture_watchlists`;
   `TICKERS="NVDA AAPL"` narrows `capture_quotes`.
+
+## Demo knobs
+
+- **Quiet the logs.** The app logs at INFO by default (`analyze_portfolio: start`, tool calls,
+  etc.). For a clean demo, set the level via env — no code change:
+  ```bash
+  export LOG_LEVEL=WARNING     # or ERROR; put it in .env to make it automatic
+  ```
+- **Full comparison to a file.** The terminal report is a compact, truncated summary. To read
+  the complete per-case diff (full input / recorded / new + every evaluator verdict + reasoning),
+  add `--report`:
+  ```bash
+  exp run src.agents.orchestrator --evaluate --report        # -> .llmobs_experiments.report.json
+  jq '.portfolio.cases[0]' .llmobs_experiments.report.json   # inspect one case, untruncated
+  ```
