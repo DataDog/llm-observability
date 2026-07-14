@@ -126,6 +126,20 @@ def _submit(
     )
 
 
+def portfolio_evaluators() -> list[Any]:
+    """Evaluators scored on each re-run case, beyond the structural comparator.
+
+    Imported lazily by ``analyze_portfolio``'s ``@experiment_start`` decorator (a
+    zero-arg thunk, like ``fixtures``) so the LLM judges — which carry provider
+    config — are constructed only when an activated runner resolves them
+    (`run --evaluate` or `run --publish`), never in a production import of
+    ``orchestrator``.
+    """
+    # CompletenessEvaluator() reads the requested tickers from each case's input_data;
+    # the two judges read {{output_data}} (the briefing) and need no per-case wiring.
+    return [CompletenessEvaluator(), sentiment_judge, grounding_judge]
+
+
 def run_evaluations(
     briefing: PortfolioBriefing,
     requested_tickers: list[str],

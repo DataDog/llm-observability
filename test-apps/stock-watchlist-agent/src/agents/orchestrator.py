@@ -122,19 +122,15 @@ orchestrator = Agent(
 
 
 def _portfolio_evaluators() -> list[Any]:
-    """Evaluators scored on each re-run case, beyond the structural comparator.
+    """Lazily import the evaluators defined in ``src.evals``.
 
-    Imported lazily (a zero-arg thunk, like ``fixtures``) so the LLM judges — which carry
+    Deferred (a zero-arg thunk, like ``fixtures``) so the LLM judges — which carry
     provider config — are constructed only when an activated runner resolves them
     (`run --evaluate` or `run --publish`), never in a production import of this module.
     """
-    from src.evals import CompletenessEvaluator
-    from src.evals import grounding_judge
-    from src.evals import sentiment_judge
+    from src.evals import portfolio_evaluators
 
-    # CompletenessEvaluator() reads the requested tickers from each case's input_data;
-    # the two judges read {{output_data}} (the briefing) and need no per-case wiring.
-    return [CompletenessEvaluator(), sentiment_judge, grounding_judge]
+    return portfolio_evaluators()
 
 
 # Mark this input->output boundary as an inline-experiment subject. This is a pure
