@@ -1,5 +1,7 @@
 ddtrace
-openai
-requests
-python-dotenv
-notebook
+openai==1.30.1
+requests==2.32.2
+urllib3==2.7.0
+notebook==7.1.3
+python-dotenv==1.0.1
+black==24.4.2
