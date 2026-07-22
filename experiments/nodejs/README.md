@@ -23,15 +23,7 @@ EXPERIMENTS_ENV_FILE=/path/to/experiments.env npm run validate:dataset
 
 Shell environment variables win over values in `.env`.
 
-For staging validation, keep `DD_SITE=datad0g.com`; generated UI links use `https://dd.datad0g.com/...`. To validate local `dd-trace-js` changes without publishing/installing the package, set:
-
-```sh
-DD_TRACE_JS_PATH=/Users/mehul.sonowal/go/src/github.com/DataDog/dd-trace-js
-```
-
-If `DD_TRACE_JS_PATH` is unset, the script uses `require('dd-trace')` from normal Node resolution.
-
-For detailed instructions on testing unpublished local `dd-trace-js` changes, see [LOCAL_DD_TRACE_JS.md](./LOCAL_DD_TRACE_JS.md).
+For staging validation, keep `DD_SITE=datad0g.com`; generated UI links use `https://dd.datad0g.com/...`.
 
 ## Running the example
 
@@ -42,11 +34,10 @@ npm run dataset
 node examples/00-dataset-operations.js
 ```
 
-Run against staging with `dd-auth` credentials and the local `dd-trace-js` checkout:
+Run against staging with `dd-auth` credentials:
 
 ```sh
-DD_TRACE_JS_PATH=/Users/mehul.sonowal/go/src/github.com/DataDog/dd-trace-js \
-  dd-auth --domain dd.datad0g.com -- env DD_SITE=datad0g.com npm run validate:dataset
+dd-auth --domain dd.datad0g.com -- env DD_SITE=datad0g.com npm run validate:dataset
 ```
 
 The dataset script exits non-zero if local result shape checks fail. It validates:
