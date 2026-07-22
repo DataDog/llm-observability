@@ -1,0 +1,22 @@
+{
+  "name": "stock-watchlist-agent-js",
+  "version": "0.1.0",
+  "description": "Multi-agent stock watchlist analyst using OpenAI Responses API and dd-trace-js LLM Observability",
+  "main": "src/main.js",
+  "bin": {
+    "stock-watchlist-agent-js": "src/main.js"
+  },
+  "scripts": {
+    "start": "node src/main.js",
+    "analyze": "node src/main.js",
+    "check": "node --check src/main.js && node --check src/observability.js && node --check src/models.js && node --check src/evals.js && node --check src/agents/responses-agent.js && node --check src/agents/searcher.js && node --check src/agents/researcher.js && node --check src/agents/orchestrator.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dd-trace": "latest",
+    "dotenv": "^16.4.7",
+    "openai": "^4.104.0"
+  }
+}
