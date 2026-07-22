@@ -57,6 +57,13 @@ npm run multispan
 node examples/03-multispan-experiment.js
 ```
 
+```sh
+# 04: Stock watchlist workflow with multiple OpenAI calls per experiment row.
+npm run stock-watchlist
+# Equivalent direct command:
+node examples/04-stock-watchlist-experiment.js
+```
+
 Run only the experiment trace validation sequence:
 
 ```sh
@@ -97,5 +104,6 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - captured row task errors
 - `run({ raiseErrors: true })`
 - nested workflow/task/LLM span traces for multispan tasks
+- multiple provider calls in a single row with the stock watchlist workflow
 
-The examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The multispan example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital_multispan / normalize_capital_answer`.
+The examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The multispan example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital_multispan / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.

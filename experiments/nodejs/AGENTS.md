@@ -28,4 +28,5 @@ Notes:
 - Set `DD_SITE=datad0g.com` for `dd-trace-js` experiments API calls. The experiments client builds the API host as `api.${DD_SITE}`; using `DD_SITE=dd.datad0g.com` produces `api.dd.datad0g.com`, which fails TLS validation.
 - The scripts auto-load `.env`, or the file pointed to by `EXPERIMENTS_ENV_FILE`. Shell env vars and `dd-auth` values override `.env` values.
 - Set `OPENAI_API_KEY` in the env file or shell for the experiment trace examples; they intentionally make real OpenAI chat-completion calls to validate nested LLMObs provider spans. `OPENAI_MODEL` defaults to `gpt-4o-mini`.
+- Use `npm run stock-watchlist` for the higher-cost complex workflow example with multiple provider calls in one experiment row.
 - The examples print dataset and experiment URLs on `https://dd.datad0g.com/...`. Use those URLs for UI validation of datasets, experiment row spans, nested provider LLM spans, row evaluator metrics, and summary metrics.
