@@ -1,16 +1,20 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timezone
 from typing import Any
 
 from ddtrace import tracer
 from ddtrace.llmobs import LLMObs
-from ddtrace.llmobs.decorators import agent as llmobs_agent
 from ddtrace.llmobs.decorators import tool as llmobs_tool
+from ddtrace.llmobs.experimental import experiment_start
 from pydantic_ai import Agent, RunContext, Tool
 
 from src.agents.researcher import stock_researcher
 from src.models import PortfolioBriefing
+
+
+log = logging.getLogger(__name__)
 
 
 # --- Delegation tool ---
@@ -19,6 +23,7 @@ from src.models import PortfolioBriefing
 @llmobs_tool(name="delegate_research")
 async def _delegate_research(ctx: RunContext, tickers: list[str]) -> str:
     """Delegate a batch of stock tickers to a research agent."""
+    log.info("delegate_research: dispatching research batch for %d ticker(s): %s", len(tickers), ", ".join(tickers))
     result = await stock_researcher.run(
         f"Research these stocks: {', '.join(tickers)}. "
         f"Get current prices, search for recent news and developments, "
@@ -116,29 +121,68 @@ orchestrator = Agent(
 )
 
 
-@llmobs_agent(name="analyze_portfolio")
+def _portfolio_evaluators() -> list[Any]:
+    """Evaluators scored on each replayed case, beyond the structural comparator.
+
+    Imported lazily (a zero-arg thunk, like ``fixtures``) so the LLM judges — which carry
+    provider config — are constructed only when an activated runner resolves them
+    (`replay --evaluate` or `--publish`), never in a production import of this module.
+    """
+    from src.evals import CompletenessEvaluator
+    from src.evals import grounding_judge
+    from src.evals import sentiment_judge
+
+    # CompletenessEvaluator() reads the requested tickers from each case's input_data;
+    # the two judges read {{output_data}} (the briefing) and need no per-case wiring.
+    return [CompletenessEvaluator(), sentiment_judge, grounding_judge]
+
+
+# Mark this input->output boundary as an inline-experiment subject. This is a pure
+# no-op in normal execution (prod or local) — it only activates under the
+# `ddtrace-experiment` command, which records (tickers -> briefing) baselines and
+# replays the current code against them. `trace_link` points the captured case at this
+# call's real orchestrator span (returned as the second element below) so `--trace`
+# links each case to its actual trace instead of wrapping it in a synthetic span.
+# `evaluators` attaches richer checks (completeness + two LLM judges) that score each
+# replayed case alongside the structural comparator — locally via `replay --evaluate`
+# and as eval metrics on `replay --publish`.
+@experiment_start(
+    name="portfolio",
+    inputs=["tickers"],
+    output=lambda ret: ret[0].model_dump(),
+    trace_link=lambda ret: ret[1],
+    evaluators=_portfolio_evaluators,
+)
 async def analyze_portfolio(tickers: list[str]) -> tuple[PortfolioBriefing, dict[str, Any] | None]:
     """Analyze multiple stocks via delegated research agents and synthesize a briefing.
 
-    Returns (briefing, span_context) where span_context is the root agent span's
+    Returns (briefing, span_context) where span_context is the orchestrator agent's
     span_id/trace_id for attaching evaluations, or None if LLMObs is disabled.
     """
+    log.info("analyze_portfolio: start — %d ticker(s): %s", len(tickers), ", ".join(tickers))
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt = f"Analyze these stock tickers: {', '.join(tickers)}. Current time: {now}"
 
-    # Capture the root span (this analyze_portfolio agent span) before entering
-    # the orchestrator — all nested pydantic-ai and @llmobs_tool spans will be
-    # children of this root, giving us one trace per conversation.
+    # Use orchestrator.iter() so we can capture the auto-instrumented agent span.
+    # LLMObs.export_span() can't find it via its own context provider in async code,
+    # but tracer.current_span() CAN — the span is activated with activate=True in
+    # the ddtrace integration. We pass it explicitly to export_span(span=...).
     span_context = None
-    try:
-        span = tracer.current_span()
-        if span:
-            span_context = LLMObs.export_span(span=span)
-    except Exception:
-        pass
-
     async with orchestrator.iter(prompt) as agent_run:
+        try:
+            span = tracer.current_span()
+            if span:
+                span_context = LLMObs.export_span(span=span)
+        except Exception:
+            pass
+
         async for _node in agent_run:
             pass
 
-    return agent_run.result.output, span_context
+    briefing = agent_run.result.output
+    log.info(
+        "analyze_portfolio: done — %d analysis(es), %d highlight(s)",
+        len(briefing.analyses),
+        len(briefing.highlights),
+    )
+    return briefing, span_context
