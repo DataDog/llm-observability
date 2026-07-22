@@ -2,12 +2,17 @@
   "name": "llm-observability-experiments-nodejs-dataset-example",
   "version": "0.1.0",
   "private": true,
-  "description": "Runnable Node.js dataset example for Datadog LLM Observability Experiments in dd-trace-js.",
+  "description": "Runnable Node.js examples for Datadog LLM Observability Experiments in dd-trace-js.",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "dataset": "node examples/00-dataset-operations.js",
-    "validate:dataset": "npm run dataset"
+    "basic": "node examples/01-basic-experiment.js",
+    "errors": "node examples/02-error-retry-summary.js",
+    "multispan": "node examples/03-multispan-experiment.js",
+    "validate:dataset": "npm run dataset",
+    "validate:experiments": "npm run basic && npm run errors && npm run multispan",
+    "validate:p0": "npm run dataset && npm run validate:experiments"
   }
 }
