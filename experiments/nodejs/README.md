@@ -42,9 +42,9 @@ dd-auth --domain dd.datad0g.com -- env DD_SITE=datad0g.com npm run validate:data
 
 The dataset script exits non-zero if local result shape checks fail. It validates:
 
-- `tracer.llmobs.createDataset(name, { description, records })`
+- `tracer.llmobs.experiments.createDataset(name, { description, records })`
 - `dataset.push()`
-- `tracer.llmobs.pullDataset(name, { expectedRecordCount })`
+- `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
-- `tracer.llmobs.createDatasetFromCsv(csvPath, name, options)`
 - selected CSV input, expected output, metadata, and custom record ID columns
+- custom record IDs returned by dataset push/pull and used for experiment row tags
