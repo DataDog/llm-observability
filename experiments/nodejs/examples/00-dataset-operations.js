@@ -48,6 +48,27 @@ async function main () {
     assert.equal(pinned.records().length, 2)
   }
 
+  dataset.addRecord({ country: 'Brazil' }, 'Brasília', { continent: 'South America' })
+  const incrementalPushResult = await dataset.push()
+  assert.deepEqual(incrementalPushResult, { pushedCount: 1, totalCount: 1 })
+  assert.equal(dataset.records().length, 3)
+  const incrementalRecordIds = dataset.recordIds()
+  assert.equal(incrementalRecordIds.length, 3)
+  assert.deepEqual(incrementalRecordIds.slice(0, 2), ['france', 'japan'])
+  assert.notEqual(incrementalRecordIds[2], '')
+
+  const noOpPushResult = await dataset.push()
+  assert.deepEqual(noOpPushResult, { pushedCount: 0, totalCount: 0 })
+
+  const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 3 })
+  assert.equal(incrementallyPulled.records().length, 3)
+  const incrementallyPulledByCountry = new Map(
+    incrementallyPulled.records().map(record => [record.input.country, record])
+  )
+  assert.equal(incrementallyPulledByCountry.get('Brazil').expectedOutput, 'Brasília')
+  assert.equal(incrementallyPulledByCountry.get('Brazil').metadata.continent, 'South America')
+  assert.equal(incrementallyPulledByCountry.get('Brazil').id, incrementalRecordIds[2])
+
   const csvName = uniqueName('nodejs-csv-capitals')
   const csvPath = path.resolve(__dirname, 'data', 'capitals.csv')
   const csvRows = rowsFromCsv(csvPath)

@@ -23,7 +23,7 @@ EXPERIMENTS_ENV_FILE=/path/to/experiments.env npm run validate:dataset
 
 Shell environment variables win over values in `.env`.
 
-For staging validation, keep `DD_SITE=datad0g.com`; generated UI links use `https://dd.datad0g.com/...`.
+For production validation, keep `DD_SITE=datadoghq.com`; generated UI links use `https://app.datadoghq.com/...`.
 
 ## Running the example
 
@@ -34,16 +34,17 @@ npm run dataset
 node examples/00-dataset-operations.js
 ```
 
-Run against staging with `dd-auth` credentials:
+Run against production with `dd-auth` credentials:
 
 ```sh
-dd-auth --domain dd.datad0g.com -- env DD_SITE=datad0g.com npm run validate:dataset
+dd-auth --domain dd.datadoghq.com -- env DD_SITE=datadoghq.com npm run validate:dataset
 ```
 
 The dataset script exits non-zero if local result shape checks fail. It validates:
 
 - `tracer.llmobs.experiments.createDataset(name, { description, records })`
 - `dataset.push()`
+- incremental `dataset.addRecord(...)` plus follow-up/no-op pushes
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
 - selected CSV input, expected output, metadata, and custom record ID columns
