@@ -7,7 +7,7 @@ async function main () {
   const name = uniqueName('nodejs-capitals')
 
   const dataset = tracer.llmobs.experiments.createDataset(name, {
-    description: 'Node.js dataset smoke test',
+    description: 'Node.js dataset validation example',
     records: [
       { id: 'france', inputData: { country: 'France' }, expectedOutput: 'Paris', metadata: { continent: 'Europe' } },
       { id: 'japan', inputData: { country: 'Japan' }, expectedOutput: 'Tokyo', metadata: { continent: 'Asia' } },

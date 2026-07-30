@@ -1,6 +1,6 @@
 # Node.js LLM Observability Experiments dataset example
 
-Runnable smoke example for the Node.js `dd-trace-js` LLMObs experiments dataset API. This pairs with the `dd-trace-js` dataset SDK PR and mirrors the Python dataset notebook flow: create a local dataset, `push()` it, then `pullDataset(...)` from Datadog for read-after-write validation.
+Runnable example for the Node.js `dd-trace-js` LLMObs experiments dataset API. This pairs with the `dd-trace-js` dataset SDK PR and mirrors the Python dataset notebook flow: create a local dataset, `push()` it, then `pullDataset(...)` from Datadog for read-after-write validation.
 
 Every Node.js experiments SDK feature should have a runnable example in this directory when it is added.
 
