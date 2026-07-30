@@ -1,7 +1,5 @@
 'use strict'
 
-const OpenAI = require('openai')
-
 const { requireEnv } = require('./env')
 
 const JSON_RESPONSE_FORMAT = {
@@ -19,6 +17,7 @@ let openaiClient
 
 function client () {
   if (openaiClient) return openaiClient
+  const OpenAI = require('openai')
   const OpenAIClient = OpenAI.default || OpenAI
   openaiClient = new OpenAIClient({ apiKey: requireEnv('OPENAI_API_KEY') })
   return openaiClient
