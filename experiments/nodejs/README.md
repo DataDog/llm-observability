@@ -28,7 +28,7 @@ For production validation, keep `DD_SITE=datadoghq.com`; generated UI links use 
 ## Running the example
 
 ```sh
-# 00: Dataset create -> push -> pull, explicit version pull, CSV dataset creation, and custom CSV record IDs.
+# 00: Dataset create -> push -> pull, explicit version pull, and incremental record pushes.
 npm run dataset
 # Equivalent direct command:
 node examples/00-dataset-operations.js
@@ -47,5 +47,4 @@ The dataset script exits non-zero if local result shape checks fail. It validate
 - incremental `dataset.addRecord(...)` plus follow-up/no-op pushes
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
-- selected CSV input, expected output, metadata, and custom record ID columns
 - custom record IDs returned by dataset push/pull and used for experiment row tags

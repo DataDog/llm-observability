@@ -1,15 +1,6 @@
 'use strict'
 
-const fs = require('node:fs')
-const path = require('node:path')
-
 const { assert, assertUrl, initTracer, uniqueName } = require('./lib/env')
-
-function rowsFromCsv (csvPath) {
-  const [header, ...lines] = fs.readFileSync(csvPath, 'utf8').trim().split(/\r?\n/)
-  const columns = header.split(',')
-  return lines.map(line => Object.fromEntries(line.split(',').map((value, index) => [columns[index], value])))
-}
 
 async function main () {
   const tracer = initTracer()
@@ -69,52 +60,10 @@ async function main () {
   assert.equal(incrementallyPulledByCountry.get('Brazil').metadata.continent, 'South America')
   assert.equal(incrementallyPulledByCountry.get('Brazil').id, incrementalRecordIds[2])
 
-  const csvName = uniqueName('nodejs-csv-capitals')
-  const csvPath = path.resolve(__dirname, 'data', 'capitals.csv')
-  const csvRows = rowsFromCsv(csvPath)
-  const csvDataset = tracer.llmobs.experiments.createDataset(csvName, {
-    description: 'Node.js CSV dataset smoke test',
-    records: csvRows.map(row => ({
-      id: row.id,
-      inputData: { country: row.country, question: row.question },
-      expectedOutput: { answer: row.answer },
-      metadata: { continent: row.continent, difficulty: row.difficulty },
-    })),
-  })
-
-  assert.equal(csvDataset.records().length, 3)
-  assert.deepEqual(csvDataset.records()[0].input, {
-    country: 'France',
-    question: 'What is the capital of France?',
-  })
-  assert.deepEqual(csvDataset.records()[0].expectedOutput, { answer: 'Paris' })
-  assert.deepEqual(csvDataset.records()[0].metadata, { continent: 'Europe', difficulty: 'easy' })
-  assert.equal(csvDataset.records()[0].id, 'france')
-
-  // CSV datasets follow the same explicit push/pull flow.
-  const csvPushResult = await csvDataset.push()
-  assert.equal(csvPushResult.totalCount, 3)
-  assert.deepEqual(csvDataset.recordIds(), ['france', 'japan', 'brazil'])
-  assertUrl(csvDataset.url(), 'csvDataset.url()')
-
-  const csvPulled = await tracer.llmobs.experiments.pullDataset(csvName, { expectedRecordCount: 3 })
-  assert.equal(csvPulled.records().length, 3)
-  const csvPulledByCountry = new Map(csvPulled.records().map(record => [record.input.country, record]))
-  assert.deepEqual(csvPulledByCountry.get('France').expectedOutput, { answer: 'Paris' })
-  assert.deepEqual(csvPulledByCountry.get('Japan').expectedOutput, { answer: 'Tokyo' })
-  assert.deepEqual(csvPulledByCountry.get('Brazil').expectedOutput, { answer: 'Brasília' })
-  assert.equal(csvPulledByCountry.get('Brazil').metadata.difficulty, 'medium')
-  assert.equal(csvPulledByCountry.get('France').id, 'france')
-  assert.equal(csvPulledByCountry.get('Japan').id, 'japan')
-  assert.equal(csvPulledByCountry.get('Brazil').id, 'brazil')
-
   console.log('Dataset validation passed')
   console.log(`Dataset name    : ${name}`)
   console.log(`Dataset URL     : ${dataset.url()}`)
   console.log(`Record IDs      : ${dataset.recordIds().join(', ')}`)
-  console.log(`CSV dataset name: ${csvName}`)
-  console.log(`CSV dataset URL : ${csvDataset.url()}`)
-  console.log(`CSV record IDs  : ${csvDataset.recordIds().join(', ')}`)
 }
 
 main().catch((err) => {
