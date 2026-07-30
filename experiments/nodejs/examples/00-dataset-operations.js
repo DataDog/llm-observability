@@ -51,6 +51,15 @@ async function main () {
   const noOpPushResult = await dataset.push()
   assert.deepEqual(noOpPushResult, { pushedCount: 0, totalCount: 0 })
 
+  const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 3 })
+  assert.equal(incrementallyPulled.records().length, 3)
+  const incrementallyPulledByCountry = new Map(
+    incrementallyPulled.records().map(record => [record.input.country, record])
+  )
+  assert.equal(incrementallyPulledByCountry.get('Brazil').expectedOutput, 'Brasília')
+  assert.equal(incrementallyPulledByCountry.get('Brazil').metadata.continent, 'South America')
+  assert.equal(incrementallyPulledByCountry.get('Brazil').id, incrementalRecordIds[2])
+
   console.log('Dataset validation passed')
   console.log(`Dataset name    : ${name}`)
   console.log(`Dataset URL     : ${dataset.url()}`)
