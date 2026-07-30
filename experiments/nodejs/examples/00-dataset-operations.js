@@ -13,10 +13,10 @@ function rowsFromCsv (csvPath) {
 
 async function main () {
   const tracer = initTracer()
-  const name = uniqueName('nodejs-p0-capitals')
+  const name = uniqueName('nodejs-capitals')
 
   const dataset = tracer.llmobs.experiments.createDataset(name, {
-    description: 'P0 Node.js dataset smoke test',
+    description: 'Node.js dataset smoke test',
     records: [
       { id: 'france', inputData: { country: 'France' }, expectedOutput: 'Paris', metadata: { continent: 'Europe' } },
       { id: 'japan', inputData: { country: 'Japan' }, expectedOutput: 'Tokyo', metadata: { continent: 'Asia' } },
@@ -48,11 +48,11 @@ async function main () {
     assert.equal(pinned.records().length, 2)
   }
 
-  const csvName = uniqueName('nodejs-p0-csv-capitals')
+  const csvName = uniqueName('nodejs-csv-capitals')
   const csvPath = path.resolve(__dirname, 'data', 'capitals.csv')
   const csvRows = rowsFromCsv(csvPath)
   const csvDataset = tracer.llmobs.experiments.createDataset(csvName, {
-    description: 'P0 Node.js CSV dataset smoke test',
+    description: 'Node.js CSV dataset smoke test',
     records: csvRows.map(row => ({
       id: row.id,
       inputData: { country: row.country, question: row.question },
@@ -87,7 +87,7 @@ async function main () {
   assert.equal(csvPulledByCountry.get('Japan').id, 'japan')
   assert.equal(csvPulledByCountry.get('Brazil').id, 'brazil')
 
-  console.log('Dataset P0 validation passed')
+  console.log('Dataset validation passed')
   console.log(`Dataset name    : ${name}`)
   console.log(`Dataset URL     : ${dataset.url()}`)
   console.log(`Record IDs      : ${dataset.recordIds().join(', ')}`)
