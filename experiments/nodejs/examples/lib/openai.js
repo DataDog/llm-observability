@@ -1,6 +1,17 @@
 'use strict'
 
+const OpenAI = require('openai')
+
 const { requireEnv } = require('./env')
+
+let openaiClient
+
+function client () {
+  if (openaiClient) return openaiClient
+  const OpenAIClient = OpenAI.default || OpenAI
+  openaiClient = new OpenAIClient({ apiKey: requireEnv('OPENAI_API_KEY') })
+  return openaiClient
+}
 
 function parseJsonObject (content) {
   const trimmed = content.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '')
@@ -17,8 +28,7 @@ function parseJsonObject (content) {
 }
 
 async function callOpenAIChat (llmobs, options) {
-  const apiKey = requireEnv('OPENAI_API_KEY')
-  const model = options.model || process.env.OPENAI_MODEL || 'gpt-4o-mini'
+  const model = options.model || process.env.OPENAI_MODEL || 'gpt-5-mini'
   const temperature = options.temperature ?? 0
 
   return llmobs.trace({
@@ -27,37 +37,18 @@ async function callOpenAIChat (llmobs, options) {
     modelName: model,
     modelProvider: 'openai',
   }, async (span) => {
-    let body
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model,
-        temperature,
-        messages: options.messages,
-        response_format: { type: 'json_object' },
-      }),
+    const response = await client().chat.completions.create({
+      model,
+      temperature,
+      messages: options.messages,
+      response_format: { type: 'json_object' },
     })
 
-    const text = await response.text()
-    try {
-      body = text ? JSON.parse(text) : {}
-    } catch {
-      body = { raw: text }
-    }
-
-    if (!response.ok) {
-      throw new Error(`OpenAI chat completion failed: HTTP ${response.status} ${text}`)
-    }
-
-    const content = body?.choices?.[0]?.message?.content ?? ''
+    const content = response.choices?.[0]?.message?.content ?? ''
     const metrics = {}
-    if (typeof body?.usage?.prompt_tokens === 'number') metrics.inputTokens = body.usage.prompt_tokens
-    if (typeof body?.usage?.completion_tokens === 'number') metrics.outputTokens = body.usage.completion_tokens
-    if (typeof body?.usage?.total_tokens === 'number') metrics.totalTokens = body.usage.total_tokens
+    if (typeof response.usage?.prompt_tokens === 'number') metrics.inputTokens = response.usage.prompt_tokens
+    if (typeof response.usage?.completion_tokens === 'number') metrics.outputTokens = response.usage.completion_tokens
+    if (typeof response.usage?.total_tokens === 'number') metrics.totalTokens = response.usage.total_tokens
     llmobs.annotate(span, {
       inputData: options.messages,
       outputData: { role: 'assistant', content },

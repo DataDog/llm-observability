@@ -192,7 +192,7 @@ async function main () {
     evaluators: [covers_all_tickers, has_recommendations, has_multiple_provider_calls],
     summaryEvaluators: [coverage_summary],
     config: {
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
       temperature: 0,
       provider: 'openai',
     },

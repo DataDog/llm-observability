@@ -76,7 +76,7 @@ async function main () {
     evaluators: { exact_match, flaky_evaluator },
     summaryEvaluators: { pass_rate },
     config: {
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
       temperature: 0,
       provider: 'openai',
     },

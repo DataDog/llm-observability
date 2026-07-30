@@ -11,6 +11,7 @@ cd /Users/mehul.sonowal/dd/llm-observability/experiments/nodejs
 cp .env.example .env
 # Fill in DD_API_KEY, DD_APP_KEY, and OPENAI_API_KEY.
 # DD_APPLICATION_KEY also works if DD_APP_KEY is not set.
+npm install
 
 npm run validate:all
 ```
@@ -51,7 +52,7 @@ node examples/02-error-retry-summary.js
 ```
 
 ```sh
-# 03: Multispan experiment task. Each experiment row trace contains nested workflow/task/LLM spans.
+# 03: Multi-span trace task. Each experiment row trace contains nested workflow/task/LLM spans.
 npm run multispan
 # Equivalent direct command:
 node examples/03-multispan-experiment.js
@@ -104,7 +105,7 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - task/evaluator retries through `run({ maxRetries, retryDelay })`
 - captured row task errors
 - `run({ throwOnErrors: true })` for task errors that should be captured and bubbled to callers
-- nested workflow/task/LLM span traces for multispan tasks
+- nested workflow/task/LLM span traces for multi-span tasks
 - multiple provider calls in a single row with the stock watchlist workflow
 
-The examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The multispan example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital_multispan / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The multi-span trace example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital_multispan / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.

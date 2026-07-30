@@ -6,6 +6,9 @@
   "engines": {
     "node": ">=18"
   },
+  "dependencies": {
+    "openai": "^7.1.0"
+  },
   "scripts": {
     "dataset": "node examples/00-dataset-operations.js",
     "basic": "node examples/01-basic-experiment.js",

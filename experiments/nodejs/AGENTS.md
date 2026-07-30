@@ -27,6 +27,6 @@ Notes:
 - The auth domain is `dd.datadoghq.com`.
 - Set `DD_SITE=datadoghq.com` for `dd-trace-js` experiments API calls. The experiments client builds the API host as `api.${DD_SITE}`.
 - The scripts auto-load `.env`, or the file pointed to by `EXPERIMENTS_ENV_FILE`. Shell env vars and `dd-auth` values override `.env` values.
-- Set `OPENAI_API_KEY` in the env file or shell for the experiment trace examples; they intentionally make real OpenAI chat-completion calls to validate nested LLMObs provider spans. `OPENAI_MODEL` defaults to `gpt-4o-mini`.
+- Set `OPENAI_API_KEY` in the env file or shell for the experiment trace examples; they intentionally make real OpenAI chat-completion calls to validate nested LLMObs provider spans. `OPENAI_MODEL` defaults to `gpt-5-mini`.
 - Use `npm run stock-watchlist` for the higher-cost complex workflow example with multiple provider calls in one experiment row.
 - The examples print dataset and experiment URLs on `https://app.datadoghq.com/...`. Use those URLs for UI validation of datasets, experiment row spans, nested provider LLM spans, row evaluator metrics, and summary metrics.

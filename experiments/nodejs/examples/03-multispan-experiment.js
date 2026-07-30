@@ -3,6 +3,7 @@
 const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 const { callOpenAIJson } = require('./lib/openai')
 
+// Multi-span means one experiment row trace with nested workflow, task, and LLM spans.
 function createMultiSpanCapitalTask (llmobs) {
   return async function generate_capital_multispan (inputData, config) {
     return llmobs.trace({
@@ -80,7 +81,7 @@ async function main () {
   const tracer = initTracer()
   const datasetName = uniqueName('nodejs-multispan')
   const dataset = tracer.llmobs.experiments.createDataset(datasetName, {
-    description: 'Node.js multispan experiment dataset with live OpenAI calls',
+    description: 'Node.js multi-span trace experiment dataset with live OpenAI calls',
     records: [
       { inputData: { country: 'France' }, expectedOutput: 'Paris', metadata: { difficulty: 'easy' } },
       { inputData: { country: 'Japan' }, expectedOutput: 'Tokyo', metadata: { difficulty: 'easy' } },
@@ -94,7 +95,7 @@ async function main () {
     evaluators: [exact_match, contains_answer],
     summaryEvaluators: [accuracy_summary],
     config: {
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
       temperature: 0,
       provider: 'openai',
     },
@@ -111,7 +112,7 @@ async function main () {
 
   await flushAndWait(tracer)
 
-  console.log('Multispan experiment validation passed')
+  console.log('Multi-span trace experiment validation passed')
   console.log(`Dataset URL   : ${dataset.url()}`)
   console.log(`Experiment URL: ${result.url}`)
   console.log(`Experiment ID : ${result.experimentId}`)

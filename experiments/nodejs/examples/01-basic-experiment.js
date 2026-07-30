@@ -65,7 +65,7 @@ async function main () {
     evaluators: [exact_match, contains_answer],
     summaryEvaluators: [accuracy_summary],
     config: {
-      model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
       temperature: 0,
       provider: 'openai',
     },
