@@ -4,6 +4,17 @@ const OpenAI = require('openai')
 
 const { requireEnv } = require('./env')
 
+const JSON_RESPONSE_FORMAT = {
+  type: 'json_schema',
+  json_schema: {
+    name: 'json_response',
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+    },
+  },
+}
+
 let openaiClient
 
 function client () {
@@ -13,21 +24,7 @@ function client () {
   return openaiClient
 }
 
-function parseJsonObject (content) {
-  const trimmed = content.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '')
-  try {
-    return JSON.parse(trimmed)
-  } catch {
-    const start = trimmed.indexOf('{')
-    const end = trimmed.lastIndexOf('}')
-    if (start !== -1 && end !== -1 && end > start) {
-      return JSON.parse(trimmed.slice(start, end + 1))
-    }
-    throw new Error(`OpenAI response was not JSON: ${content}`)
-  }
-}
-
-async function callOpenAIChat (llmobs, options) {
+async function callOpenAIJson (llmobs, options) {
   const model = options.model || process.env.OPENAI_MODEL || 'gpt-5-mini'
   const temperature = options.temperature ?? 0
 
@@ -37,14 +34,15 @@ async function callOpenAIChat (llmobs, options) {
     modelName: model,
     modelProvider: 'openai',
   }, async (span) => {
-    const response = await client().chat.completions.create({
+    const response = await client().chat.completions.parse({
       model,
       temperature,
       messages: options.messages,
-      response_format: { type: 'json_object' },
+      response_format: JSON_RESPONSE_FORMAT,
     })
 
-    const content = response.choices?.[0]?.message?.content ?? ''
+    const message = response.choices?.[0]?.message
+    const content = message?.content ?? ''
     const metrics = {}
     if (typeof response.usage?.prompt_tokens === 'number') metrics.inputTokens = response.usage.prompt_tokens
     if (typeof response.usage?.completion_tokens === 'number') metrics.outputTokens = response.usage.completion_tokens
@@ -55,12 +53,12 @@ async function callOpenAIChat (llmobs, options) {
       metadata: { temperature },
       metrics,
     })
-    return content
+
+    if (message?.parsed === null || typeof message?.parsed !== 'object') {
+      throw new Error(`OpenAI response was not parsed JSON: ${content}`)
+    }
+    return message.parsed
   })
 }
 
-async function callOpenAIJson (llmobs, options) {
-  return parseJsonObject(await callOpenAIChat(llmobs, options))
-}
-
-module.exports = { callOpenAIChat, callOpenAIJson, parseJsonObject }
+module.exports = { callOpenAIJson }
