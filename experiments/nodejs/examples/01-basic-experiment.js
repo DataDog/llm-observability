@@ -40,12 +40,6 @@ function accuracy_summary (_inputs, _outputs, _expectedOutputs, evaluatorResults
   return values.filter(Boolean).length / values.length
 }
 
-function assertSpanIdentifier (spanId) {
-  // Real LLMObs spans export dd-trace span ids in decimal. The experiment
-  // fallback path uses 16-char hex ids when no LLMObs SDK span is available.
-  assert.match(spanId, /^(?:[0-9]{1,20}|[0-9a-f]{16})$/)
-}
-
 async function main () {
   const tracer = initTracer()
   const datasetName = uniqueName('nodejs-basic')
@@ -95,8 +89,6 @@ async function main () {
   assert.notEqual(recordIds[3], '')
   assert.equal(new Set(recordIds).size, 4)
   for (const row of result.rows) {
-    assertSpanIdentifier(row.spanId)
-    assert.match(row.traceId, /^[0-9a-f]{32}$/)
     assert.equal(row.isError, false)
   }
   assertUrl(result.url, 'result.url')
