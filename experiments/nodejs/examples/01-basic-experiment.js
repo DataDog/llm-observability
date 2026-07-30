@@ -6,22 +6,61 @@ const { callOpenAIJson } = require('./lib/openai')
 function createAnswerCapitalTask (llmobs) {
   return async function generate_capital (inputData, config, metadata) {
     assert.equal(metadata.difficulty, 'easy')
-    const result = await callOpenAIJson(llmobs, {
-      name: 'openai.generate_capital',
-      model: config.model,
-      temperature: config.temperature,
-      messages: [
-        {
-          role: 'system',
-          content: 'You answer geography questions. Respond only as JSON with shape {"answer":"capital city"}.',
-        },
-        {
-          role: 'user',
-          content: `What is the capital of ${inputData.country}?`,
-        },
-      ],
+    return llmobs.trace({
+      kind: 'workflow',
+      name: 'capital_answer_workflow',
+      tags: { example: 'basic', country: inputData.country },
+    }, async (workflowSpan) => {
+      llmobs.annotate(workflowSpan, {
+        inputData,
+        metadata: { country: inputData.country },
+      })
+
+      const messages = await llmobs.trace({
+        kind: 'task',
+        name: 'build_capital_prompt',
+        tags: { example: 'basic', step: 'prompt' },
+      }, async (promptSpan) => {
+        const promptMessages = [
+          {
+            role: 'system',
+            content: 'You answer geography questions. Respond only as JSON with shape {"answer":"capital city"}.',
+          },
+          {
+            role: 'user',
+            content: `What is the capital of ${inputData.country}?`,
+          },
+        ]
+        llmobs.annotate(promptSpan, {
+          inputData,
+          outputData: promptMessages,
+        })
+        return promptMessages
+      })
+
+      const result = await callOpenAIJson(llmobs, {
+        name: 'openai.generate_capital',
+        model: config.model,
+        temperature: config.temperature,
+        messages,
+      })
+
+      const output = await llmobs.trace({
+        kind: 'task',
+        name: 'normalize_capital_answer',
+        tags: { example: 'basic', step: 'normalize' },
+      }, async (normalizeSpan) => {
+        const normalized = { answer: String(result.answer || '').trim() }
+        llmobs.annotate(normalizeSpan, {
+          inputData: result,
+          outputData: normalized,
+        })
+        return normalized
+      })
+
+      llmobs.annotate(workflowSpan, { outputData: output })
+      return output
     })
-    return { answer: String(result.answer || '').trim() }
   }
 }
 
@@ -100,6 +139,11 @@ async function main () {
   console.log(`Experiment URL: ${result.url}`)
   console.log(`Experiment ID : ${result.experimentId}`)
   console.log(`Record IDs    : ${dataset.recordIds().join(', ')}`)
+  console.log('Each row trace should include nested spans:')
+  console.log(
+    'experiment row → capital_answer_workflow → build_capital_prompt / ' +
+    'openai.generate_capital / normalize_capital_answer'
+  )
   for (const row of result.rows) {
     console.log(`Row ${row.index} span=${row.spanId} trace=${row.traceId}`)
   }

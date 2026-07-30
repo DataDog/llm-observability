@@ -38,7 +38,7 @@ node examples/00-dataset-operations.js
 ```
 
 ```sh
-# 01: Basic experiment with live OpenAI calls, row evaluators, and a summary evaluator.
+# 01: Basic experiment with live OpenAI calls, nested spans, row evaluators, and a summary evaluator.
 npm run basic
 # Equivalent direct command:
 node examples/01-basic-experiment.js
@@ -52,17 +52,10 @@ node examples/02-error-retry-summary.js
 ```
 
 ```sh
-# 03: Multi-span trace task. Each experiment row trace contains nested workflow/task/LLM spans.
-npm run multispan
-# Equivalent direct command:
-node examples/03-multispan-experiment.js
-```
-
-```sh
-# 04: Stock watchlist workflow with multiple OpenAI calls per experiment row.
+# 03: Stock watchlist workflow with multiple OpenAI calls per experiment row.
 npm run stock-watchlist
 # Equivalent direct command:
-node examples/04-stock-watchlist-experiment.js
+node examples/03-stock-watchlist-experiment.js
 ```
 
 Run only the experiment trace validation sequence:
@@ -105,7 +98,7 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - task/evaluator retries through `run({ maxRetries, retryDelay })`
 - captured row task errors
 - `run({ throwOnErrors: true })` for task errors that should be captured and bubbled to callers
-- nested workflow/task/LLM span traces for multi-span tasks
+- nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
 
-The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The multi-span trace example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital_multispan / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.

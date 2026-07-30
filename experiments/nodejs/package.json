@@ -13,10 +13,9 @@
     "dataset": "node examples/00-dataset-operations.js",
     "basic": "node examples/01-basic-experiment.js",
     "errors": "node examples/02-error-retry-summary.js",
-    "multispan": "node examples/03-multispan-experiment.js",
-    "stock-watchlist": "node examples/04-stock-watchlist-experiment.js",
+    "stock-watchlist": "node examples/03-stock-watchlist-experiment.js",
     "validate:dataset": "npm run dataset",
-    "validate:experiments": "npm run basic && npm run errors && npm run multispan",
+    "validate:experiments": "npm run basic && npm run errors",
     "validate:all": "npm run dataset && npm run validate:experiments"
   }
 }
