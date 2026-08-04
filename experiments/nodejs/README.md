@@ -58,6 +58,13 @@ npm run stock-watchlist
 node examples/03-stock-watchlist-experiment.js
 ```
 
+```sh
+# 04: Multirun plus task/evaluator/summary concurrency validation.
+npm run multirun
+# Equivalent direct command:
+node examples/04-multirun-concurrency.js
+```
+
 Run only the experiment trace validation sequence:
 
 ```sh
@@ -100,5 +107,8 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - `run({ throwOnErrors: true })` for task errors that should be captured and bubbled to callers
 - nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
+- `experiment({ runs })` multirun result shape and first-run result aliases
+- `run({ concurrency })` bounding task, row evaluator, and summary evaluator concurrency inside each run
+- sequential run execution with parallel work inside each run
 
 The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
