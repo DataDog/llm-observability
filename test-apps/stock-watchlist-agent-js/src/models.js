@@ -48,6 +48,18 @@ const portfolioBriefingSchema = {
   required: ['analyses', 'market_overview', 'highlights', 'generated_at'],
 }
 
+const tickerFromImageSchema = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    ticker: { type: 'string' },
+    company_name: { type: 'string' },
+    confidence: { type: 'string', enum: ['high', 'medium', 'low'] },
+    evidence: { type: 'string' },
+  },
+  required: ['ticker', 'company_name', 'confidence', 'evidence'],
+}
+
 function assertString (value, path) {
   if (typeof value !== 'string' || value.length === 0) {
     throw new Error(`${path} must be a non-empty string`)
@@ -98,10 +110,25 @@ function validatePortfolioBriefing (briefing) {
   return briefing
 }
 
+function validateTickerFromImage (result) {
+  if (!result || typeof result !== 'object' || Array.isArray(result)) {
+    throw new Error('TickerFromImage must be an object')
+  }
+  assertString(result.ticker, 'ticker')
+  assertString(result.company_name, 'company_name')
+  if (!['high', 'medium', 'low'].includes(result.confidence)) {
+    throw new Error('confidence must be high, medium, or low')
+  }
+  assertString(result.evidence, 'evidence')
+  return result
+}
+
 module.exports = {
   stockAnalysisSchema,
   researchBatchResultSchema,
   portfolioBriefingSchema,
+  tickerFromImageSchema,
   validateResearchBatchResult,
   validatePortfolioBriefing,
+  validateTickerFromImage,
 }

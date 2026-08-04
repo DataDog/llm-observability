@@ -4,7 +4,7 @@ const { annotate, traceSpan } = require('../observability')
 const OpenAI = require('openai')
 
 const client = new OpenAI()
-const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-4o'
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-5.4-nano'
 
 function jsonSchemaFormat (name, schema) {
   return {

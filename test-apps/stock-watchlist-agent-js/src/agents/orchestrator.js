@@ -1,6 +1,7 @@
 'use strict'
 
 const { researchStocks } = require('./researcher')
+const { resolveTickersFromImages } = require('./vision')
 const { runResponsesAgent } = require('./responses-agent')
 const { portfolioBriefingSchema, validatePortfolioBriefing } = require('../models')
 const { annotate, exportSpan, traceSpan } = require('../observability')
@@ -106,13 +107,28 @@ function formatUtcNow () {
   return `${yyyy}-${mm}-${dd} ${hh}:${min} UTC`
 }
 
-async function analyzePortfolio (tickers) {
+async function analyzePortfolio (inputTickers, { images = [], onImagesResolved } = {}) {
   return traceSpan({ kind: 'agent', name: 'analyze_portfolio' }, async span => {
     const now = formatUtcNow()
-    const prompt = `Analyze these stock tickers: ${tickers.join(', ')}. Current time: ${now}`
     const spanContext = exportSpan(span)
 
-    annotate(span, { inputData: tickers, metadata: { generated_at: now } })
+    let tickers = inputTickers
+    let identifications = []
+    if (images.length > 0) {
+      const resolved = await resolveTickersFromImages(images)
+      identifications = resolved.identifications
+      tickers = [...new Set([...inputTickers, ...resolved.tickers])]
+      if (onImagesResolved) onImagesResolved(identifications)
+      if (tickers.length === 0) {
+        throw new Error('No ticker symbols could be identified from the provided image(s)')
+      }
+    }
+
+    const prompt = `Analyze these stock tickers: ${tickers.join(', ')}. Current time: ${now}`
+    annotate(span, {
+      inputData: images.length > 0 ? { tickers: inputTickers, images } : inputTickers,
+      metadata: { generated_at: now, resolved_tickers: tickers },
+    })
     const briefing = await traceSpan({ kind: 'agent', name: 'orchestrator' }, async orchestratorSpan => {
       annotate(orchestratorSpan, { inputData: prompt, metadata: { generated_at: now } })
       const result = await runResponsesAgent({
@@ -128,7 +144,7 @@ async function analyzePortfolio (tickers) {
       return validated
     })
     annotate(span, { outputData: briefing })
-    return { briefing, spanContext }
+    return { briefing, spanContext, tickers, identifications }
   })
 }
 
