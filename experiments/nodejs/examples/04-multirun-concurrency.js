@@ -16,7 +16,7 @@ function createTracker () {
       maxActive = Math.max(maxActive, active)
       try {
         await sleep(50)
-        return fn()
+        return await fn()
       } finally {
         active--
       }
@@ -27,6 +27,83 @@ function createTracker () {
     active () {
       return active
     },
+  }
+}
+
+function createAnswerCapitalTask (llmobs, taskTracker, taskStartOrder) {
+  const capitals = {
+    France: 'Paris',
+    Japan: 'Tokyo',
+    Canada: 'Ottawa',
+    Germany: 'Berlin',
+  }
+
+  return async function answer_capital (inputData, config, metadata) {
+    assert.equal(config.mode, 'multirun-concurrency')
+    assert.equal(typeof metadata.case, 'string')
+    taskStartOrder.push(inputData.id)
+
+    return taskTracker.run(() => llmobs.trace({
+      kind: 'workflow',
+      name: 'capital_answer_workflow',
+      tags: { example: 'multirun-concurrency', country: inputData.country },
+    }, async (workflowSpan) => {
+      llmobs.annotate(workflowSpan, {
+        inputData,
+        metadata: { country: inputData.country, case: metadata.case },
+      })
+
+      const messages = await llmobs.trace({
+        kind: 'task',
+        name: 'build_capital_prompt',
+        tags: { example: 'multirun-concurrency', step: 'prompt' },
+      }, async (promptSpan) => {
+        const promptMessages = [
+          {
+            role: 'system',
+            content: 'You answer geography questions. Respond only as JSON with shape {"answer":"capital city"}.',
+          },
+          {
+            role: 'user',
+            content: `What is the capital of ${inputData.country}?`,
+          },
+        ]
+        llmobs.annotate(promptSpan, {
+          inputData,
+          outputData: promptMessages,
+        })
+        return promptMessages
+      })
+
+      const answer = await llmobs.trace({
+        kind: 'task',
+        name: 'lookup_capital_answer',
+        tags: { example: 'multirun-concurrency', step: 'lookup' },
+      }, async (lookupSpan) => {
+        const lookupResult = { answer: capitals[inputData.country] }
+        llmobs.annotate(lookupSpan, {
+          inputData: messages,
+          outputData: lookupResult,
+        })
+        return lookupResult
+      })
+
+      const output = await llmobs.trace({
+        kind: 'task',
+        name: 'normalize_capital_answer',
+        tags: { example: 'multirun-concurrency', step: 'normalize' },
+      }, async (normalizeSpan) => {
+        const normalized = { answer: String(answer.answer || '').trim() }
+        llmobs.annotate(normalizeSpan, {
+          inputData: answer,
+          outputData: normalized,
+        })
+        return normalized
+      })
+
+      llmobs.annotate(workflowSpan, { outputData: output })
+      return output
+    }))
   }
 }
 
@@ -63,20 +140,6 @@ async function main () {
     ],
   })
 
-  const capitals = {
-    France: 'Paris',
-    Japan: 'Tokyo',
-    Canada: 'Ottawa',
-    Germany: 'Berlin',
-  }
-
-  async function answer_capital (inputData, config, metadata) {
-    assert.equal(config.mode, 'multirun-concurrency')
-    assert.equal(typeof metadata.case, 'string')
-    taskStartOrder.push(inputData.id)
-    return taskTracker.run(() => ({ answer: capitals[inputData.country] }))
-  }
-
   async function exact_match (_inputData, outputData, expectedOutput) {
     return evaluatorTracker.run(() => outputData.answer === expectedOutput)
   }
@@ -100,7 +163,7 @@ async function main () {
     name: uniqueName('nodejs-multirun-concurrency-exp'),
     dataset,
     runs: 2,
-    task: answer_capital,
+    task: createAnswerCapitalTask(tracer.llmobs, taskTracker, taskStartOrder),
     evaluators: [exact_match, contains_answer],
     summaryEvaluators: [exact_match_rate, row_count],
     config: { mode: 'multirun-concurrency' },
@@ -116,7 +179,7 @@ async function main () {
   assertRunRows(result.runs[1], 2)
   assert.notEqual(result.runs[0].runId, result.runs[1].runId)
 
-  // Runs are sequential, while records/evaluators/summary evaluators are parallel inside each run.
+  // Runs are sequential, while tasks, evaluators, and summary evaluators are parallel inside each run.
   assert.deepEqual(taskStartOrder.slice(0, 4), ['france', 'japan', 'canada', 'germany'])
   assert.deepEqual(taskStartOrder.slice(4), ['france', 'japan', 'canada', 'germany'])
   assert.equal(taskTracker.maxActive(), 2)
@@ -137,6 +200,11 @@ async function main () {
   console.log(`Task max concurrency      : ${taskTracker.maxActive()}`)
   console.log(`Evaluator max concurrency : ${evaluatorTracker.maxActive()}`)
   console.log(`Summary max concurrency   : ${summaryTracker.maxActive()}`)
+  console.log('Each row trace should include nested spans:')
+  console.log(
+    'experiment row → capital_answer_workflow → build_capital_prompt / ' +
+    'lookup_capital_answer / normalize_capital_answer'
+  )
   for (const run of result.runs) {
     console.log(`Run ${run.runIteration} (${run.runId}) rows=${run.rows.length}`)
     for (const row of run.rows) {
