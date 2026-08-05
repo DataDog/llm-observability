@@ -31,7 +31,7 @@ For production validation, keep `DD_SITE=datadoghq.com`; generated UI links use 
 Run one example at a time while developing:
 
 ```sh
-# 00: Dataset create -> push -> pull, explicit version pull, and incremental record pushes.
+# 00: Dataset create -> push -> pull, explicit version pull, incremental pushes, record tags, and tagged slice experiment.
 npm run dataset
 # Equivalent direct command:
 node examples/00-dataset-operations.js
@@ -63,13 +63,6 @@ node examples/03-stock-watchlist-experiment.js
 npm run multirun
 # Equivalent direct command:
 node examples/04-multirun-concurrency.js
-```
-
-```sh
-# 05: Dataset record tags, tag updates, filtered pulls, and an experiment over the tagged slice.
-npm run record-tags
-# Equivalent direct command:
-node examples/05-dataset-record-tags.js
 ```
 
 Run only the experiment trace validation sequence:
