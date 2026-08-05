@@ -65,6 +65,13 @@ npm run multirun
 node examples/04-multirun-concurrency.js
 ```
 
+```sh
+# 05: Dataset record tags, tag updates, filtered pulls, and an experiment over the tagged slice.
+npm run record-tags
+# Equivalent direct command:
+node examples/05-dataset-record-tags.js
+```
+
 Run only the experiment trace validation sequence:
 
 ```sh
@@ -91,6 +98,8 @@ The dataset script exits non-zero if local result shape checks fail. It validate
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
 - custom record IDs returned by dataset push/pull and used for experiment row tags
+- dataset record `tags` on initial append and later `dataset.addTags(...)` / `dataset.removeTags(...)` updates
+- tagged dataset pulls with `pullDataset(name, { tags: [...] })`, including propagation into an experiment run over that slice
 
 The experiment scripts exit non-zero if local result shape checks fail. They validate:
 
