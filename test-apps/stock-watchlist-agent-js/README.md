@@ -65,9 +65,7 @@ Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp`, plus any `http(
 
 `identify_ticker` is annotated as an `llm`-kind span whose user message carries `imageParts: [{ mimeType, content }]`, which the SDK emits as `image_parts: [{ mime_type, content }]`.
 
-To see an image input in Datadog, open the trace in **LLM Observability > Traces** and select the span named **`identify_ticker`** — there is one per image, nested under `resolve_tickers_from_images`. The image renders inline in that span's input messages, next to the user question, with the identified ticker in the output. It does not appear on the root `analyze_portfolio` span or on the auto-instrumented `OpenAI.createResponse` child span.
-
-Requires `dd-trace` 6.10.0 or later. The annotation must also be done by hand: provider auto-instrumentation does not capture images, and `imageParts` is ignored on non-`llm` span kinds (`task`, `workflow`, `agent`), where input is tagged as a plain value.
+To see an image input in Datadog, open the trace in **LLM Observability > Traces** and select the span named **`identify_ticker`**.
 
 ## Running with Datadog LLM Observability
 
