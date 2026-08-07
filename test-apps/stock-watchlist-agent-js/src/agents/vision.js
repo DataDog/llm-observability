@@ -40,36 +40,13 @@ You identify the publicly traded company shown in an image and return its stock 
 Return JSON only matching the TickerFromImage schema.
 </output>`
 
-function isHttpUrl (value) {
-  return /^https?:\/\//i.test(value)
-}
-
 function looksLikeImage (value) {
-  if (isHttpUrl(value) || value.startsWith('data:image/')) return true
   return Object.keys(IMAGE_MIME_TYPES).includes(path.extname(value).toLowerCase())
 }
 
 const IMAGE_QUESTION = 'Which publicly traded company does this image show? Return its ticker symbol.'
 
-async function loadImage (imageInput) {
-  if (imageInput.startsWith('data:image/')) {
-    const match = imageInput.match(/^data:(image\/[\w+.-]+);base64,(.*)$/)
-    if (!match) {
-      throw new Error(`Malformed image data URL: ${imageInput.slice(0, 32)}...`)
-    }
-    return { mimeType: match[1], base64: match[2], source: 'data-url' }
-  }
-
-  if (isHttpUrl(imageInput)) {
-    const response = await fetch(imageInput)
-    if (!response.ok) {
-      throw new Error(`Failed to download image ${imageInput}: HTTP ${response.status}`)
-    }
-    const mimeType = (response.headers.get('content-type') || 'image/png').split(';')[0]
-    const buffer = Buffer.from(await response.arrayBuffer())
-    return { mimeType, base64: buffer.toString('base64'), source: 'url' }
-  }
-
+function loadImage (imageInput) {
   const filePath = path.resolve(imageInput)
   const extension = path.extname(filePath).toLowerCase()
   const mimeType = IMAGE_MIME_TYPES[extension]
@@ -79,14 +56,14 @@ async function loadImage (imageInput) {
   if (!fs.existsSync(filePath)) {
     throw new Error(`Image not found: ${imageInput}`)
   }
-  return { mimeType, base64: fs.readFileSync(filePath).toString('base64'), source: 'file' }
+  return { mimeType, base64: fs.readFileSync(filePath).toString('base64') }
 }
 
 async function identifyTicker (imageInput, model = DEFAULT_VISION_MODEL) {
   // Annotated as an `llm` span with imageParts: the LLMObs SDK only renders images
   // on manually annotated llm-kind messages, not from provider auto-instrumentation.
   return traceSpan({ kind: 'llm', name: 'identify_ticker', modelName: model, modelProvider: 'openai' }, async span => {
-    const { mimeType, base64, source } = await loadImage(imageInput)
+    const { mimeType, base64 } = loadImage(imageInput)
     annotate(span, {
       inputData: [
         { role: 'system', content: VISION_PROMPT },
@@ -96,7 +73,7 @@ async function identifyTicker (imageInput, model = DEFAULT_VISION_MODEL) {
           imageParts: [{ mimeType, content: base64 }],
         },
       ],
-      metadata: { model, image_source: source, image_input: imageInput },
+      metadata: { model, image_input: imageInput },
     })
 
     const response = await client.responses.create({

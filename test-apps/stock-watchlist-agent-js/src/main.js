@@ -9,14 +9,14 @@ const { runEvaluations } = require('./evals')
 const USAGE = [
   'Usage: node src/main.js <TICKER|IMAGE> [TICKER|IMAGE ...]',
   '',
-  'Inputs may be ticker symbols, image files, or image URLs (mixed freely).',
+  'Inputs may be ticker symbols or local image files (mixed freely).',
   'Images are translated to ticker symbols by an LLM before research begins.',
-  'Use --image <path|url> to force an argument to be treated as an image.',
+  'Use --image <path> to force an argument to be treated as an image.',
   '',
   'Examples:',
   '  node src/main.js AAPL GOOGL NVDA',
-  '  node src/main.js ./logos/apple.png https://example.com/nvidia-logo.jpg',
-  '  node src/main.js AAPL --image ./logos/tesla.png',
+  '  node src/main.js logos/apple.png logos/google.png NVDA',
+  '  node src/main.js AAPL --image logos/nvidia.png',
 ].join('\n')
 
 function printBriefing (briefing) {
@@ -81,7 +81,7 @@ function parseArgs (argv) {
     if (arg === '--image') {
       const value = args[++i]
       if (!value) {
-        throw new Error('--image requires a file path or URL')
+        throw new Error('--image requires a file path')
       }
       images.push(value)
     } else if (looksLikeImage(arg)) {

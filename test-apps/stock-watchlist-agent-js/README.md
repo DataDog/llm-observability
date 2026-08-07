@@ -53,13 +53,13 @@ npm start -- AAPL GOOGL NVDA
 # b) First two inputs are images, third is a ticker symbol
 npm start -- logos/apple.png logos/google.png NVDA
 
-# Image URLs work too, and --image forces an argument to be read as an image
-npm start -- https://example.com/nvidia-logo.jpg --image logos/apple.png
+# --image forces an argument to be read as an image
+npm start -- AAPL --image logos/nvidia.png
 ```
 
 The `logos/` directory holds small sample wordmark images for Apple, Google, and NVIDIA so the image path can be run without supplying your own files.
 
-Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp`, plus any `http(s)://` or `data:image/...` argument, are treated as images automatically. Use `--image <path|url>` to force an argument to be read as an image. Every image is read into memory as base64 (URLs are downloaded first) so the same bytes can be sent to OpenAI and attached to the trace. Set `OPENAI_VISION_MODEL` to override the model used for image-to-ticker translation (defaults to `OPENAI_MODEL`, then `gpt-5.4-nano`).
+Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp` are treated as local image files automatically. Use `--image <path>` to force an argument to be read as an image. Each image is read as base64 so the same bytes are sent to OpenAI and attached to the trace. Set `OPENAI_VISION_MODEL` to override the model used for image-to-ticker translation (defaults to `OPENAI_MODEL`, then `gpt-5.4-nano`).
 
 ### Images on spans
 
