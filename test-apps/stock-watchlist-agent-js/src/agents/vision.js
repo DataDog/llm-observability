@@ -8,7 +8,7 @@ const { jsonSchemaFormat } = require('./responses-agent')
 const OpenAI = require('openai')
 
 const client = new OpenAI()
-const DEFAULT_VISION_MODEL = process.env.OPENAI_VISION_MODEL || process.env.OPENAI_MODEL || 'gpt-5.4-nano'
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-5.4-nano'
 
 const IMAGE_MIME_TYPES = {
   '.png': 'image/png',
@@ -59,7 +59,7 @@ function loadImage (imageInput) {
   return { mimeType, base64: fs.readFileSync(filePath).toString('base64') }
 }
 
-async function identifyTicker (imageInput, model = DEFAULT_VISION_MODEL) {
+async function identifyTicker (imageInput, model = DEFAULT_MODEL) {
   // Annotated as an `llm` span with imageParts: the LLMObs SDK only renders images
   // on manually annotated llm-kind messages, not from provider auto-instrumentation.
   return traceSpan({ kind: 'llm', name: 'identify_ticker', modelName: model, modelProvider: 'openai' }, async span => {

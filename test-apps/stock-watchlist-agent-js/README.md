@@ -59,7 +59,7 @@ npm start -- AAPL --image logos/nvidia.png
 
 The `logos/` directory holds small sample wordmark images for Apple, Google, and NVIDIA so the image path can be run without supplying your own files.
 
-Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp` are treated as local image files automatically. Use `--image <path>` to force an argument to be read as an image. Each image is read as base64 so the same bytes are sent to OpenAI and attached to the trace. Set `OPENAI_VISION_MODEL` to override the model used for image-to-ticker translation (defaults to `OPENAI_MODEL`, then `gpt-5.4-nano`).
+Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp` are treated as local image files automatically. Use `--image <path>` to force an argument to be read as an image. Each image is read as base64 so the same bytes are sent to OpenAI and attached to the trace. Image-to-ticker translation uses `OPENAI_MODEL` (defaults to `gpt-5.4-nano`), so that model must support image inputs.
 
 ### Images on spans
 
