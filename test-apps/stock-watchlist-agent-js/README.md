@@ -6,6 +6,8 @@ JavaScript translation of `test-apps/stock-watchlist-agent`, built with OpenAI's
 
 ```
 llmobs.trace(kind="agent", name="analyze_portfolio")        ← evals attach here
+├── resolve_tickers_from_images (workflow)                 ← only when image inputs are given
+│   └── identify_ticker (llm, one per image) → OpenAI vision call, image_parts annotated
 └── orchestrator (OpenAI Responses ReAct loop)
     ├── delegate_research (tool, batched tickers)
     │   └── stock_researcher (OpenAI Responses ReAct loop)
@@ -16,6 +18,8 @@ llmobs.trace(kind="agent", name="analyze_portfolio")        ← evals attach her
     └── delegate_research (tool, second batch — parallel)
         └── stock_researcher ...
 ```
+
+Inputs can be ticker symbols, images, or a mix of both. When images are provided, a vision step runs first inside the root `analyze_portfolio` span: one LLM call per image identifies the public company shown and returns its ticker symbol, and the resolved tickers are merged with any tickers passed directly. Images that cannot be matched to a public company come back as `UNKNOWN` and are skipped. Image resolution and research therefore share a single trace.
 
 The orchestrator plans how to batch tickers by sector/theme, delegates batches to researcher agents, and synthesizes a portfolio briefing. Each researcher runs a multi-step ReAct loop with four research tools backed by OpenAI web search. Post-run evaluations (completeness, sentiment consistency, factual grounding) are submitted to LLM Observability.
 
@@ -42,8 +46,26 @@ npm install /path/to/dd-trace-js/packages/dd-trace
 
 ```bash
 # Either export OPENAI_API_KEY or set it in .env
+
+# a) All three inputs are ticker symbols
 npm start -- AAPL GOOGL NVDA
+
+# b) First two inputs are images, third is a ticker symbol
+npm start -- logos/apple.png logos/google.png NVDA
+
+# --image forces an argument to be read as an image
+npm start -- AAPL --image logos/nvidia.png
 ```
+
+The `logos/` directory holds small sample wordmark images for Apple, Google, and NVIDIA so the image path can be run without supplying your own files.
+
+Arguments ending in `.png`, `.jpg`, `.jpeg`, `.gif`, or `.webp` are treated as local image files automatically. Use `--image <path>` to force an argument to be read as an image. Each image is read as base64 so the same bytes are sent to OpenAI and attached to the trace. Image-to-ticker translation uses `OPENAI_MODEL` (defaults to `gpt-5.4-nano`), so that model must support image inputs.
+
+### Images on spans
+
+`identify_ticker` is annotated as an `llm`-kind span whose user message carries `imageParts: [{ mimeType, content }]`, which the SDK emits as `image_parts: [{ mime_type, content }]`.
+
+To see an image input in Datadog, open the trace in **LLM Observability > Traces** and select the span named **`identify_ticker`**.
 
 ## Running with Datadog LLM Observability
 
@@ -102,6 +124,7 @@ When LLMObs is enabled, three evaluations run after each analysis and are submit
 ## Project Structure
 
 ```
+logos/                         # Small sample images for the image-input path
 src/
 ├── main.js                    # CLI entry point, eval runner
 ├── observability.js           # .env loading, dd-trace-js initialization, LLMObs helpers
@@ -111,5 +134,6 @@ src/
     ├── orchestrator.js        # ReAct orchestrator, delegation tool, agent span
     ├── researcher.js          # Per-batch research agent with 4 tools
     ├── responses-agent.js     # Generic Responses API function-calling loop
-    └── searcher.js            # OpenAI Responses API web search helper
+    ├── searcher.js            # OpenAI Responses API web search helper
+    └── vision.js              # Image → ticker symbol translation
 ```

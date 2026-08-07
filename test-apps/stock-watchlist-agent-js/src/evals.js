@@ -51,7 +51,7 @@ async function runBooleanJudge ({ name, prompt, outputData }) {
   return traceSpan({ kind: 'task', name }, async span => {
     annotate(span, { inputData: { output_data: outputData } })
     const response = await client.responses.create({
-      model: process.env.OPENAI_EVAL_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_EVAL_MODEL || 'gpt-5.4-nano',
       input: prompt.replace('{{output_data}}', JSON.stringify(outputData, null, 2)),
       text: { format: jsonSchemaFormat(name, booleanJudgeSchema) },
     })
@@ -69,7 +69,7 @@ async function runScoreJudge ({ name, prompt, outputData, minThreshold }) {
   return traceSpan({ kind: 'task', name }, async span => {
     annotate(span, { inputData: { output_data: outputData } })
     const response = await client.responses.create({
-      model: process.env.OPENAI_EVAL_MODEL || 'gpt-4o-mini',
+      model: process.env.OPENAI_EVAL_MODEL || 'gpt-5.4-nano',
       input: prompt.replace('{{output_data}}', JSON.stringify(outputData, null, 2)),
       text: { format: jsonSchemaFormat(name, scoreJudgeSchema) },
     })

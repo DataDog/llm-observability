@@ -13,7 +13,7 @@ const SEARCH_INSTRUCTIONS = [
 
 async function search (query) {
   const response = await client.responses.create({
-    model: process.env.OPENAI_SEARCH_MODEL || 'gpt-4o-mini',
+    model: process.env.OPENAI_SEARCH_MODEL || 'gpt-5.4-nano',
     instructions: SEARCH_INSTRUCTIONS,
     input: query,
     tools: [{ type: 'web_search' }],

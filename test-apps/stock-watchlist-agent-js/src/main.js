@@ -3,7 +3,21 @@
 
 const { flush, isLLMObsEnabled, mlApp, site, env } = require('./observability')
 const { analyzePortfolio } = require('./agents/orchestrator')
+const { looksLikeImage } = require('./agents/vision')
 const { runEvaluations } = require('./evals')
+
+const USAGE = [
+  'Usage: node src/main.js <TICKER|IMAGE> [TICKER|IMAGE ...]',
+  '',
+  'Inputs may be ticker symbols or local image files (mixed freely).',
+  'Images are translated to ticker symbols by an LLM before research begins.',
+  'Use --image <path> to force an argument to be treated as an image.',
+  '',
+  'Examples:',
+  '  node src/main.js AAPL GOOGL NVDA',
+  '  node src/main.js logos/apple.png logos/google.png NVDA',
+  '  node src/main.js AAPL --image logos/nvidia.png',
+].join('\n')
 
 function printBriefing (briefing) {
   console.log('\n' + '='.repeat(60))
@@ -44,30 +58,68 @@ function printBriefing (briefing) {
   console.log('\n' + '='.repeat(60) + '\n')
 }
 
+function printIdentifications (identifications) {
+  console.log('\nImage inputs resolved to tickers:')
+  for (const item of identifications) {
+    const label = item.ticker === 'UNKNOWN' ? 'UNKNOWN (skipped)' : item.ticker
+    console.log(`  ${item.source} -> ${label} (${item.company_name}, confidence: ${item.confidence})`)
+    console.log(`    ${item.evidence}`)
+  }
+}
+
 function parseArgs (argv) {
   const args = argv.slice(2)
   if (args.includes('-h') || args.includes('--help')) {
-    console.log('Usage: node src/main.js <TICKER> [TICKER ...]')
-    console.log('Example: node src/main.js AAPL GOOGL NVDA')
+    console.log(USAGE)
     process.exit(0)
   }
-  return args.map(ticker => ticker.toUpperCase())
+
+  const tickers = []
+  const images = []
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]
+    if (arg === '--image') {
+      const value = args[++i]
+      if (!value) {
+        throw new Error('--image requires a file path')
+      }
+      images.push(value)
+    } else if (looksLikeImage(arg)) {
+      images.push(arg)
+    } else {
+      tickers.push(arg.toUpperCase())
+    }
+  }
+  return { tickers, images }
 }
 
-async function main (tickers) {
+async function main (inputTickers, images = []) {
   if (!process.env.OPENAI_API_KEY) {
     throw new Error('OPENAI_API_KEY is required')
   }
 
-  console.log(`Analyzing ${tickers.length} ticker(s): ${tickers.join(', ')}`)
+  const described = [
+    ...inputTickers,
+    ...images.map(image => `${image} (image)`),
+  ]
+  console.log(`Analyzing ${described.length} input(s): ${described.join(', ')}`)
   if (isLLMObsEnabled()) {
     console.log(`LLMObs enabled: ml_app=${mlApp}, site=${site}, env=${env}`)
   } else {
     console.log('LLMObs disabled: set DD_API_KEY (or DD_LLMOBS_ENABLED=true) to submit traces')
   }
+  if (images.length > 0) {
+    console.log(`Translating ${images.length} image input(s) to ticker symbols...`)
+  }
   console.log('Running parallel analysis with web search...\n')
 
-  const { briefing, spanContext } = await analyzePortfolio(tickers)
+  const { briefing, spanContext, tickers } = await analyzePortfolio(inputTickers, {
+    images,
+    onImagesResolved: identifications => {
+      printIdentifications(identifications)
+      console.log('')
+    },
+  })
   if (isLLMObsEnabled() && spanContext) {
     console.log(`LLMObs trace context: trace_id=${spanContext.traceId}, span_id=${spanContext.spanId}`)
   }
@@ -81,16 +133,16 @@ async function main (tickers) {
 }
 
 async function cli () {
-  const tickers = parseArgs(process.argv)
-  if (tickers.length === 0) {
-    console.error('Error: provide at least one ticker symbol')
-    console.error('Usage: node src/main.js <TICKER> [TICKER ...]')
+  const { tickers, images } = parseArgs(process.argv)
+  if (tickers.length === 0 && images.length === 0) {
+    console.error('Error: provide at least one ticker symbol or image')
+    console.error(USAGE)
     process.exitCode = 1
     return
   }
 
   try {
-    await main(tickers)
+    await main(tickers, images)
   } finally {
     flush()
   }
@@ -105,5 +157,6 @@ if (require.main === module) {
 
 module.exports = {
   main,
+  parseArgs,
   printBriefing,
 }
