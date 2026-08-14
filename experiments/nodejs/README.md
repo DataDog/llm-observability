@@ -58,25 +58,6 @@ npm run stock-watchlist
 node examples/03-stock-watchlist-experiment.js
 ```
 
-```sh
-# 04: Multirun, nested spans, and task/evaluator/summary concurrency validation.
-npm run multirun
-# Equivalent direct command:
-node examples/04-multirun-concurrency.js
-```
-
-```sh
-# 05: OpenAI experiment where the task emits OpenTelemetry GenAI spans.
-npm run otel-openai
-# Equivalent direct command:
-node examples/05-otel-openai-experiment.js
-```
-
-The OpenTelemetry example follows the Node.js equivalent of Datadog's OTel LLM Observability docs:
-https://docs.datadoghq.com/llm_observability/instrumentation/otel_instrumentation/?tab=nodejs
-
-The OTel example dependencies are listed in `package.json`, so the normal setup `npm install` installs them. It registers `dd-trace` as the OpenTelemetry `TracerProvider` and manually creates a GenAI span around the OpenAI call so the child span is parented under the experiment row span.
-
 Run only the experiment trace validation sequence:
 
 ```sh
@@ -122,10 +103,5 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - `run({ throwOnErrors: true })` for task errors that should be captured and bubbled to callers
 - nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
-- `experiment({ runs })` multirun result shape and first-run result aliases
-- nested workflow/task spans inside multirun experiment rows
-- `run({ concurrency })` bounding task, row evaluator, and summary evaluator concurrency inside each run
-- sequential run execution with parallel work inside each run
-- OpenAI child spans emitted through the OpenTelemetry API with GenAI semantic-convention attributes
 
-The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The multirun example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / lookup_capital_answer / normalize_capital_answer` for each run. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
