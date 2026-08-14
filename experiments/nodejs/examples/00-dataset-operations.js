@@ -2,6 +2,8 @@
 
 const { flushAndWait, initTracer, uniqueName } = require('./lib/env')
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 function answerCapital (inputData) {
 
   const capitals = {
@@ -100,6 +102,8 @@ async function main () {
 
   const noOpPushResult = await dataset.push()
   logPush('No-op push', noOpPushResult)
+
+    await sleep(1000) 
 
   const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 3 })
   console.log(`Pulled ${incrementallyPulled.records().length} records after tag updates`)
