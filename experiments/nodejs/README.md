@@ -95,7 +95,7 @@ Run against production with `dd-auth` credentials:
 dd-auth --domain dd.datadoghq.com -- env DD_SITE=datadoghq.com npm run validate:experiments
 ```
 
-The dataset script exits non-zero if local result shape checks fail. It validates:
+The dataset script prints each operation's result and exits non-zero only when the SDK or backend returns an error. It demonstrates:
 
 - `tracer.llmobs.experiments.createDataset(name, { description, records })`
 - `dataset.push()`
