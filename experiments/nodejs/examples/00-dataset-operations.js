@@ -107,7 +107,7 @@ async function main () {
 
   // Pull and run an experiment over the tagged slice so dataset filter tags are visible on experiment row events.
   const taggedPull = await tracer.llmobs.experiments.pullDataset(name, {
-    expectedRecordCount: 3,
+    expectedRecordCount: 1,
     tags: ['split:e2e'],
   })
   console.log(`Tagged pull: filter=${taggedPull.filterTags().join(', ')}, records=${taggedPull.records().length}`)
