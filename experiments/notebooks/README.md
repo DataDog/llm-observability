@@ -2,6 +2,14 @@
 
 These notebooks introduce you to Datadog's LLM Observability Experiment SDK using hands-on examples.
 
+## Notebooks
+
+- `00-basic-datasets.ipynb` — create, modify, push, and pull datasets.
+- `01-basic-experiments.ipynb` — run a basic experiment with local evaluators.
+- `02-extra-data.ipynb` — load CSV data and evaluate tasks with additional inputs.
+- `03-remote-evaluators.ipynb` — use managed LLM-as-Judge evaluators.
+- `04-otel-experiments.ipynb` — emit OpenTelemetry GenAI spans from a Python experiment task.
+
 ## Prerequisites
 
 - [Datadog API Key](https://docs.datadoghq.com/account_management/api-app-keys)
@@ -30,6 +38,7 @@ DD_API_KEY=<>
 DD_APPLICATION_KEY=<>
 OPENAI_API_KEY=<>
 DD_SITE=<> # Optional: (default: "datadoghq.com" | examples: "us3.datadoghq.com", "eu.datadoghq.com")
+DD_TRACE_OTEL_ENABLED=1 # Required for 04-otel-experiments.ipynb; set before importing ddtrace
 ```
 
 #### 4. Launch Jupyter notebooks
