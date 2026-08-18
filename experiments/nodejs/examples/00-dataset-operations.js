@@ -1,6 +1,6 @@
 'use strict'
 
-const { flushAndWait, initTracer, uniqueName } = require('./lib/env')
+const { experimentProjectName, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -37,9 +37,11 @@ function logRecords (label, records) {
 async function main () {
   const tracer = initTracer()
   const name = uniqueName('nodejs-capitals')
+  const projectName = experimentProjectName()
 
   const dataset = tracer.llmobs.experiments.createDataset(name, {
     description: 'Node.js dataset validation example',
+    projectName,
     records: [
       {
         id: 'france',
@@ -65,14 +67,14 @@ async function main () {
   console.log(`Dataset URL: ${dataset.url()}`)
 
   // Pull the dataset back from Datadog, equivalent to Python's LLMObs.pull_dataset(...).
-  const pulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 2 })
+  const pulled = await tracer.llmobs.experiments.pullDataset(name, { projectName, expectedRecordCount: 2 })
   console.log(`Pulled ${pulled.records().length} records`)
   logRecords('Pulled records', pulled.records())
 
   if (pulled.version() !== null) {
     const pinned = await tracer.llmobs.experiments.pullDataset(
       name,
-      { version: pulled.version(), expectedRecordCount: 2 }
+      { projectName, version: pulled.version(), expectedRecordCount: 2 }
     )
     console.log(`Pinned pull: version=${pinned.version()}, records=${pinned.records().length}`)
   }
@@ -105,12 +107,13 @@ async function main () {
 
     await sleep(1000) 
 
-  const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 3 })
+  const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { projectName, expectedRecordCount: 3 })
   console.log(`Pulled ${incrementallyPulled.records().length} records after tag updates`)
   logRecords('Records after tag updates', incrementallyPulled.records())
 
   // Pull and run an experiment over the tagged slice so dataset filter tags are visible on experiment row events.
   const taggedPull = await tracer.llmobs.experiments.pullDataset(name, {
+    projectName,
     expectedRecordCount: 1,
     tags: ['split:e2e'],
   })
@@ -119,6 +122,7 @@ async function main () {
 
   const experiment = tracer.llmobs.experiments.experiment({
     name: uniqueName('nodejs-capitals-tagged-exp'),
+    projectName,
     dataset: taggedPull,
     task: answerCapital,
     evaluators: { answer_match },
@@ -155,7 +159,7 @@ async function main () {
   const mutationPushResult = await dataset.push()
   logPush('Update/delete push', mutationPushResult)
 
-  const mutatedPull = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 2 })
+  const mutatedPull = await tracer.llmobs.experiments.pullDataset(name, { projectName, expectedRecordCount: 2 })
   console.log(`Pulled ${mutatedPull.records().length} records after update/delete`)
   logRecords('Final records', mutatedPull.records())
 

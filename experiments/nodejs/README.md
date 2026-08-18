@@ -79,6 +79,7 @@ dd-auth --domain dd.datadoghq.com -- env DD_SITE=datadoghq.com npm run validate:
 The dataset script prints each operation's result and exits non-zero only when the SDK or backend returns an error. It demonstrates:
 
 - `tracer.llmobs.experiments.createDataset(name, { description, records })`
+- per-operation `projectName` overrides on `createDataset`, `pullDataset`, and `experiment`
 - `dataset.push()`
 - incremental `dataset.addRecord(...)` plus follow-up/no-op pushes
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`

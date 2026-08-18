@@ -49,6 +49,10 @@ function loadTracer () {
   return require('dd-trace')
 }
 
+function experimentProjectName () {
+  return process.env.DD_LLMOBS_PROJECT_NAME || 'nodejs-experiments-examples'
+}
+
 function initTracer () {
   requireEnv('DD_API_KEY')
   process.env.DD_APP_KEY = requireEnv('DD_APP_KEY', 'DD_APPLICATION_KEY')
@@ -57,7 +61,7 @@ function initTracer () {
   tracer.init({
     service: process.env.DD_SERVICE || 'nodejs-experiments-examples',
     llmobs: {
-      mlApp: process.env.DD_LLMOBS_PROJECT_NAME || 'nodejs-experiments-examples',
+      mlApp: experimentProjectName(),
       agentlessEnabled: true,
     },
   })
@@ -78,4 +82,4 @@ function assertUrl (value, label) {
   assert.match(value, /^https:\/\//, `${label} should be an https URL`)
 }
 
-module.exports = { assert, assertUrl, flushAndWait, initTracer, requireEnv, uniqueName }
+module.exports = { assert, assertUrl, experimentProjectName, flushAndWait, initTracer, requireEnv, uniqueName }

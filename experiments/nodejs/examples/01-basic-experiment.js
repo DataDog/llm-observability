@@ -1,6 +1,6 @@
 'use strict'
 
-const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
+const { assert, assertUrl, experimentProjectName, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 const { callOpenAIJson } = require('./lib/openai')
 
 function createAnswerCapitalTask (llmobs) {
@@ -82,8 +82,10 @@ function accuracy_summary (_inputs, _outputs, _expectedOutputs, evaluatorResults
 async function main () {
   const tracer = initTracer()
   const datasetName = uniqueName('nodejs-basic')
+  const projectName = experimentProjectName()
   const dataset = tracer.llmobs.experiments.createDataset(datasetName, {
     description: 'Node.js basic experiment dataset with live OpenAI calls',
+    projectName,
     records: [
       {
         id: 'france-basic',
@@ -99,6 +101,7 @@ async function main () {
 
   const experiment = tracer.llmobs.experiments.experiment({
     name: uniqueName('nodejs-basic-exp'),
+    projectName,
     dataset,
     task: createAnswerCapitalTask(tracer.llmobs),
     evaluators: [exact_match, contains_answer],
