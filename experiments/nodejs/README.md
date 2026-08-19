@@ -59,7 +59,7 @@ node examples/03-stock-watchlist-experiment.js
 ```
 
 ```sh
-# 04: Multirun, nested spans, and task/evaluator/summary concurrency validation.
+# 04: Multirun with live OpenAI calls, nested spans, and task/evaluator/summary concurrency validation.
 npm run multirun
 # Equivalent direct command:
 node examples/04-multirun-concurrency.js
@@ -110,8 +110,8 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
 - `experiment({ runs })` multirun result shape and first-run result aliases
-- nested workflow/task spans inside multirun experiment rows
+- nested workflow/task/LLM spans inside multirun experiment rows
 - `run({ concurrency })` bounding task, row evaluator, and summary evaluator concurrency inside each run
 - sequential run execution with parallel work inside each run
 
-The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The multirun example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / lookup_capital_answer / normalize_capital_answer` for each run. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The multirun example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / lookup_capital_answer / openai.lookup_capital / normalize_capital_answer` for each run. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.

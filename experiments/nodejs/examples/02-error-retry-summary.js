@@ -107,6 +107,7 @@ async function main () {
   assert.deepEqual(summaryEvaluatorResults.flaky_evaluator, [true, null, true, null])
   assert.equal(result.summaryEvaluations.pass_rate.value, 3 / 4)
   assert.equal(result.runs.length, 1)
+  assert.equal(result.runs[0].hasError, true)
   assert.equal(result.runs[0].summaryEvaluations.pass_rate.value, result.summaryEvaluations.pass_rate.value)
   assertUrl(result.url, 'result.url')
 
@@ -125,6 +126,23 @@ async function main () {
   )
   assertUrl(bubblingErrorExperiment.url(), 'bubblingErrorExperiment.url()')
 
+  const queuedTaskInputs = []
+  const queuedCancellationExperiment = tracer.llmobs.experiments.experiment({
+    name: uniqueName('nodejs-cancel-queued-exp'),
+    dataset,
+    task (inputData) {
+      queuedTaskInputs.push(inputData.question)
+      throw new Error('cancel queued work')
+    },
+    tags: { sdk: 'nodejs', example: 'errors', case: 'cancel-queued-work' },
+  })
+  await assert.rejects(
+    () => queuedCancellationExperiment.run({ concurrency: 1, throwOnErrors: true }),
+    /cancel queued work/
+  )
+  assert.deepEqual(queuedTaskInputs, ['retry-once'])
+  assertUrl(queuedCancellationExperiment.url(), 'queuedCancellationExperiment.url()')
+
   await flushAndWait(tracer)
 
   console.log('Error/retry/summary validation passed')
@@ -132,6 +150,7 @@ async function main () {
   console.log(`Experiment URL       : ${result.url}`)
   console.log(`Experiment ID        : ${result.experimentId}`)
   console.log(`Bubbled error URL    : ${bubblingErrorExperiment.url()}`)
+  console.log(`Queued cancel URL    : ${queuedCancellationExperiment.url()}`)
   for (const row of result.rows) {
     console.log(`Row ${row.index} span=${row.spanId} trace=${row.traceId}`)
   }

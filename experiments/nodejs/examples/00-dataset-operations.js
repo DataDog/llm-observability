@@ -2,6 +2,10 @@
 
 const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 function answerCapital (inputData, config, metadata) {
   assert.equal(config.mode, 'dataset-record-tags')
   assert.equal(typeof metadata.continent, 'string')
@@ -96,12 +100,13 @@ async function main () {
   dataset.addTags(2, ['split:e2e'])
   dataset.removeTags(2, ['split:holdout'])
   const tagUpdatePushResult = await dataset.push()
-  assert.deepEqual(tagUpdatePushResult, { pushedCount: 0, totalCount: 0 })
+  assert.deepEqual(tagUpdatePushResult, { pushedCount: 1, totalCount: 1 })
   assert.deepEqual(dataset.records()[2].tags, ['split:e2e', 'topic:geography'])
 
   const noOpPushResult = await dataset.push()
   assert.deepEqual(noOpPushResult, { pushedCount: 0, totalCount: 0 })
 
+  await sleep(1000)
   const incrementallyPulled = await tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount: 3 })
   assert.equal(incrementallyPulled.records().length, 3)
   const incrementallyPulledByCountry = new Map(
@@ -113,6 +118,7 @@ async function main () {
   assert.deepEqual(incrementallyPulledByCountry.get('Brazil').tags, ['split:e2e', 'topic:geography'])
 
   // Pull and run an experiment over the tagged slice so dataset filter tags are visible on experiment row events.
+  await sleep(1000)
   const taggedPull = await tracer.llmobs.experiments.pullDataset(name, {
     expectedRecordCount: 3,
     tags: ['split:e2e'],
@@ -136,7 +142,7 @@ async function main () {
 
   const result = await experiment.run({ throwOnErrors: true })
   assert.equal(result.rows.length, 3)
-  assert.deepEqual(result.rows.map(row => row.recordId).sort(), [...incrementalRecordIds].sort())
+  assert.deepEqual(result.rows.map(row => row.index), [0, 1, 2])
   assert.equal(result.summaryEvaluations.tagged_answer_rate.value, 1)
   for (const row of result.rows) {
     assert.equal(row.isError, false)

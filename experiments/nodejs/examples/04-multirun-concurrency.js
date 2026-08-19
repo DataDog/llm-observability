@@ -1,6 +1,7 @@
 'use strict'
 
 const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
+const { callOpenAIJson } = require('./lib/openai')
 
 function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -31,15 +32,9 @@ function createTracker () {
 }
 
 function createAnswerCapitalTask (llmobs, taskTracker, taskStartOrder) {
-  const capitals = {
-    France: 'Paris',
-    Japan: 'Tokyo',
-    Canada: 'Ottawa',
-    Germany: 'Berlin',
-  }
-
   return async function answer_capital (inputData, config, metadata) {
     assert.equal(config.mode, 'multirun-concurrency')
+    assert.equal(config.provider, 'openai')
     assert.equal(typeof metadata.case, 'string')
     taskStartOrder.push(inputData.id)
 
@@ -80,7 +75,12 @@ function createAnswerCapitalTask (llmobs, taskTracker, taskStartOrder) {
         name: 'lookup_capital_answer',
         tags: { example: 'multirun-concurrency', step: 'lookup' },
       }, async (lookupSpan) => {
-        const lookupResult = { answer: capitals[inputData.country] }
+        const lookupResult = await callOpenAIJson(llmobs, {
+          name: 'openai.lookup_capital',
+          model: config.model,
+          temperature: config.temperature,
+          messages,
+        })
         llmobs.annotate(lookupSpan, {
           inputData: messages,
           outputData: lookupResult,
@@ -109,6 +109,7 @@ function createAnswerCapitalTask (llmobs, taskTracker, taskStartOrder) {
 
 function assertRunRows (run, expectedRunIteration) {
   assert.equal(run.runIteration, expectedRunIteration)
+  assert.equal(run.hasError, false)
   assert.equal(run.rows.length, 4)
   assert.deepEqual(run.rows.map(row => row.index), [0, 1, 2, 3])
   assert.deepEqual(run.rows.map(row => row.output.answer), ['Paris', 'Tokyo', 'Ottawa', 'Berlin'])
@@ -166,7 +167,12 @@ async function main () {
     task: createAnswerCapitalTask(tracer.llmobs, taskTracker, taskStartOrder),
     evaluators: [exact_match, contains_answer],
     summaryEvaluators: [exact_match_rate, row_count],
-    config: { mode: 'multirun-concurrency' },
+    config: {
+      mode: 'multirun-concurrency',
+      model: process.env.OPENAI_MODEL || 'gpt-5-mini',
+      temperature: 0,
+      provider: 'openai',
+    },
     tags: { sdk: 'nodejs', example: 'multirun-concurrency' },
   })
 
@@ -203,7 +209,7 @@ async function main () {
   console.log('Each row trace should include nested spans:')
   console.log(
     'experiment row → capital_answer_workflow → build_capital_prompt / ' +
-    'lookup_capital_answer / normalize_capital_answer'
+    'lookup_capital_answer → openai.lookup_capital / normalize_capital_answer'
   )
   for (const run of result.runs) {
     console.log(`Run ${run.runIteration} (${run.runId}) rows=${run.rows.length}`)
