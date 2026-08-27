@@ -8,10 +8,9 @@ Every Node.js experiments SDK feature should have a runnable example in this dir
 
 Use production credentials from `dd-auth` / `dd-auth-env`; never paste or print API/application keys.
 
-Preferred command shape with a centralized env file:
+From this directory, use the preferred command shape with a centralized env file:
 
 ```sh
-cd /Users/mehul.sonowal/dd/llm-observability/experiments/nodejs
 EXPERIMENTS_ENV_FILE=/path/to/experiments.env \
   dd-auth --domain dd.datadoghq.com -- env DD_SITE=datadoghq.com npm run validate:experiments
 ```
