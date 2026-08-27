@@ -6,8 +6,9 @@ Every Node.js experiments SDK feature should have a runnable example in this dir
 
 ## Setup
 
+From this directory:
+
 ```sh
-cd /Users/mehul.sonowal/dd/llm-observability/experiments/nodejs
 cp .env.example .env
 # Fill in DD_API_KEY, DD_APP_KEY, and OPENAI_API_KEY.
 # DD_APPLICATION_KEY also works if DD_APP_KEY is not set.
