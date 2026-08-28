@@ -30,30 +30,34 @@ pip install -e .
 
 Requires Python 3.11+.
 
+## Credentials
+
+Copy `.env.example` to `.env` and fill in real values — `.env` is gitignored and is
+loaded automatically for every entrypoint (`src.main`, `capture_*.py`,
+`trace_scenarios.py`, `ddtrace-experiment`) via `sitecustomize.py`.
+
+```bash
+cp .env.example .env
+# edit .env: set OPENAI_API_KEY, and DD_API_KEY/DD_SITE if you want LLM Obs traces
+```
+
 ## Running
 
 ```bash
-export OPENAI_API_KEY="sk-..."
 python -m src.main AAPL GOOGL NVDA
 ```
 
 ## Running with Datadog LLM Observability
 
-```bash
-export OPENAI_API_KEY="sk-..."
-export DD_API_KEY="<your-datadog-api-key>"
-export DD_SITE="datadoghq.com"  # your Datadog site
+Set `DD_API_KEY` and `DD_SITE` in `.env` (see above), then run as usual:
 
+```bash
 python -m src.main AAPL GOOGL NVDA
 ```
 
 Traces appear in **Datadog > LLM Observability** under the `stock-watchlist-agent` app.
 
-To override the app name:
-
-```bash
-export DD_LLMOBS_ML_APP="my-custom-name"
-```
+To override the app name, set `DD_LLMOBS_ML_APP` in `.env`.
 
 ## Evaluations
 
