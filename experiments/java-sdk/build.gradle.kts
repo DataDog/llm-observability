@@ -2,7 +2,7 @@ plugins {
     `java-library`
     application
     `maven-publish`
-    id("com.gradleup.shadow") version "8.3.5"
+    id("com.gradleup.shadow") version "8.3.11"
 }
 
 group = "com.datadog.llmobs"
@@ -25,7 +25,7 @@ dependencies {
     // a checkout of https://github.com/DataDog/datadog-api-client-java to populate this.
     // Switch back to `mavenCentral()` only once the API client team cuts a release that
     // contains LlmObservabilityApi.
-    api("com.datadoghq:datadog-api-client:2.55.0")
+    api("com.datadoghq:datadog-api-client:2.59.0")
 }
 
 sourceSets {
