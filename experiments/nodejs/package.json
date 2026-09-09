@@ -14,8 +14,9 @@
     "basic": "node examples/01-basic-experiment.js",
     "errors": "node examples/02-error-retry-summary.js",
     "stock-watchlist": "node examples/03-stock-watchlist-experiment.js",
+    "multirun": "node examples/04-multirun-concurrency.js",
     "validate:dataset": "npm run dataset",
-    "validate:experiments": "npm run basic && npm run errors",
+    "validate:experiments": "npm run basic && npm run errors && npm run multirun",
     "validate:all": "npm run dataset && npm run validate:experiments"
   }
 }

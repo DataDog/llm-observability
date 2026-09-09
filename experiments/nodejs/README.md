@@ -32,7 +32,7 @@ For production validation, keep `DD_SITE=datadoghq.com`; generated UI links use 
 Run one example at a time while developing:
 
 ```sh
-# 00: Dataset create -> push -> pull, explicit version pull, and incremental record pushes.
+# 00: Dataset create -> push -> pull, explicit version pull, incremental pushes, record tags, and tagged slice experiment.
 npm run dataset
 # Equivalent direct command:
 node examples/00-dataset-operations.js
@@ -57,6 +57,13 @@ node examples/02-error-retry-summary.js
 npm run stock-watchlist
 # Equivalent direct command:
 node examples/03-stock-watchlist-experiment.js
+```
+
+```sh
+# 04: Multirun with live OpenAI calls, nested spans, and task/evaluator/summary concurrency validation.
+npm run multirun
+# Equivalent direct command:
+node examples/04-multirun-concurrency.js
 ```
 
 Run only the experiment trace validation sequence:
@@ -85,6 +92,8 @@ The dataset script exits non-zero if local result shape checks fail. It validate
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
 - custom record IDs returned by dataset push/pull and used for experiment row tags
+- dataset record `tags` on initial append and later `dataset.addTags(...)` / `dataset.removeTags(...)` updates
+- tagged dataset pulls with `pullDataset(name, { tags: [...] })`, including propagation into an experiment run over that slice
 
 The experiment scripts exit non-zero if local result shape checks fail. They validate:
 
@@ -101,5 +110,9 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - `run({ throwOnErrors: true })` for task errors that should be captured and bubbled to callers
 - nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
+- `experiment({ runs })` multirun result shape and first-run result aliases
+- nested workflow/task/LLM spans inside multirun experiment rows
+- `run({ concurrency })` bounding task, row evaluator, and summary evaluator concurrency inside each run
+- sequential run execution with parallel work inside each run
 
-The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The multirun example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / lookup_capital_answer / openai.lookup_capital / normalize_capital_answer` for each run. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
