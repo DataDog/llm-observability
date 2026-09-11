@@ -1,3 +1,4 @@
+deepeval
 ddtrace
 openai
 requests
