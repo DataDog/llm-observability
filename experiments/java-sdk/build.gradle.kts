@@ -25,7 +25,7 @@ dependencies {
     // a checkout of https://github.com/DataDog/datadog-api-client-java to populate this.
     // Switch back to `mavenCentral()` only once the API client team cuts a release that
     // contains LlmObservabilityApi.
-    api("com.datadoghq:datadog-api-client:2.59.0")
+    api("com.datadoghq:datadog-api-client:2.60.0")
 }
 
 sourceSets {
