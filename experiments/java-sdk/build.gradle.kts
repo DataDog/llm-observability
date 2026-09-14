@@ -2,7 +2,7 @@ plugins {
     `java-library`
     application
     `maven-publish`
-    id("com.gradleup.shadow") version "8.3.11"
+    id("com.gradleup.shadow") version "9.6.1"
 }
 
 group = "com.datadog.llmobs"
