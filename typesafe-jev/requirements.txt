@@ -1,4 +1,4 @@
-ddtrace>=4.14.0
+ddtrace>=4.6.7
 typesafe-sdk>=0.7.0
 openai>=1.63.0
 pandas>=2.2.0
