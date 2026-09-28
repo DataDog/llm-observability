@@ -1,0 +1,16 @@
+node_modules
+.env*
+!.env.example
+# The repo root ignores lib/ globally for Python envs; this eve app keeps source in agent/lib/.
+!agent/lib/
+!agent/lib/**
+.eve
+.vercel
+.next
+.output
+.nitro
+dist
+.DS_Store
+*.tsbuildinfo
+*.log
+*.pid
