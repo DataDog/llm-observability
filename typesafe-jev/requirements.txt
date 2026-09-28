@@ -2,5 +2,5 @@ ddtrace
 typesafe-sdk>=0.7.0
 openai>=1.63.0
 pandas>=2.2.0
-python-dotenv>=1.0.0
-notebook>=7.0.0
+python-dotenv>=1.2.2
+notebook>=7.6.3
