@@ -14,8 +14,11 @@
     "basic": "node examples/01-basic-experiment.js",
     "errors": "node examples/02-error-retry-summary.js",
     "stock-watchlist": "node examples/03-stock-watchlist-experiment.js",
+    "evaluation-metadata": "node examples/04-evaluation-metadata.js",
+    "structured-output": "node examples/05-structured-output.js",
+    "remote-evaluator": "node examples/06-remote-evaluator.js",
     "validate:dataset": "npm run dataset",
-    "validate:experiments": "npm run basic && npm run errors",
+    "validate:experiments": "npm run basic && npm run errors && npm run evaluation-metadata && npm run structured-output",
     "validate:all": "npm run dataset && npm run validate:experiments"
   }
 }
