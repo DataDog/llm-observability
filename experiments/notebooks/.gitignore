@@ -1,4 +1,6 @@
 .env
+venv/
+.venv/
 /projects/
 .DS_Store
 .idea/

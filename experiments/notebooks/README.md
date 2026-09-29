@@ -2,6 +2,13 @@
 
 These notebooks introduce you to Datadog's LLM Observability Experiment SDK using hands-on examples.
 
+## Notebooks
+
+- `00-basic-datasets.ipynb` — create, modify, push, and pull datasets.
+- `01-basic-experiments.ipynb` — run a basic experiment with local evaluators.
+- `02-extra-data.ipynb` — load CSV data and evaluate tasks with additional inputs.
+- `03-remote-evaluators.ipynb` — use managed LLM-as-Judge evaluators.
+
 ## Prerequisites
 
 - [Datadog API Key](https://docs.datadoghq.com/account_management/api-app-keys)
