@@ -1,32 +1,53 @@
 from __future__ import annotations
 
+import logging
+
 from ddtrace.llmobs.decorators import tool as llmobs_tool
+from ddtrace.llmobs.experimental import experiment_start
 from pydantic_ai import Agent, RunContext, Tool
 
 from src.agents.searcher import search
 from src.models import ResearchBatchResult
 
 
+log = logging.getLogger(__name__)
+
+
 # --- Tool implementations ---
+
+
+# Inline-experiment subject scoped to JUST the stock-quote lookup.
+# It returns its output, so `experiment_start` collects it on return — no
+# `experiment_end` is needed (that marker is only for outputs emitted mid-flow rather
+# than returned). We decorate this plain helper instead of the pydantic_ai Tool
+# function so the tool's RunContext injection stays intact and replay is a clean,
+# ctx-free `stock_quote_lookup(ticker=...)` call. Inert outside `ddtrace-experiment`.
+@experiment_start(name="stock_quote", inputs=["ticker"], output=lambda ret: ret)
+async def stock_quote_lookup(ticker: str) -> str:
+    log.info("tool get_stock_quote: %s", ticker)
+    return await search(f"{ticker} stock price today current quote market data")
 
 
 @llmobs_tool(name="get_stock_quote")
 async def _get_stock_quote(ctx: RunContext, ticker: str) -> str:
-    return await search(f"{ticker} stock price today current quote market data")
+    return await stock_quote_lookup(ticker)
 
 
 @llmobs_tool(name="search_company_news")
 async def _search_company_news(ctx: RunContext, query: str) -> str:
+    log.info("tool search_company_news: %s", query)
     return await search(query)
 
 
 @llmobs_tool(name="search_public_sentiment")
 async def _search_public_sentiment(ctx: RunContext, query: str) -> str:
+    log.info("tool search_public_sentiment: %s", query)
     return await search(f"{query} investor sentiment Reddit discussion forum opinions")
 
 
 @llmobs_tool(name="get_company_profile")
 async def _get_company_profile(ctx: RunContext, ticker: str) -> str:
+    log.info("tool get_company_profile: %s", ticker)
     return await search(f"{ticker} company profile overview market cap sector fundamentals key metrics 2026")
 
 
