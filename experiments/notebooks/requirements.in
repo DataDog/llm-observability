@@ -1,6 +1,6 @@
 pandas==2.2.3
 openai==1.63.0
 python-dotenv==1.2.2
-notebook==7.6.1
+notebook==7.6.3
 typing_extensions==4.12.2
 ddtrace>=4.14.0
