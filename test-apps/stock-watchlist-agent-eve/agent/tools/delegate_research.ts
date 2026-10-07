@@ -9,13 +9,13 @@ function normalizeTickers(tickers: string[]): string[] {
 
 export default defineTool({
   description:
-    "Delegate a batch of stock tickers to the specialized stock researcher. It runs quote, news, public sentiment, and company-profile research and returns structured StockAnalysis results.",
+    "Delegate a multi-stock batch of at least two tickers to the specialized stock researcher. Use only for batch research that is not a full watchlist or portfolio briefing. Do not use for a single ticker or when the user requests focused quote, profile, news, or sentiment tools; call those focused tools directly.",
   inputSchema: z.object({
     tickers: z
       .array(z.string().regex(/^[A-Za-z][A-Za-z0-9.\-]{0,9}$/))
-      .min(1)
+      .min(2)
       .max(12)
-      .describe("Batch of stock ticker symbols to research together."),
+      .describe("Two or more stock ticker symbols to research together."),
   }),
   outputSchema: ResearchBatchResultZodSchema,
   async execute({ tickers }) {
