@@ -7,6 +7,7 @@ dependencies = [
     "pydantic-ai[openai]>=2.36.0",
     "pydantic>=2.13.5",
     "ddtrace",
+    "python-dotenv",
 ]
 
 [build-system]
