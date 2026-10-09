@@ -117,7 +117,7 @@ async function main () {
   assert.equal(result.rows[1].evaluations.contains_answer, true)
   assert.equal(result.summaryEvaluations.accuracy_summary.value, 1)
   assert.equal(result.runs.length, 1)
-  assert.equal(result.runs[0].runIteration, 0)
+  assert.equal(result.runs[0].runIteration, 1)
   assert.equal(result.runs[0].rows.length, 4)
   assert.equal(result.runs[0].summaryEvaluations.accuracy_summary.value, 1)
   const recordIds = dataset.recordIds()
