@@ -32,7 +32,9 @@
     "typescript": "7.0.2"
   },
   "overrides": {
-    "ai": "^7.0.119"
+    "eve": {
+      "undici": "^8.11.2"
+    }
   },
   "engines": {
     "node": "24.x"
