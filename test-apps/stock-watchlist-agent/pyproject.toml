@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Multi-agent stock watchlist analyst using Pydantic AI and OpenAI web search"
 requires-python = ">=3.10"
 dependencies = [
-    "pydantic-ai[openai]>=2.36.0",
+    "pydantic-ai[openai]>=2.55.0",
     "pydantic>=2.13.5",
     "ddtrace",
 ]
