@@ -1,6 +1,6 @@
 'use strict'
 
-const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
+const { assert, assertUrl, experimentProjectName, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 const { callOpenAIJson } = require('./lib/openai')
 
 function uniqueValues (items) {
@@ -174,8 +174,10 @@ function coverage_summary (_inputs, _outputs, _expectedOutputs, evaluatorResults
 
 async function main () {
   const tracer = initTracer()
+  const projectName = experimentProjectName()
   const dataset = tracer.llmobs.experiments.createDataset(uniqueName('nodejs-stock-watchlist'), {
     description: 'Node.js stock watchlist experiment dataset with multiple OpenAI calls per row',
+    projectName,
     records: [
       {
         inputData: { tickers: ['AAPL', 'MSFT'] },
@@ -187,6 +189,7 @@ async function main () {
 
   const result = await tracer.llmobs.experiments.experiment({
     name: uniqueName('nodejs-stock-watchlist-exp'),
+    projectName,
     dataset,
     task: createStockWatchlistTask(tracer.llmobs),
     evaluators: [covers_all_tickers, has_recommendations, has_multiple_provider_calls],

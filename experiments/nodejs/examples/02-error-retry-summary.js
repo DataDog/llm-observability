@@ -1,6 +1,6 @@
 'use strict'
 
-const { assert, assertUrl, flushAndWait, initTracer, uniqueName } = require('./lib/env')
+const { assert, assertUrl, experimentProjectName, flushAndWait, initTracer, uniqueName } = require('./lib/env')
 const { callOpenAIJson } = require('./lib/openai')
 
 function createTask (llmobs, attemptsByQuestion) {
@@ -31,6 +31,7 @@ function createTask (llmobs, attemptsByQuestion) {
 
 async function main () {
   const tracer = initTracer()
+  const projectName = experimentProjectName()
   const attemptsByQuestion = new Map()
   const evaluatorAttemptsByQuestion = new Map()
   let summaryInputs
@@ -40,6 +41,7 @@ async function main () {
 
   const dataset = tracer.llmobs.experiments.createDataset(uniqueName('nodejs-errors'), {
     description: 'Node.js retry/error handling dataset with live OpenAI calls',
+    projectName,
     records: [
       { inputData: { question: 'retry-once' }, expectedOutput: 'ok', metadata: { case: 'transient' } },
       { inputData: { question: 'always-fail' }, expectedOutput: 'ok', metadata: { case: 'permanent' } },
@@ -71,6 +73,7 @@ async function main () {
 
   const result = await tracer.llmobs.experiments.experiment({
     name: uniqueName('nodejs-errors-exp'),
+    projectName,
     dataset,
     task: createTask(tracer.llmobs, attemptsByQuestion),
     evaluators: { exact_match, flaky_evaluator },
@@ -112,6 +115,7 @@ async function main () {
 
   const bubblingErrorExperiment = tracer.llmobs.experiments.experiment({
     name: uniqueName('nodejs-raise-errors-exp'),
+    projectName,
     dataset,
     task: function bubbling_task_error (inputData) {
       assert.equal(inputData.question, 'retry-once')

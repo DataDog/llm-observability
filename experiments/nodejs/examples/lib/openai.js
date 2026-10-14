@@ -2,6 +2,20 @@
 
 const { requireEnv } = require('./env')
 
+function parseJsonObject (content) {
+  const trimmed = content.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '')
+  try {
+    return JSON.parse(trimmed)
+  } catch {
+    const start = trimmed.indexOf('{')
+    const end = trimmed.lastIndexOf('}')
+    if (start !== -1 && end !== -1 && end > start) {
+      return JSON.parse(trimmed.slice(start, end + 1))
+    }
+    throw new Error(`OpenAI response was not JSON: ${content}`)
+  }
+}
+
 const JSON_RESPONSE_FORMAT = {
   type: 'json_schema',
   json_schema: {
@@ -60,4 +74,4 @@ async function callOpenAIJson (llmobs, options) {
   })
 }
 
-module.exports = { callOpenAIJson }
+module.exports = { callOpenAIJson, parseJsonObject }

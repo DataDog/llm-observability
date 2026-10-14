@@ -32,7 +32,7 @@ For production validation, keep `DD_SITE=datadoghq.com`; generated UI links use 
 Run one example at a time while developing:
 
 ```sh
-# 00: Dataset create -> push -> pull, explicit version pull, and incremental record pushes.
+# 00: Dataset create -> push -> pull, explicit version pull, incremental pushes, record tags, record updates/deletes, and tagged slice experiment.
 npm run dataset
 # Equivalent direct command:
 node examples/00-dataset-operations.js
@@ -77,14 +77,18 @@ Run against production with `dd-auth` credentials:
 dd-auth --domain dd.datadoghq.com -- env DD_SITE=datadoghq.com npm run validate:experiments
 ```
 
-The dataset script exits non-zero if local result shape checks fail. It validates:
+The dataset script prints each operation's result and exits non-zero only when the SDK or backend returns an error. It demonstrates:
 
 - `tracer.llmobs.experiments.createDataset(name, { description, records })`
+- per-operation `projectName` overrides on `createDataset`, `pullDataset`, and `experiment`
 - `dataset.push()`
 - incremental `dataset.addRecord(...)` plus follow-up/no-op pushes
 - `tracer.llmobs.experiments.pullDataset(name, { expectedRecordCount })`
 - version-pinned pulls with `pullDataset(name, { version })` when the backend returns a version
 - custom record IDs returned by dataset push/pull and used for experiment row tags
+- dataset record `tags` on initial append and later `dataset.addTags(...)`, `dataset.removeTags(...)`, and `dataset.replaceTags(...)` updates
+- dataset record updates and deletes with `dataset.update(...)`, `dataset.delete(...)`, and a follow-up pull
+- tagged dataset pulls with `pullDataset(name, { tags: [...] })`, including propagation into an experiment run over that slice
 
 The experiment scripts exit non-zero if local result shape checks fail. They validate:
 
@@ -102,4 +106,4 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - nested workflow/task/LLM span traces in the basic experiment
 - multiple provider calls in a single row with the stock watchlist workflow
 
-The examples use the official OpenAI Node.js SDK, flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested OpenAI LLM spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
+The OpenAI-backed examples use the official OpenAI Node.js SDK. All experiment examples flush and wait briefly for LLMObs span delivery, then print URLs plus row span/trace IDs for UI validation of row spans, nested spans, evaluator metrics, and summary metrics. The basic example should show each row trace as `experiment row → capital_answer_workflow → build_capital_prompt / openai.generate_capital / normalize_capital_answer`. The stock watchlist example should show each row trace as `experiment row → stock_watchlist_workflow → stock_researcher → quote/news/sentiment/ticker_synthesis + portfolio_synthesis`.
