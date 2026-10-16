@@ -2,6 +2,8 @@
 
 Runnable examples for the Node.js `dd-trace-js` LLMObs experiments API. These pair with the `dd-trace-js` dataset and experiment-tracing SDK PRs and mirror the Python notebooks with live Datadog backend validation.
 
+The evaluator metadata example exercises the reduced evaluator API from [PR #9848](https://github.com/DataDog/dd-trace-js/pull/9848): `BaseEvaluator` plus `EvaluatorResult` metadata, reasoning, assessment, and tags. Managed remote evaluators are implemented in [PR #10487](https://github.com/DataDog/dd-trace-js/pull/10487), but are not part of the default live validation because they require a preconfigured Datadog evaluator.
+
 Every Node.js experiments SDK feature should have a runnable example in this directory when it is added.
 
 ## Setup
@@ -59,6 +61,30 @@ npm run stock-watchlist
 node examples/03-stock-watchlist-experiment.js
 ```
 
+```sh
+# 04: Dataset metadata in evaluator context and metadata on evaluation metrics.
+npm run evaluation-metadata
+# Equivalent direct command:
+node examples/04-evaluation-metadata.js
+```
+
+The evaluation metadata example exits with a clear error when the selected `dd-trace` build does not yet expose
+`tracer.llmobs.BaseEvaluator` and `tracer.llmobs.EvaluatorResult`.
+
+```sh
+# 05: Structured experiment output rendered as expandable JSON in the Datadog UI.
+npm run structured-output
+# Equivalent direct command:
+node examples/05-structured-output.js
+```
+
+```sh
+# 06: Managed evaluator configured in Datadog (requires DD_LLMOBS_EVALUATOR_NAME).
+DD_LLMOBS_EVALUATOR_NAME=my-managed-evaluator npm run remote-evaluator
+# Equivalent direct command:
+DD_LLMOBS_EVALUATOR_NAME=my-managed-evaluator node examples/06-remote-evaluator.js
+```
+
 Run only the experiment trace validation sequence:
 
 ```sh
@@ -95,6 +121,10 @@ The experiment scripts exit non-zero if local result shape checks fail. They val
 - nested provider LLM spans inside experiment rows
 - named function-array evaluators
 - object-map evaluators
+- evaluator context metadata merged from the dataset record and experiment config
+- `EvaluatorResult` reasoning, assessment, metadata, and tags on evaluation metrics
+- structured task output preserved as JSON on experiment row spans
+- managed remote evaluators and their returned metric values
 - summary evaluators and summary metrics
 - task/evaluator retries through `run({ maxRetries, retryDelay })`
 - captured row task errors
