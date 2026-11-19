@@ -134,15 +134,15 @@ os.environ["DD_APM_TRACING_ENABLED"] = "false"
 
 # Experiment variables
 ML_APP = "YOUR_ML_APP"
-EXPERIMENT_NAME = "po_test_gpt4o_mini_llm_judge"
-EVALUATION_MODEL_NAME = "gpt-4o-mini"
-JUDGE_MODEL_NAME = "gpt-4o-mini"
+EXPERIMENT_NAME = "po_test_gpt6luna_llm_judge"
+EVALUATION_MODEL_NAME = "gpt-6-luna"
+JUDGE_MODEL_NAME = "gpt-6-luna"
 JOBS = 20
 RUNS = 1
 
 # Prompt Optimizer variables
 MAX_ITERATION = 2
-OPTIMIZATION_MODEL_NAME = "o3-mini"
+OPTIMIZATION_MODEL_NAME = "gpt-5.6-sol"
 
 # Optimization method: "metaprompting" or "gepa"
 METHOD = "metaprompting"
@@ -217,6 +217,7 @@ def description_generation_task_function(input_data, config):
         ],
         temperature=0.0,
         response_format=DescriptionGenerationResult,
+        **({"reasoning_effort": "none"} if model_name == "gpt-6-luna" else {}),
     )
 
     return response.choices[0].message.parsed
@@ -287,6 +288,7 @@ Assess the similarity between these descriptions."""
         ],
         temperature=0.0,
         response_format=SimilarityJudgeResult,
+        **({"reasoning_effort": "none"} if JUDGE_MODEL_NAME == "gpt-6-luna" else {}),
     )
 
     judge_result = response.choices[0].message.parsed
