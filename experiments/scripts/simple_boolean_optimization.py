@@ -85,14 +85,14 @@ os.environ["DD_APM_TRACING_ENABLED"] = "false"
 
 # Experiment variables
 ML_APP = "YOUR_ML_APP"
-EXPERIMENT_NAME = "po_test_gpt4o_mini_simple"
-EVALUATION_MODEL_NAME = "gpt-4o-mini"
+EXPERIMENT_NAME = "po_test_gpt6luna_simple"
+EVALUATION_MODEL_NAME = "gpt-6-luna"
 JOBS = 20
 RUNS = 1
 
 # Prompt Optimizer variables
 MAX_ITERATION = 20
-OPTIMIZATION_MODEL_NAME = "o3-mini"
+OPTIMIZATION_MODEL_NAME = "gpt-5.6-sol"
 
 # Dataset variables
 PROJECT_NAME = "YOUR_PROJECT_NAME"
@@ -160,6 +160,7 @@ def boolean_task_function(input_data, config):
         ],
         temperature=0.0,
         response_format=BooleanEvaluationResult,
+        **({"reasoning_effort": "none"} if model_name == "gpt-6-luna" else {}),
     )
 
     return response.choices[0].message.parsed
@@ -170,7 +171,7 @@ def optimization_task_function(system_prompt: str, user_prompt: str, config: dic
     """Generate an improved detection prompt.
 
     This function is called after each iteration to analyze successes and
-    failures and propose improvements. It uses a reasoning model (o3-mini) to
+    failures and propose improvements. It uses a reasoning model (gpt-5.6-sol) to
     understand why the current prompt is failing and suggest a better version.
 
     The Datadog framework automatically constructs the system_prompt (optimization
