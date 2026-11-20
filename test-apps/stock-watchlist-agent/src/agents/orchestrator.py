@@ -130,6 +130,7 @@ async def analyze_portfolio(tickers: list[str]) -> tuple[PortfolioBriefing, dict
     # the orchestrator — all nested pydantic-ai and @llmobs_tool spans will be
     # children of this root, giving us one trace per conversation.
     span_context = None
+    span = None
     try:
         span = tracer.current_span()
         if span:
@@ -141,4 +142,19 @@ async def analyze_portfolio(tickers: list[str]) -> tuple[PortfolioBriefing, dict
         async for _node in agent_run:
             pass
 
-    return agent_run.result.output, span_context
+    briefing = agent_run.result.output
+    # Record this run's (input, output) as a self-contained "capture" case on the root span, so the
+    # trace is self-describing for replay (annotate = production capture, seeded from prod instead of
+    # a local baseline file). We stamp the EXTRACTED output (the briefing), not the native span
+    # output — which is the (briefing, span_context) tuple. `replay_input` duplicates the clean arg
+    # @llmobs_agent already captures, but keeping the whole case in metadata makes it uniform to read.
+    try:
+        if span is not None:
+            LLMObs.annotate(span=span, metadata={
+                "replay_input": {"tickers": tickers},
+                "replay_output": briefing.model_dump(),
+            })
+    except Exception:
+        pass
+
+    return briefing, span_context
